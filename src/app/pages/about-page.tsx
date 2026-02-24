@@ -141,8 +141,8 @@ export function AboutPage() {
                 
                 {/* Image - Right Side */}
                 <div className="lg:w-1/2 flex justify-end">
-                  <ImageWithFallback
-                    src="https://images.unsplash.com/photo-1759884247142-028abd1e8ac2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBkaWdpdGFsJTIwd29ya3NwYWNlJTIwdGVhbSUyMGNvbGxhYm9yYXRpb258ZW58MXx8fHwxNzcxMjU1NjI1fDA&ixlib=rb-4.1.0&q=80&w=1080"
+                 <ImageWithFallback
+                    src="/images/about-hero.png"
                     alt="Modernes digitales Arbeiten"
                     className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
                   />
