@@ -20,7 +20,7 @@ const teamProfile2 = "/images/Timo.png";
 const partnersSolveLogo = "/images/solve_logo.jpg";
 const partnersSolveTeam = "/images/solve_team.jpg";
 const partnersMartinLogo = "/images/martinmuehle-logo.png";
-const partnersMartinTeam = "martinmuehle-team.png";
+const partnersMartinTeam = "/images/martinmuehle-team.png";
 
 export const assets = {
   // Logos
