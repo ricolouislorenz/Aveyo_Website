@@ -1,27 +1,28 @@
 // Asset configuration for external hosting
-// Replace these with your actual hosted image URLs
+// These URLs use placeholder images that work outside of Figma Make
+// Replace with your actual hosted image URLs after uploading to your CDN
 
-// Import assets directly for Figma Make
-import logoMain from "figma:asset/4a4e6e0ff44ac134273ef476e6b26c06aa6699ab.png";
-import logoReveal from "figma:asset/2893b23ce2a48ff381f45c82022be6ac6f23add5.png";
-import heroMain from "figma:asset/23f0e7812984ceeec5d4789ed0be340dc74d320d.png";
-import financialAnalysisLogo from "figma:asset/c445db48aaa13f4c9b0a9282d8db1de3fff86f07.png";
-import financialAnalysisDocument from "figma:asset/b6e8a53ef104f66be759481658e1308a0e213f83.png";
-import investmentMain from "figma:asset/521d1b31dfdf6a13f5d4b723bdef8a95c5031927.png";
-import propertiesMain from "figma:asset/ef1104ffddc89030a9b6439dbdc4914ff274fe52.png";
-import vorsorgePrivate from "figma:asset/8fa3c12972fea64488009c9f08bfd09234ba4e43.png";
-import vorsorgeBusiness from "figma:asset/5f0422aaad06e6764058e22d61f4169a21755e19.png";
-import vorsorgeDo from "figma:asset/55d4c5bb4552c9af42f6f6cd7fef292fc7614bad.png";
-import vorsorgeCyber from "figma:asset/01add26ac756e1f0a34937b82003b90b0af2efc5.png";
-import vorsorgeBetriebshaftpflicht from "figma:asset/5ee1e562a3ed3e542c3f940902840398e0d93cad.png";
-import vorsorgeBav from "figma:asset/213d91393cc8a0eacd9ecb6e23b2f83e6bc438a8.png";
-import vorsorgeFirmengebaude from "figma:asset/28457dcce8d6abd9ae3c42a1875e719834350fdd.png";
-import teamProfile1 from "figma:asset/e1e79b2f366a21b1e599b671704e727f1bfee03d.png";
-import teamProfile2 from "figma:asset/a5e179abbab535ef304d175fe1fe184be32dd5d3.png";
-import partnersSolveLogo from "figma:asset/a40c240c66532766362cbbd59ea98c82b602f46d.png";
-import partnersSolveTeam from "figma:asset/6bf4af1151509823adeb022df6e3f3651d351e59.png";
-import partnersMartinLogo from "figma:asset/dd7408ea0bb662ce143a0b58345b23fd38d85801.png";
-import partnersMartinTeam from "figma:asset/d29e8590b4650d42deb079e9dcedea1682c93672.png";
+// Placeholder URLs for external deployment
+const logoMain = "https://via.placeholder.com/200x60/172545/ffffff?text=AVEYO";
+const logoReveal = "https://via.placeholder.com/200x60/172545/ffffff?text=AVEYO";
+const heroMain = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&h=800&fit=crop";
+const financialAnalysisLogo = "https://via.placeholder.com/150x150/172545/ffffff?text=FA";
+const financialAnalysisDocument = "https://images.unsplash.com/photo-1554224311-beee4ece91c1?w=600&h=400&fit=crop";
+const investmentMain = "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=600&fit=crop";
+const propertiesMain = "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=600&fit=crop";
+const vorsorgePrivate = "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop";
+const vorsorgeBusiness = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop";
+const vorsorgeDo = "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop";
+const vorsorgeCyber = "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=400&fit=crop";
+const vorsorgeBetriebshaftpflicht = "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop";
+const vorsorgeBav = "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop";
+const vorsorgeFirmengebaude = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop";
+const teamProfile1 = "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&face=1";
+const teamProfile2 = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&face=1";
+const partnersSolveLogo = "https://via.placeholder.com/150x150/172545/ffffff?text=SOLVE";
+const partnersSolveTeam = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop";
+const partnersMartinLogo = "https://via.placeholder.com/150x150/172545/ffffff?text=MARTIN";
+const partnersMartinTeam = "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop";
 
 export const assets = {
   // Logos

@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { MapPin, Euro, Maximize, BedDouble, ArrowRight, ChevronLeft, ChevronRight, X, CheckCircle } from "lucide-react";
 import { projectId, publicAnonKey } from "/utils/supabase/info";
-import defaultPropertyImage from "figma:asset/668cf2db0f4fd3f29585a8d1b4084d739fca8b42.png";
+
+// Default property image placeholder
+const defaultPropertyImage = "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=600&fit=crop";
 
 interface Property {
   id: string;

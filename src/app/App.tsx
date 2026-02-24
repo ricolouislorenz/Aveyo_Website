@@ -1,29 +1,31 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router";
-import { HomePage } from "@/app/pages/home-page";
-import { InvestmentPage } from "@/app/pages/investment-page";
-import { ImmobilienPage } from "@/app/pages/immobilien-page";
-import { VorsorgePage } from "@/app/pages/vorsorge-page";
-import { AboutPage } from "@/app/pages/about-page";
-import { TerminPage } from "@/app/pages/termin-page";
-import { FinanzcheckPage } from "@/app/pages/finanzcheck-page";
-import { KontaktPage } from "@/app/pages/kontakt-page";
-import { ImpressumPage } from "@/app/pages/impressum-page";
-import { DatenschutzPage } from "@/app/pages/datenschutz-page";
-import { ErstinformationenPage } from "@/app/pages/erstinformationen-page";
-import { EUTransparenzPage } from "@/app/pages/eu-transparenz-page";
-import { AdminDashboard } from "@/app/pages/admin-dashboard";
-import { AdminImmobilienPage } from "@/app/pages/admin-immobilien";
-import { AdminReviewsPage } from "@/app/pages/admin-reviews";
-import { AdminAnalyticsPage } from "@/app/pages/admin-analytics";
-import { AdminSettingsPage } from "@/app/pages/admin-settings";
 import { AuthProvider } from "./context/auth-context";
 import { CookieProvider } from "./context/cookie-context";
 import { AdminLogin } from "./components/admin-login";
 import { CookieBanner } from "./components/cookie-banner";
 import { AnalyticsTracker } from "./components/analytics-tracker";
+import { HomePage } from "./pages/home-page";
+import { InvestmentPage } from "./pages/investment-page";
+import { ImmobilienPage } from "./pages/immobilien-page";
+import { VorsorgePage } from "./pages/vorsorge-page";
+import { AboutPage } from "./pages/about-page";
+import { TerminPage } from "./pages/termin-page";
+import { FinanzcheckPage } from "./pages/finanzcheck-page";
+import { KontaktPage } from "./pages/kontakt-page";
+import { ImpressumPage } from "./pages/impressum-page";
+import { DatenschutzPage } from "./pages/datenschutz-page";
+import { ErstinformationenPage } from "./pages/erstinformationen-page";
+import { EUTransparenzPage } from "./pages/eu-transparenz-page";
+import { AdminDashboard } from "./pages/admin-dashboard";
+import { AdminImmobilienPage } from "./pages/admin-immobilien";
+import { AdminReviewsPage } from "./pages/admin-reviews";
+import { AdminAnalyticsPage } from "./pages/admin-analytics";
+import { AdminSettingsPage } from "./pages/admin-settings";
 import "@/styles/index.css";
-import faviconImage from "figma:asset/1a3a8598082ad96685a8941f0e9a849c592040de.png";
+
+// Placeholder favicon - replace with your actual favicon URL
+const faviconImage = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23172545' width='100' height='100'/><text y='75' font-size='70' fill='white' font-family='Arial' x='50%' text-anchor='middle'>A</text></svg>";
 
 function Favicon() {
   useEffect(() => {

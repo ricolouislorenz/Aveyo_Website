@@ -4,7 +4,6 @@ import { Building2, Plus, Edit2, Trash2, Save, X, AlertCircle, CheckCircle, Home
 import { projectId, publicAnonKey } from "/utils/supabase/info";
 import { useAuth } from "../context/auth-context";
 import { useNavigate } from "react-router";
-import defaultPropertyImage from "figma:asset/668cf2db0f4fd3f29585a8d1b4084d739fca8b42.png";
 import {
   validateImage,
   generateDescriptiveFilename,
@@ -13,6 +12,9 @@ import {
   DEFAULT_PROPERTY_IMAGE_OPTIONS,
   type ImageValidationResult,
 } from "@/app/utils/image-validator";
+
+// Default property image placeholder
+const defaultPropertyImage = "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=600&fit=crop";
 
 interface Property {
   id: string;
