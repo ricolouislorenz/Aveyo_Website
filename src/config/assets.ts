@@ -1,13 +1,11 @@
 // Asset configuration for external hosting
-// These URLs use placeholder images that work outside of Figma Make
-// Replace with your actual hosted image URLs after uploading to your CDN
 
 // Placeholder URLs for external deployment
 const logoMain = "/logo.png";
 const logoReveal = "/logo-reveal.png";
 const heroMain = "/images/hero.png";
-const financialAnalysisLogo = "https://via.placeholder.com/150x150/172545/ffffff?text=FA";
-const financialAnalysisDocument = "https://images.unsplash.com/photo-1554224311-beee4ece91c1?w=600&h=400&fit=crop";
+const financialAnalysisLogo = "/logo-reveal.png";
+const financialAnalysisDocument = "/images/Finanzgutachten.png";
 const investmentMain = "/images/startseite_investment.png";
 const propertiesMain = "/images/startseite_immobilien.png";
 const vorsorgePrivate = "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop";
@@ -21,8 +19,8 @@ const teamProfile1 = "/images/Adrian.png";
 const teamProfile2 = "/images/Timo.png";
 const partnersSolveLogo = "/images/solve_logo.jpg";
 const partnersSolveTeam = "/images/solve_team.jpg";
-const partnersMartinLogo = "https://via.placeholder.com/150x150/172545/ffffff?text=MARTIN";
-const partnersMartinTeam = "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop";
+const partnersMartinLogo = "/images/martinmuehle-logo.png";
+const partnersMartinTeam = "martinmuehle-team.png";
 
 export const assets = {
   // Logos
@@ -80,7 +78,6 @@ export const assets = {
 
 // Helper function to get asset URL
 export function getAssetUrl(assetPath: string): string {
-  // In Figma Make environment, return the figma:asset path as-is
   // When hosted externally, you can modify this function to return your CDN URLs
   return assetPath;
 }
