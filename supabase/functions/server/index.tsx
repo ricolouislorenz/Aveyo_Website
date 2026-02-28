@@ -144,7 +144,7 @@ app.get("/make-server-78b4cf15/properties/:id", async (c) => {
 });
 
 // Create new property
-app.post("/make-server-78b4cf15/properties", async (c) => {
+app.post("/contact/send", async (c) => {
   try {
     const body = await c.req.json();
     const id = crypto.randomUUID();
