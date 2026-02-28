@@ -7,7 +7,7 @@ const heroMain = "/images/hero.png";
 const financialAnalysisLogo = "/logo-reveal.png";
 const financialAnalysisDocument = "/images/Finanzgutachten.png";
 const investmentMain = "/images/startseite_investment.png";
-const propertiesMain = "/images/startseite_immobilien.png";
+const propertiesMain = "/images/offmarket.png";
 const vorsorgePrivate = "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop";
 const vorsorgeBusiness = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop";
 const vorsorgeDo = "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop";
