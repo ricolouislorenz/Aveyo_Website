@@ -84,7 +84,7 @@ export function Contact() {
                   </div>
                   <div>
                     <div className="text-white mb-1">Telefon</div>
-                    <a href="tel:+4989123456789" className="text-lg text-white/90 hover:text-white hover:underline">
+                    <a href="tel:+494065055720" className="text-lg text-white/90 hover:text-white hover:underline">
                       +49 40 650 557 20
                     </a>
                   </div>
@@ -96,7 +96,7 @@ export function Contact() {
                   </div>
                   <div>
                     <div className="text-white mb-1">E-Mail</div>
-                    <a href="mailto:info@aveyo.de" className="text-lg text-white/90 hover:text-white hover:underline">
+                    <a href="mailto:kontakt@aveyo.de" className="text-lg text-white/90 hover:text-white hover:underline">
                       kontakt@aveyo.de
                     </a>
                   </div>
