@@ -4,7 +4,7 @@ import { cors } from "npm:hono/cors";
 import { logger } from "npm:hono/logger";
 import * as kv from "./kv_store.tsx";
 
-const app = new Hono().basePath("/make-server");
+const app = new Hono().basePath("/make-server-78b4cf15");
 
 // ==================== SECURITY HELPERS ====================
 

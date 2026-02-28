@@ -3,7 +3,7 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { ShapeDivider } from "@/app/components/shape-divider";
 
 const CONTACT_ENDPOINT =
-  "https://hoaidflzabvrsubatjbw.supabase.co/functions/v1/make-server/contact/send";
+  "https://hoaidflzabvrsubatjbw.supabase.co/functions/v1/make-server-78b4cf15/contact/send";
 
 export function Contact() {
   const [recipientKey, setRecipientKey] = useState<"general" | "adrian" | "timo">("general");
