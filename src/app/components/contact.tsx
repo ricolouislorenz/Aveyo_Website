@@ -85,7 +85,7 @@ export function Contact() {
                   <div>
                     <div className="text-white mb-1">Telefon</div>
                     <a href="tel:+4989123456789" className="text-lg text-white/90 hover:text-white hover:underline">
-                      +49 89 123 456 789
+                      +49 40 650 557 20
                     </a>
                   </div>
                 </div>
@@ -97,7 +97,7 @@ export function Contact() {
                   <div>
                     <div className="text-white mb-1">E-Mail</div>
                     <a href="mailto:info@aveyo.de" className="text-lg text-white/90 hover:text-white hover:underline">
-                      info@aveyo.de
+                      kontakt@aveyo.de
                     </a>
                   </div>
                 </div>
@@ -109,8 +109,8 @@ export function Contact() {
                   <div>
                     <div className="text-white mb-1">Adresse</div>
                     <div className="text-lg text-white/90">
-                      Musterstraße 123<br />
-                      80331 München
+                      Hartwicusstraße 3<br />
+                      22087 Hamburg
                     </div>
                   </div>
                 </div>
