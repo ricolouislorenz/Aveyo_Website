@@ -5,19 +5,19 @@ interface ShapeDividerProps {
   inverted?: boolean;
 }
 
-export function ShapeDivider({ 
-  position = "bottom", 
-  color = "#ffffff", 
+export function ShapeDivider({
+  position = "bottom",
+  color = "#ffffff",
   alignment = "center",
-  inverted = false 
+  inverted = false,
 }: ShapeDividerProps) {
   const notchDepth = 60;
-  const notchWidth = 450;
+  const notchWidth = 450; // Desktop/Tablet width
   const radius = 40;
-  const bottomRadius = 20; // Radius for smooth bottom corners
+  const bottomRadius = 20;
 
-  // Calculate x position based on alignment
-  const getXPosition = () => {
+  // Desktop / Tablet: alignment is allowed here
+  const getDesktopXPosition = () => {
     switch (alignment) {
       case "left":
         return 350;
@@ -29,21 +29,20 @@ export function ShapeDivider({
     }
   };
 
-  const xPos = getXPosition();
-  const leftX = xPos - notchWidth / 2;
-  const rightX = xPos + notchWidth / 2;
+  const desktopXPos = getDesktopXPosition();
+  const desktopLeftX = desktopXPos - notchWidth / 2;
+  const desktopRightX = desktopXPos + notchWidth / 2;
 
-  // Mobile version - always centered with same width as desktop
-  const mobileNotchWidth = 450; // Same as desktop for consistency
-  const mobileXPos = 600; // Center
+  // Mobile: always centered, wider notch like in the first script
+  const mobileNotchWidth = 1080; // 90% of 1200 viewBox
+  const mobileXPos = 600; // always centered
   const mobileLeftX = mobileXPos - mobileNotchWidth / 2;
   const mobileRightX = mobileXPos + mobileNotchWidth / 2;
 
-  // Create the path for the notch cutout
   const createPath = (isMobile: boolean) => {
-    const lX = isMobile ? mobileLeftX : leftX;
-    const rX = isMobile ? mobileRightX : rightX;
-    
+    const lX = isMobile ? mobileLeftX : desktopLeftX;
+    const rX = isMobile ? mobileRightX : desktopRightX;
+
     return `
       M 0,0
       L ${lX - radius},0
@@ -61,11 +60,10 @@ export function ShapeDivider({
     `;
   };
 
-  // Create inverted path - only the notch area in the specified color
   const createInvertedPath = (isMobile: boolean) => {
-    const lX = isMobile ? mobileLeftX : leftX;
-    const rX = isMobile ? mobileRightX : rightX;
-    
+    const lX = isMobile ? mobileLeftX : desktopLeftX;
+    const rX = isMobile ? mobileRightX : desktopRightX;
+
     return `
       M ${lX - radius},0
       Q ${lX},0 ${lX},${radius}
@@ -79,56 +77,52 @@ export function ShapeDivider({
     `;
   };
 
+  const svgTransform = inverted ? "rotate(180deg) translateZ(0)" : "translateZ(0)";
+
   return (
     <div
       className={`absolute ${position === "top" ? "top-0" : "bottom-0"} left-0 w-full overflow-hidden leading-none pointer-events-none`}
-      style={{ 
+      style={{
         height: `${notchDepth}px`,
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
-        WebkitBackfaceVisibility: 'hidden'
-      } as React.CSSProperties}
+        transform: "translateZ(0)",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+      }}
     >
-      {/* Mobile Version - Hidden on md and up */}
+      {/* Mobile only: centered notch, wider notch */}
       <svg
-        className="absolute bottom-0 w-full md:hidden"
-        style={{ 
+        className="absolute bottom-0 block w-full md:hidden"
+        style={{
           height: `${notchDepth + 2}px`,
-          transform: inverted ? 'rotate(180deg) translateZ(0)' : 'translateZ(0)',
-          marginBottom: position === "bottom" ? '-1px' : '0',
-          marginTop: position === "top" ? '-1px' : '0',
-          display: 'block',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden'
-        } as React.CSSProperties}
+          transform: svgTransform,
+          marginBottom: position === "bottom" ? "-1px" : "0",
+          marginTop: position === "top" ? "-1px" : "0",
+          display: "block",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+        }}
         viewBox="0 0 1200 60"
         preserveAspectRatio="none"
       >
-        <path
-          d={inverted ? createInvertedPath(true) : createPath(true)}
-          fill={color}
-        />
+        <path d={inverted ? createInvertedPath(true) : createPath(true)} fill={color} />
       </svg>
-      
-      {/* Tablet+ Version - Hidden below md */}
+
+      {/* Tablet/Desktop only: alignment works here */}
       <svg
-        className="absolute bottom-0 w-full hidden md:block"
-        style={{ 
+        className="absolute bottom-0 hidden w-full md:block"
+        style={{
           height: `${notchDepth + 2}px`,
-          transform: inverted ? 'rotate(180deg) translateZ(0)' : 'translateZ(0)',
-          marginBottom: position === "bottom" ? '-1px' : '0',
-          marginTop: position === "top" ? '-1px' : '0',
-          display: 'block',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden'
-        } as React.CSSProperties}
+          transform: svgTransform,
+          marginBottom: position === "bottom" ? "-1px" : "0",
+          marginTop: position === "top" ? "-1px" : "0",
+          display: "block",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+        }}
         viewBox="0 0 1200 60"
         preserveAspectRatio="none"
       >
-        <path
-          d={inverted ? createInvertedPath(false) : createPath(false)}
-          fill={color}
-        />
+        <path d={inverted ? createInvertedPath(false) : createPath(false)} fill={color} />
       </svg>
     </div>
   );
