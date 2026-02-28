@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { ShapeDivider } from "@/app/components/shape-divider";
 
@@ -6,6 +6,8 @@ const CONTACT_ENDPOINT =
   "https://hoaidflzabvrsubatjbw.supabase.co/functions/v1/make-server/contact/send";
 
 export function Contact() {
+  const [recipientKey, setRecipientKey] = useState<"general" | "adrian" | "timo">("general");
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,6 +18,22 @@ export function Contact() {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const recipient = params.get("recipient");
+
+    if (recipient === "adrian" || recipient === "timo" || recipient === "general") {
+      setRecipientKey(recipient);
+    }
+  }, []);
+
+  const recipientLabel =
+    recipientKey === "adrian"
+      ? "Ihre Nachricht geht direkt an Adrian Nerhoff."
+      : recipientKey === "timo"
+      ? "Ihre Nachricht geht direkt an Timo Konrad."
+      : "Ihre Nachricht geht an kontakt@aveyo.de.";
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -47,6 +65,8 @@ export function Contact() {
         phone: "",
         subject: formData.subject,
         message: formData.message.trim(),
+        recipientKey,
+        sendCopyToSender: true,
       };
 
       const response = await fetch(CONTACT_ENDPOINT, {
@@ -95,11 +115,14 @@ export function Contact() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-            <h3 className="text-2xl mb-6 text-white">
+            <h3 className="text-2xl mb-3 text-white">
               Senden Sie uns eine Nachricht
             </h3>
+
+            <p className="text-white/80 mb-6 text-sm">
+              {recipientLabel}
+            </p>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
@@ -197,7 +220,6 @@ export function Contact() {
             </form>
           </div>
 
-          {/* Contact Information */}
           <div className="space-y-8">
             <div>
               <h3 className="text-2xl mb-6 text-white">Kontaktinformationen</h3>
