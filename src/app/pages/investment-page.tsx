@@ -89,7 +89,7 @@ export function InvestmentPage() {
                 {/* Image - Left Side */}
                 <div className="lg:w-1/2 flex justify-start">
                   <ImageWithFallback
-                    src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnbG9iYWwlMjBpbnZlc3RtZW50JTIwZGl2ZXJzaWZpY2F0aW9ufGVufDF8fHx8MTc3MTI1NTYyNXww&ixlib=rb-4.1.0&q=80&w=1080"
+                    src="/images/etf.png"
                     alt="Globale Diversifikation"
                     className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
                   />
