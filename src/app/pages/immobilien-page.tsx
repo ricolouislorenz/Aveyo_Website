@@ -169,7 +169,7 @@ export function ImmobilienPage() {
                 {/* Image - Left Side */}
                 <div className="lg:w-1/2 flex justify-start">
                   <ImageWithFallback
-                    src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxleGNsdXNpdmUlMjByZWFsJTIwZXN0YXRlJTIwbHV4dXJ5fGVufDF8fHx8MTc3MTI1NTYyNXww&ixlib=rb-4.1.0&q=80&w=1080"
+                    src="/images/offmarket.png"
                     alt="Off-Market Immobilien"
                     className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
                   />
