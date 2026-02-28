@@ -4,7 +4,7 @@ import { cors } from "npm:hono/cors";
 import { logger } from "npm:hono/logger";
 import * as kv from "./kv_store.tsx";
 
-const app = new Hono();
+const app = new Hono().basePath("/make-server");
 
 // ==================== SECURITY HELPERS ====================
 
@@ -90,10 +90,10 @@ function formatMultilineHtml(value: string): string {
   return escapeHtml(value).replace(/\r?\n/g, "<br />");
 }
 
-// Enable logger
+// ==================== MIDDLEWARE ====================
+
 app.use("*", logger(console.log));
 
-// Enable CORS for all routes and methods
 app.use(
   "/*",
   cors({
@@ -105,15 +105,15 @@ app.use(
   }),
 );
 
-// Health check endpoint
-app.get("/make-server-78b4cf15/health", (c) => {
+// ==================== HEALTH ====================
+
+app.get("/health", (c) => {
   return c.json({ status: "ok" });
 });
 
 // ==================== IMMOBILIEN ROUTES ====================
 
-// Get all properties
-app.get("/make-server-78b4cf15/properties", async (c) => {
+app.get("/properties", async (c) => {
   try {
     const properties = await kv.getByPrefix("property_");
 
@@ -127,8 +127,7 @@ app.get("/make-server-78b4cf15/properties", async (c) => {
   }
 });
 
-// Get single property by ID
-app.get("/make-server-78b4cf15/properties/:id", async (c) => {
+app.get("/properties/:id", async (c) => {
   try {
     const id = c.req.param("id");
     const property = await kv.get(`property_${id}`);
@@ -143,8 +142,7 @@ app.get("/make-server-78b4cf15/properties/:id", async (c) => {
   }
 });
 
-// Create new property
-app.post("/contact/send", async (c) => {
+app.post("/properties", async (c) => {
   try {
     const body = await c.req.json();
     const id = crypto.randomUUID();
@@ -172,8 +170,7 @@ app.post("/contact/send", async (c) => {
   }
 });
 
-// Update property
-app.put("/make-server-78b4cf15/properties/:id", async (c) => {
+app.put("/properties/:id", async (c) => {
   try {
     const id = c.req.param("id");
     const body = await c.req.json();
@@ -198,8 +195,7 @@ app.put("/make-server-78b4cf15/properties/:id", async (c) => {
   }
 });
 
-// Delete property
-app.delete("/make-server-78b4cf15/properties/:id", async (c) => {
+app.delete("/properties/:id", async (c) => {
   try {
     const id = c.req.param("id");
 
@@ -218,8 +214,7 @@ app.delete("/make-server-78b4cf15/properties/:id", async (c) => {
 
 // ==================== ADMIN CREDENTIALS ROUTES ====================
 
-// Admin login
-app.post("/make-server-78b4cf15/admin/login", async (c) => {
+app.post("/admin/login", async (c) => {
   try {
     const body = await c.req.json();
     const { username, password } = body;
@@ -254,8 +249,7 @@ app.post("/make-server-78b4cf15/admin/login", async (c) => {
   }
 });
 
-// Update admin credentials
-app.put("/make-server-78b4cf15/admin/credentials", async (c) => {
+app.put("/admin/credentials", async (c) => {
   try {
     const body = await c.req.json();
     const { currentPassword, newUsername, newPassword } = body;
@@ -290,8 +284,7 @@ app.put("/make-server-78b4cf15/admin/credentials", async (c) => {
   }
 });
 
-// Change admin password
-app.post("/make-server-78b4cf15/admin/change-password", async (c) => {
+app.post("/admin/change-password", async (c) => {
   try {
     const body = await c.req.json();
     const { currentPassword, newPassword } = body;
@@ -327,8 +320,7 @@ app.post("/make-server-78b4cf15/admin/change-password", async (c) => {
 
 // ==================== REVIEWS MANAGEMENT ROUTES ====================
 
-// Get all reviews
-app.get("/make-server-78b4cf15/reviews", async (c) => {
+app.get("/reviews", async (c) => {
   try {
     const reviews = await kv.getByPrefix("review_");
 
@@ -342,8 +334,7 @@ app.get("/make-server-78b4cf15/reviews", async (c) => {
   }
 });
 
-// Create new review
-app.post("/make-server-78b4cf15/reviews", async (c) => {
+app.post("/reviews", async (c) => {
   try {
     const body = await c.req.json();
     const id = crypto.randomUUID();
@@ -367,8 +358,7 @@ app.post("/make-server-78b4cf15/reviews", async (c) => {
   }
 });
 
-// Update review
-app.put("/make-server-78b4cf15/reviews/:id", async (c) => {
+app.put("/reviews/:id", async (c) => {
   try {
     const id = c.req.param("id");
     const body = await c.req.json();
@@ -393,8 +383,7 @@ app.put("/make-server-78b4cf15/reviews/:id", async (c) => {
   }
 });
 
-// Delete review
-app.delete("/make-server-78b4cf15/reviews/:id", async (c) => {
+app.delete("/reviews/:id", async (c) => {
   try {
     const id = c.req.param("id");
 
@@ -408,8 +397,7 @@ app.delete("/make-server-78b4cf15/reviews/:id", async (c) => {
 
 // ==================== ANALYTICS ROUTES ====================
 
-// Track analytics event
-app.post("/make-server-78b4cf15/analytics/track", async (c) => {
+app.post("/analytics/track", async (c) => {
   try {
     const body = await c.req.json();
     const id = crypto.randomUUID();
@@ -461,8 +449,7 @@ app.post("/make-server-78b4cf15/analytics/track", async (c) => {
   }
 });
 
-// Get analytics data with filters
-app.get("/make-server-78b4cf15/analytics/data", async (c) => {
+app.get("/analytics/data", async (c) => {
   try {
     const events = await kv.getByPrefix("analytics_");
 
@@ -477,8 +464,7 @@ app.get("/make-server-78b4cf15/analytics/data", async (c) => {
   }
 });
 
-// Get analytics summary/stats
-app.get("/make-server-78b4cf15/analytics/stats", async (c) => {
+app.get("/analytics/stats", async (c) => {
   try {
     const events = await kv.getByPrefix("analytics_");
 
@@ -595,8 +581,7 @@ app.get("/make-server-78b4cf15/analytics/stats", async (c) => {
   }
 });
 
-// Delete old analytics data (GDPR compliance)
-app.delete("/make-server-78b4cf15/analytics/cleanup", async (c) => {
+app.delete("/analytics/cleanup", async (c) => {
   try {
     const daysToKeep = parseInt(c.req.query("days") || "90");
     const cutoffDate = new Date();
@@ -621,7 +606,7 @@ app.delete("/make-server-78b4cf15/analytics/cleanup", async (c) => {
 
 // ==================== CONTACT EMAIL ROUTE ====================
 
-app.post("/make-server-78b4cf15/contact/send", async (c) => {
+app.post("/contact/send", async (c) => {
   try {
     const body = await c.req.json();
     const {
@@ -709,15 +694,15 @@ app.post("/make-server-78b4cf15/contact/send", async (c) => {
               <td style="padding: 15px; border-bottom: 1px solid #e0e0e0;"><a href="mailto:${safeEmail}" style="color: #172545;">${safeEmail}</a></td>
             </tr>
             ${
-      safePhone
-        ? `
+              safePhone
+                ? `
             <tr>
               <td style="padding: 15px; border-bottom: 1px solid #e0e0e0; font-weight: bold;">Telefon:</td>
               <td style="padding: 15px; border-bottom: 1px solid #e0e0e0;">${safePhone}</td>
             </tr>
             `
-        : ""
-    }
+                : ""
+            }
             <tr>
               <td style="padding: 15px; border-bottom: 1px solid #e0e0e0; font-weight: bold;">Betreff:</td>
               <td style="padding: 15px; border-bottom: 1px solid #e0e0e0;">${safeSubject}</td>
