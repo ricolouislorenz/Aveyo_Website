@@ -648,7 +648,7 @@ app.post("/contact/send", async (c) => {
     const recipientMap: Record<string, string> = {
       general: "kontakt@aveyo.de",
       adrian: "nerhoff@aveyo.de",
-      timo: "korad@aveyo.de",
+      timo: "konrad@aveyo.de",
     };
 
     const targetEmail = recipientMap[String(recipientKey)] || recipientMap.general;

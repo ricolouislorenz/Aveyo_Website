@@ -18,33 +18,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (adminLoggedIn === "true") {
       setIsAuthenticated(true);
     }
-    
-    // Initialize admin credentials on first load
-    initializeCredentials();
   }, []);
-  
-  const initializeCredentials = async () => {
-    try {
-      const response = await fetch(
-        `https://${projectId}.supabase.co/functions/v1/make-server-78b4cf15/admin/init`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${publicAnonKey}`,
-          },
-        }
-      );
-      
-      if (!response.ok) {
-        throw new Error("Failed to initialize credentials");
-      }
-      
-      const result = await response.json();
-    } catch (error) {
-      console.error("❌ Failed to initialize:", error);
-    }
-  };
 
   const login = async (username: string, password: string): Promise<boolean> => {
     try {
@@ -76,7 +50,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } catch (error) {
       console.error("Login error details:", error);
-      console.error("Error type:", error instanceof TypeError ? "Network/CORS Error" : "Other Error");
+      console.error(
+        "Error type:",
+        error instanceof TypeError ? "Network/CORS Error" : "Other Error"
+      );
       return false;
     }
   };
