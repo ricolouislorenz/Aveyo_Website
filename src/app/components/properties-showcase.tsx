@@ -10,7 +10,6 @@ import {
   X,
   CheckCircle,
 } from "lucide-react";
-import { Link } from "react-router";
 import { projectId, publicAnonKey } from "/utils/supabase/info";
 
 // Default property image placeholder
@@ -70,20 +69,16 @@ export function PropertiesShowcase() {
 
   const goToPrevious = () => {
     if (isTransitioning || properties.length === 0) return;
-
     setIsTransitioning(true);
     setCurrentIndex((prev) => (prev === 0 ? properties.length - 1 : prev - 1));
-
-    window.setTimeout(() => setIsTransitioning(false), 700);
+    setTimeout(() => setIsTransitioning(false), 700);
   };
 
   const goToNext = () => {
     if (isTransitioning || properties.length === 0) return;
-
     setIsTransitioning(true);
     setCurrentIndex((prev) => (prev + 1) % properties.length);
-
-    window.setTimeout(() => setIsTransitioning(false), 700);
+    setTimeout(() => setIsTransitioning(false), 700);
   };
 
   if (loading) {
@@ -116,173 +111,108 @@ export function PropertiesShowcase() {
 
   const cardWidth = 336;
   const offset = -(currentIndex + 2) * cardWidth;
-  const currentProperty = properties[currentIndex];
 
   return (
     <div ref={containerRef} className="relative max-w-7xl mx-auto">
-      {/* Mobile */}
-      <div className="md:hidden px-1">
-        <PropertyCard property={currentProperty} compact />
-
-        {properties.length > 1 && (
-          <>
-            <div className="flex items-center justify-between gap-4 mt-5">
-              <button
-                onClick={goToPrevious}
-                disabled={isTransitioning}
-                className="w-11 h-11 bg-white text-[#172545] rounded-full flex items-center justify-center shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Vorherige Immobilie"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-
-              <div className="flex items-center gap-2">
-                {properties.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => !isTransitioning && setCurrentIndex(index)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      index === currentIndex
-                        ? "w-6 bg-white"
-                        : "w-2 bg-white/40"
-                    }`}
-                    aria-label={`Zu Immobilie ${index + 1}`}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={goToNext}
-                disabled={isTransitioning}
-                className="w-11 h-11 bg-white text-[#172545] rounded-full flex items-center justify-center shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Nächste Immobilie"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+      <div className="relative overflow-hidden">
+        <div
+          ref={sliderRef}
+          className="flex gap-4 px-4 transition-transform duration-700 ease-in-out"
+          style={{
+            transform: `translateX(calc(50% - 168px + ${offset}px))`,
+          }}
+        >
+          {extendedProperties.map((property, index) => (
+            <div
+              key={`${property.id}-${index}`}
+              className="flex-shrink-0"
+              style={{ width: "320px" }}
+            >
+              <PropertyCard property={property} />
             </div>
-
-            <div className="text-center mt-3 text-sm text-white/70">
-              {currentIndex + 1} / {properties.length}
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Desktop */}
-      <div className="hidden md:block">
-        <div className="relative overflow-hidden">
-          <div
-            ref={sliderRef}
-            className="flex gap-4 px-4 transition-transform duration-700 ease-in-out"
-            style={{
-              transform: `translateX(calc(50% - 168px + ${offset}px))`,
-            }}
-          >
-            {extendedProperties.map((property, index) => (
-              <div
-                key={`${property.id}-${index}`}
-                className="flex-shrink-0"
-                style={{ width: "320px" }}
-              >
-                <PropertyCard property={property} />
-              </div>
-            ))}
-          </div>
-
-          {/* Gradient fade nur Desktop */}
-          <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-[#172545] to-transparent pointer-events-none z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-[#172545] to-transparent pointer-events-none z-10" />
+          ))}
         </div>
 
-        {properties.length > 1 && (
-          <>
-            <button
-              onClick={goToPrevious}
-              disabled={isTransitioning}
-              className="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all duration-300 border border-white/20 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
-              aria-label="Vorherige Immobilie"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
+        {/* Left gradient fade */}
+        <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-[#172545] to-transparent pointer-events-none z-10" />
 
-            <button
-              onClick={goToNext}
-              disabled={isTransitioning}
-              className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all duration-300 border border-white/20 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
-              aria-label="Nächste Immobilie"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </>
-        )}
+        {/* Right gradient fade */}
+        <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-[#172545] to-transparent pointer-events-none z-10" />
       </div>
+
+      <button
+        onClick={goToPrevious}
+        disabled={isTransitioning}
+        className="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all duration-300 border border-white/20 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label="Vorherige Immobilie"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </button>
+
+      <button
+        onClick={goToNext}
+        disabled={isTransitioning}
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all duration-300 border border-white/20 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label="Nächste Immobilie"
+      >
+        <ChevronRight className="w-6 h-6" />
+      </button>
     </div>
   );
 }
 
-function PropertyCard({
-  property,
-  compact = false,
-}: {
-  property: Property;
-  compact?: boolean;
-}) {
+function PropertyCard({ property }: { property: Property }) {
   const [showFeaturesModal, setShowFeaturesModal] = useState(false);
+
+  const features = property.features ?? [];
+  const visibleFeatures = features.slice(0, 2);
+  const remainingFeatures = Math.max(features.length - 2, 0);
 
   return (
     <>
-      <div
-        className={`bg-white rounded-2xl overflow-hidden border border-[#586477]/20 hover:shadow-2xl transition-all duration-300 flex flex-col ${
-          compact ? "" : "md:h-[720px] hover:-translate-y-1"
-        }`}
-      >
+      <div className="bg-white rounded-2xl overflow-hidden border border-[#586477]/20 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-[720px]">
         {/* Image */}
-        <div
-          className={`relative overflow-hidden flex-shrink-0 ${
-            compact ? "h-56" : "h-64"
-          }`}
-        >
+        <div className="relative h-64 overflow-hidden flex-shrink-0">
           <img
             src={property.imageUrl || defaultPropertyImage}
             alt={property.title}
-            className="w-full h-full object-cover hover:scale-105 md:hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
           />
-          <div className="absolute top-4 right-4 px-3 py-1 bg-green-500 text-white text-xs md:text-sm font-semibold rounded-full">
+          <div className="absolute top-4 right-4 px-3 py-1 bg-green-500 text-white text-sm font-semibold rounded-full">
             Verfügbar
           </div>
         </div>
 
         {/* Content */}
-        <div
-          className={`flex flex-col flex-grow ${
-            compact ? "p-4 pb-5" : "p-6 pb-8"
-          }`}
-        >
-          <div className="mb-2">
-            <span className="text-sm text-[#586477] font-medium">
+        <div className="p-6 pb-8 flex flex-col flex-grow">
+          {/* Type */}
+          <div className="h-5 mb-2">
+            <span className="text-sm text-[#586477] font-medium line-clamp-1">
               {property.type}
             </span>
           </div>
 
+          {/* Title */}
           <h3
-            className={`text-[#172545] font-semibold mb-2 line-clamp-2 ${
-              compact ? "text-lg min-h-[3.25rem]" : "text-xl min-h-[3.5rem]"
-            }`}
+            className="text-xl text-[#172545] mb-2 font-semibold line-clamp-2 h-14 overflow-hidden"
+            title={property.title}
           >
             {property.title}
           </h3>
 
-          <div className="flex items-start gap-1 text-[#586477] mb-4 min-h-[2.5rem]">
-            <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-            <span className="text-sm line-clamp-2">{property.location}</span>
+          {/* Location */}
+          <div className="flex items-center gap-1 text-[#586477] mb-4 h-5">
+            <MapPin className="w-4 h-4 flex-shrink-0" />
+            <span className="text-sm line-clamp-1">{property.location}</span>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 md:gap-3 mb-4 pb-4 border-b border-[#586477]/20">
+          {/* Facts */}
+          <div className="grid grid-cols-3 gap-3 mb-4 pb-4 border-b border-[#586477]/20">
             <div className="text-center">
               <div className="flex items-center justify-center gap-1 text-[#172545] mb-1">
                 <Euro className="w-4 h-4 text-[#586477]" />
               </div>
-              <p className="text-xs md:text-sm font-semibold text-[#172545] leading-tight">
+              <p className="text-sm font-semibold text-[#172545]">
                 {property.price.toLocaleString("de-DE")} €
               </p>
             </div>
@@ -291,7 +221,7 @@ function PropertyCard({
               <div className="flex items-center justify-center gap-1 text-[#172545] mb-1">
                 <Maximize className="w-4 h-4 text-[#586477]" />
               </div>
-              <p className="text-xs md:text-sm font-semibold text-[#172545] leading-tight">
+              <p className="text-sm font-semibold text-[#172545]">
                 {property.size} m²
               </p>
             </div>
@@ -300,55 +230,54 @@ function PropertyCard({
               <div className="flex items-center justify-center gap-1 text-[#172545] mb-1">
                 <BedDouble className="w-4 h-4 text-[#586477]" />
               </div>
-              <p className="text-xs md:text-sm font-semibold text-[#172545] leading-tight">
+              <p className="text-sm font-semibold text-[#172545]">
                 {property.rooms} Zimmer
               </p>
             </div>
           </div>
 
-          <p
-            className={`text-[#586477] text-sm mb-4 ${
-              compact
-                ? "line-clamp-4 min-h-[5rem]"
-                : "line-clamp-3 min-h-[60px]"
-            }`}
-          >
+          {/* Description */}
+          <p className="text-[#586477] text-sm mb-4 line-clamp-3 h-[60px] overflow-hidden">
             {property.description}
           </p>
 
-          {property.features && property.features.length > 0 && (
-            <div
-              className={`flex flex-wrap gap-2 mb-6 ${
-                compact ? "min-h-[3rem]" : "min-h-[60px]"
-              }`}
-            >
-              {property.features.slice(0, 3).map((feature, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 py-1 bg-[#172545]/10 text-[#172545] text-xs rounded-full h-fit"
-                >
-                  {feature}
-                </span>
-              ))}
-              {property.features.length > 3 && (
-                <button
-                  onClick={() => setShowFeaturesModal(true)}
-                  className="px-2 py-1 text-[#172545] hover:text-[#0d1a30] text-xs h-fit font-semibold underline cursor-pointer transition-colors"
-                >
-                  +{property.features.length - 3} weitere
-                </button>
-              )}
-            </div>
-          )}
+          {/* Features - always same height */}
+          <div className="mb-6 h-[64px] overflow-hidden">
+            {features.length > 0 ? (
+              <div className="flex flex-wrap gap-2 content-start">
+                {visibleFeatures.map((feature, idx) => (
+                  <span
+                    key={idx}
+                    className="px-2 py-1 bg-[#172545]/10 text-[#172545] text-xs rounded-full h-fit max-w-full truncate"
+                    title={feature}
+                  >
+                    {feature}
+                  </span>
+                ))}
 
+                {remainingFeatures > 0 && (
+                  <button
+                    onClick={() => setShowFeaturesModal(true)}
+                    className="px-2 py-1 text-[#172545] hover:text-[#0d1a30] text-xs h-fit font-semibold underline cursor-pointer transition-colors"
+                  >
+                    +{remainingFeatures} weitere
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div />
+            )}
+          </div>
+
+          {/* CTA Button always bottom aligned */}
           <div className="mt-auto pt-2">
-            <Link
-              to="/kontakt"
+            <a
+              href="/kontakt"
               className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 text-sm font-semibold"
             >
               Jetzt anfragen
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -360,28 +289,26 @@ function PropertyCard({
           onClick={() => setShowFeaturesModal(false)}
         >
           <div
-            className="bg-white rounded-2xl p-6 md:p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl"
+            className="bg-white rounded-2xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center mb-6 gap-4">
+            <div className="flex justify-between items-center mb-6">
               <div>
-                <h3 className="text-xl md:text-2xl font-bold text-[#172545] mb-1">
+                <h3 className="text-2xl font-bold text-[#172545] mb-1">
                   Alle Merkmale
                 </h3>
-                <p className="text-sm text-[#586477] line-clamp-2">
-                  {property.title}
-                </p>
+                <p className="text-sm text-[#586477]">{property.title}</p>
               </div>
               <button
                 onClick={() => setShowFeaturesModal(false)}
-                className="text-[#586477] hover:text-[#172545] transition-colors p-2 hover:bg-gray-100 rounded-lg flex-shrink-0"
+                className="text-[#586477] hover:text-[#172545] transition-colors p-2 hover:bg-gray-100 rounded-lg"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {property.features.map((feature, idx) => (
+              {features.map((feature, idx) => (
                 <div
                   key={idx}
                   className="flex items-start gap-3 p-3 bg-[#172545]/5 rounded-xl hover:bg-[#172545]/10 transition-colors"
@@ -395,13 +322,13 @@ function PropertyCard({
             </div>
 
             <div className="mt-6 pt-6 border-t border-[#586477]/20">
-              <Link
-                to="/kontakt"
+              <a
+                href="/kontakt"
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 font-semibold"
               >
                 Jetzt anfragen
                 <ArrowRight className="w-5 h-5" />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
