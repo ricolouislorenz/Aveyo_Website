@@ -3,7 +3,7 @@ import { ShapeDivider } from "@/app/components/shape-divider";
 import { User, Briefcase, ChevronLeft, ChevronRight } from "lucide-react";
 import { assets } from "@/config/assets";
 
-export function Vorsorge() {
+export function VorsorgePage() {
   const [activeTab, setActiveTab] = useState<"private" | "business">("private");
   const [currentStep, setCurrentStep] = useState(0);
   const [isScrollLocked, setIsScrollLocked] = useState(false);
