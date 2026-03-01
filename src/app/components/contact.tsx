@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, ChevronDown } from "lucide-react";
 import { ShapeDivider } from "@/app/components/shape-divider";
 
 const CONTACT_ENDPOINT =
@@ -27,6 +29,8 @@ export function Contact() {
 
     if (recipient === "adrian" || recipient === "timo" || recipient === "general") {
       setRecipientKey(recipient);
+    } else {
+      setRecipientKey("general");
     }
   }, []);
 
@@ -38,7 +42,7 @@ export function Contact() {
       : "Ihre Nachricht geht aktuell an kontakt@aveyo.de.";
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
@@ -48,8 +52,7 @@ export function Contact() {
   };
 
   const handleRecipientChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value as RecipientKey;
-    setRecipientKey(value);
+    setRecipientKey(e.target.value as RecipientKey);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -101,7 +104,7 @@ export function Contact() {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : "Verbindungsfehler beim Senden"
+          : "Verbindungsfehler beim Senden",
       );
     } finally {
       setLoading(false);
@@ -122,36 +125,51 @@ export function Contact() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Form */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
             <h3 className="text-2xl mb-3 text-white">
               Senden Sie uns eine Nachricht
             </h3>
 
-            <p className="text-white/80 mb-6 text-sm">{recipientLabel}</p>
+            {/* Sichtbarer Empfängerblock */}
+            <div className="mb-6 rounded-xl bg-white/15 border border-white/25 p-4">
+              <div className="text-white font-medium mb-1">
+                Aktueller Empfänger
+              </div>
+              <p className="text-white/85 text-sm mb-4">
+                {recipientLabel}
+              </p>
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="recipient" className="block text-white mb-2">
-                  Ansprechpartner
-                </label>
+              <label htmlFor="recipient" className="block text-white mb-2 text-sm font-medium">
+                Ansprechpartner auswählen
+              </label>
+
+              <div className="relative">
                 <select
                   id="recipient"
                   value={recipientKey}
                   onChange={handleRecipientChange}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/30 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
+                  className="w-full appearance-none px-4 py-3 pr-12 bg-white text-[#172545] border border-white rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent shadow-sm"
                 >
-                  <option value="general" className="text-gray-900">
+                  <option value="general">
                     Allgemeine Anfrage
                   </option>
-                  <option value="adrian" className="text-gray-900">
+                  <option value="adrian">
                     Adrian Nerhoff
                   </option>
-                  <option value="timo" className="text-gray-900">
+                  <option value="timo">
                     Timo Konrad
                   </option>
                 </select>
-              </div>
 
+                <ChevronDown
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#172545] pointer-events-none"
+                  size={18}
+                />
+              </div>
+            </div>
+
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="name" className="block text-white mb-2">
                   Name
@@ -163,7 +181,7 @@ export function Contact() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-white/10 border border-white/30 text-white placeholder-white/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
-                  placeholder="Ihr Name"
+                  placeholder="Dein Name"
                 />
               </div>
 
@@ -178,7 +196,7 @@ export function Contact() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-white/10 border border-white/30 text-white placeholder-white/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
-                  placeholder="ihre@email.de"
+                  placeholder="deine@email.de"
                 />
               </div>
 
@@ -244,6 +262,7 @@ export function Contact() {
             </form>
           </div>
 
+          {/* Contact Information */}
           <div className="space-y-8">
             <div>
               <h3 className="text-2xl mb-6 text-white">Kontaktinformationen</h3>
@@ -311,7 +330,7 @@ export function Contact() {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-white border border-white/20">
               <h4 className="text-xl mb-3">Beratungstermin vereinbaren</h4>
               <p className="text-white/90 mb-6">
-                Vereinbaren Sie noch heute einen persönlichen Beratungstermin -
+                Vereinbare noch heute einen persönlichen Beratungstermin -
                 vor Ort oder online.
               </p>
               <button className="px-6 py-3 bg-white text-[#172545] rounded-lg hover:bg-gray-100 transition-colors shadow-lg">
