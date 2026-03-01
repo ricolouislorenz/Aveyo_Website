@@ -2,7 +2,7 @@ import { Header } from "@/app/components/header";
 import { Footer } from "@/app/components/footer";
 import { ShapeDivider } from "@/app/components/shape-divider";
 import { Partners } from "@/app/components/partners";
-import { Zap, Smartphone, Shield, CheckCircle, ArrowRight, Linkedin, Mail, User } from "lucide-react";
+import { CheckCircle, ArrowRight, Mail } from "lucide-react";
 import { Link } from "react-router";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useState } from "react";
@@ -16,18 +16,18 @@ export function AboutPage() {
     {
       icon: <CheckCircle className="w-6 h-6" />,
       title: "Transparenz",
-      description: "Du weißt immer, was du zahlst und warum."
+      description: "Du weißt immer, was du zahlst und warum.",
     },
     {
       icon: <CheckCircle className="w-6 h-6" />,
       title: "Klarheit",
-      description: "Kein Fachchinesisch. Kein Blabla. Nur Fakten."
+      description: "Kein Fachchinesisch. Kein Blabla. Nur Fakten.",
     },
     {
       icon: <CheckCircle className="w-6 h-6" />,
       title: "Effizienz",
-      description: "Wir respektieren deine Zeit und automatisieren den langweiligen Kram."
-    }
+      description: "Wir respektieren deine Zeit und automatisieren den langweiligen Kram.",
+    },
   ];
 
   const founders = [
@@ -35,64 +35,65 @@ export function AboutPage() {
       name: "Adrian Nerhoff",
       role: "Geschäftsführer",
       expertise: "Experte für Investment und Versicherungen",
-      aboutMe: "Nach über 10 Jahren in der traditionellen Finanzbranche habe ich erkannt, dass die alte Welt nicht mehr zu den Bedürfnissen der digitalen Generation passt. Ich habe bei führenden Finanzinstituten gearbeitet, Hunderte von Kunden betreut und dabei eines gelernt: Die besten Strategien sind die, die man versteht. Mein Weg führte mich von der klassischen Bankenwelt über spezialisierte Versicherungsmakler bis hin zur Gründung von AVEYO – immer mit dem Ziel, Finanzberatung transparenter, digitaler und kundenorientierter zu machen.",
+      recipientKey: "adrian",
+      aboutMe:
+        "Nach über 10 Jahren in der traditionellen Finanzbranche habe ich erkannt, dass die alte Welt nicht mehr zu den Bedürfnissen der digitalen Generation passt. Ich habe bei führenden Finanzinstituten gearbeitet, Hunderte von Kunden betreut und dabei eines gelernt: Die besten Strategien sind die, die man versteht. Mein Weg führte mich von der klassischen Bankenwelt über spezialisierte Versicherungsmakler bis hin zur Gründung von AVEYO – immer mit dem Ziel, Finanzberatung transparenter, digitaler und kundenorientierter zu machen.",
       whatDrivesMe: {
         qualities: [
           {
             label: "Empathisch",
-            text: "Ich höre zu, bevor ich berate. Es ist mir wichtig, Ihre Situation wirklich zu verstehen – mit all Ihren Zielen, Fragen und Unsicherheiten."
+            text: "Ich höre zu, bevor ich berate. Es ist mir wichtig, Ihre Situation wirklich zu verstehen – mit all Ihren Zielen, Fragen und Unsicherheiten.",
           },
           {
             label: "Leidenschaftlich",
-            text: "Finanzen sind für mich mehr als Zahlen. Ich brenne dafür, Unternehmerinnen und Unternehmern zu helfen, Klarheit zu gewinnen und das Beste aus ihren Ressourcen zu machen."
+            text: "Finanzen sind für mich mehr als Zahlen. Ich brenne dafür, Unternehmerinnen und Unternehmern zu helfen, Klarheit zu gewinnen und das Beste aus ihren Ressourcen zu machen.",
           },
           {
             label: "Strukturiert",
-            text: "Komplexe Themen bringe ich auf den Punkt. Mit einem klaren Plan und durchdachten Strategien schaffen wir gemeinsam messbare Fortschritte für Ihr Unternehmen."
+            text: "Komplexe Themen bringe ich auf den Punkt. Mit einem klaren Plan und durchdachten Strategien schaffen wir gemeinsam messbare Fortschritte für Ihr Unternehmen.",
           },
           {
             label: "Wertschätzend",
-            text: "Ich arbeite mit Menschen, nicht mit Verträgen. Offenheit, Respekt und eine angenehme Atmosphäre sind für mich selbstverständlich – auch im geschäftlichen Kontext."
+            text: "Ich arbeite mit Menschen, nicht mit Verträgen. Offenheit, Respekt und eine angenehme Atmosphäre sind für mich selbstverständlich – auch im geschäftlichen Kontext.",
           },
           {
             label: "Kompetent",
-            text: "Mit Fachwissen, Erfahrung und kontinuierlicher Weiterbildung sorge ich dafür, dass Sie sich bei mir fachlich wie menschlich bestens aufgehoben fühlen."
-          }
+            text: "Mit Fachwissen, Erfahrung und kontinuierlicher Weiterbildung sorge ich dafür, dass Sie sich bei mir fachlich wie menschlich bestens aufgehoben fühlen.",
+          },
         ],
-        closing: "Klingt das nach einer Zusammenarbeit, wie Sie sie sich wünschen? Dann freue ich mich, Sie kennenzulernen und gemeinsam mit Ihnen das Richtige für Ihr Unternehmen zu gestalten."
+        closing:
+          "Klingt das nach einer Zusammenarbeit, wie Sie sie sich wünschen? Dann freue ich mich, Sie kennenzulernen und gemeinsam mit Ihnen das Richtige für Ihr Unternehmen zu gestalten.",
       },
-      email: "adrian@aveyo.de",
-      linkedin: "#"
     },
     {
       name: "Timo Konrad",
       role: "Geschäftsführer",
       expertise: "Experte für Immobilieninvestment und Versicherungen",
-      aboutMe: "Immobilien sind meine Leidenschaft seit meinem ersten Investment vor über 12 Jahren. Ich habe den Markt von allen Seiten kennengelernt: Als Investor, Berater und Projektentwickler. Von der ersten kleinen Eigentumswohnung bis zu komplexen gewerblichen Portfolios – ich habe gesehen, was funktioniert und was nicht. Meine Expertise liegt darin, aus Daten und Marktanalysen konkrete Investmentstrategien zu entwickeln, die wirklich Rendite bringen.",
+      recipientKey: "timo",
+      aboutMe:
+        "Immobilien sind meine Leidenschaft seit meinem ersten Investment vor über 12 Jahren. Ich habe den Markt von allen Seiten kennengelernt: Als Investor, Berater und Projektentwickler. Von der ersten kleinen Eigentumswohnung bis zu komplexen gewerblichen Portfolios – ich habe gesehen, was funktioniert und was nicht. Meine Expertise liegt darin, aus Daten und Marktanalysen konkrete Investmentstrategien zu entwickeln, die wirklich Rendite bringen.",
       whatDrivesMe: {
         qualities: [
           {
             label: "Lösungsorientiert",
-            text: "Ich erkenne Herausforderungen – und sorge für Klarheit. Ich analysiere bestehende Versicherungsverträge, erkenne Lücken und optimiere Ihre Absicherung mit durchdachten, individuell abgestimmten Konzepten. Damit Sie sich auf Ihr Kerngeschäft konzentrieren können."
+            text: "Ich erkenne Herausforderungen – und sorge für Klarheit. Ich analysiere bestehende Versicherungsverträge, erkenne Lücken und optimiere Ihre Absicherung mit durchdachten, individuell abgestimmten Konzepten. Damit Sie sich auf Ihr Kerngeschäft konzentrieren können.",
           },
           {
             label: "Weitsichtig",
-            text: "Ich denke über den Vertrag hinaus: Absicherung ist mehr als ein Produkt. Ich berate Sie strategisch – mit dem Blick für Risiken, Strukturen und Ziele. Auch bei der Vermögensbildung mit Immobilien bin ich langfristig an Ihrer Seite."
+            text: "Ich denke über den Vertrag hinaus: Absicherung ist mehr als ein Produkt. Ich berate Sie strategisch – mit dem Blick für Risiken, Strukturen und Ziele. Auch bei der Vermögensbildung mit Immobilien bin ich langfristig an Ihrer Seite.",
           },
           {
             label: "Persönlich",
-            text: "Ich bin Ihr Ansprechpartner – direkt, verlässlich und nahbar. Vertrauen entsteht im Gespräch. Ich nehme mir Zeit, Ihre Situation zu verstehen, bin offen für Ihre Fragen und begleite Sie partnerschaftlich durch alle Phasen Ihrer Absicherungs- oder Investitionsstrategie."
+            text: "Ich bin Ihr Ansprechpartner – direkt, verlässlich und nahbar. Vertrauen entsteht im Gespräch. Ich nehme mir Zeit, Ihre Situation zu verstehen, bin offen für Ihre Fragen und begleite Sie partnerschaftlich durch alle Phasen Ihrer Absicherungs- oder Investitionsstrategie.",
           },
           {
             label: "Kompetent",
-            text: "Mit Fachwissen, Erfahrung und stetiger Weiterbildung sorge ich dafür, dass Sie sich bei mir gut aufgehoben fühlen – fachlich und menschlich."
-          }
+            text: "Mit Fachwissen, Erfahrung und stetiger Weiterbildung sorge ich dafür, dass Sie sich bei mir gut aufgehoben fühlen – fachlich und menschlich.",
+          },
         ],
-        closing: ""
+        closing: "",
       },
-      email: "timo@aveyo.de",
-      linkedin: "#"
-    }
+    },
   ];
 
   return (
@@ -118,7 +119,6 @@ export function AboutPage() {
         <section className="relative bg-white pt-32 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
-              {/* Centered Title Only */}
               <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl text-[#172545] font-bold leading-tight">
                   Digitale DNA: Der Finanzpartner für die digitale Generation
@@ -126,7 +126,6 @@ export function AboutPage() {
               </div>
 
               <div className="flex flex-col lg:flex-row items-center gap-12 mb-20">
-                {/* Text Content - Left Side */}
                 <div className="lg:w-1/2">
                   <p className="text-lg text-[#586477] leading-relaxed mb-6">
                     Du steuerst dein Leben und dein Business über dein Smartphone. Deine Finanzberatung sollte genau dort stattfinden.
@@ -138,10 +137,9 @@ export function AboutPage() {
                     Egal ob du Startup-Gründer, Creator oder Skalierer bist – wir matchen dein Tempo.
                   </p>
                 </div>
-                
-                {/* Image - Right Side */}
+
                 <div className="lg:w-1/2 flex justify-end">
-                 <ImageWithFallback
+                  <ImageWithFallback
                     src="/images/about-hero.png"
                     alt="Modernes digitales Arbeiten"
                     className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
@@ -241,7 +239,7 @@ export function AboutPage() {
                 {founders.map((founder, index) => {
                   const activeTab = index === 0 ? activeTabAdrian : activeTabTimo;
                   const setActiveTab = index === 0 ? setActiveTabAdrian : setActiveTabTimo;
-                  
+
                   return (
                     <div
                       key={index}
@@ -268,52 +266,52 @@ export function AboutPage() {
                           {founder.expertise}
                         </p>
 
-                        {/* Tab Toggle - like Vorsorge Section */}
+                        {/* Tab Toggle */}
                         <div className="flex justify-center mb-8">
                           <div className="relative inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-xl p-1 border border-white/20">
-                            {/* Animated background slider */}
-                            <div 
+                            <div
                               className="absolute top-1 h-[calc(100%-8px)] rounded-lg bg-white shadow-lg transition-all duration-300 ease-out"
                               style={{
                                 left: activeTab === "about" ? "4px" : "calc(50%)",
                                 width: "calc(50% - 4px)",
                               }}
                             />
-                            
-                            {/* Über mich Button */}
+
                             <button
                               onClick={() => setActiveTab("about")}
                               className="relative px-6 py-3 rounded-lg transition-all duration-300 z-10 text-sm font-semibold min-w-[140px]"
                             >
-                              <span className={`transition-colors duration-300 ${
-                                activeTab === "about" ? "text-[#172545]" : "text-white/90"
-                              }`}>
+                              <span
+                                className={`transition-colors duration-300 ${
+                                  activeTab === "about" ? "text-[#172545]" : "text-white/90"
+                                }`}
+                              >
                                 Über mich
                               </span>
                             </button>
 
-                            {/* Was mich ausmacht Button */}
                             <button
                               onClick={() => setActiveTab("drives")}
                               className="relative px-6 py-3 rounded-lg transition-all duration-300 z-10 text-sm font-semibold min-w-[140px]"
                             >
-                              <span className={`transition-colors duration-300 ${
-                                activeTab === "drives" ? "text-[#172545]" : "text-white/90"
-                              }`}>
+                              <span
+                                className={`transition-colors duration-300 ${
+                                  activeTab === "drives" ? "text-[#172545]" : "text-white/90"
+                                }`}
+                              >
                                 Was mich ausmacht
                               </span>
                             </button>
                           </div>
                         </div>
 
-                        {/* Text Content with Smooth Transition */}
+                        {/* Text Content */}
                         <div className="relative mb-6 min-h-[200px] overflow-hidden">
-                          {/* Über mich Text */}
-                          <div 
+                          <div
                             className={`transition-all duration-500 ease-out ${
-                              activeTab === "about" 
-                                ? 'opacity-100 translate-y-0' 
-                                : 'opacity-0 -translate-y-4 absolute top-0 left-0 right-0 pointer-events-none'
+                              activeTab === "about"
+                                ? "opacity-100 translate-y-0"
+                                : "opacity-0 -translate-y-4 absolute top-0 left-0 right-0 pointer-events-none"
                             }`}
                           >
                             <p className="text-white/90 leading-relaxed text-left px-2">
@@ -321,56 +319,42 @@ export function AboutPage() {
                             </p>
                           </div>
 
-                          {/* Was mich ausmacht Text */}
-                          <div 
+                          <div
                             className={`transition-all duration-500 ease-out ${
-                              activeTab === "drives" 
-                                ? 'opacity-100 translate-y-0' 
-                                : 'opacity-0 translate-y-4 absolute top-0 left-0 right-0 pointer-events-none'
+                              activeTab === "drives"
+                                ? "opacity-100 translate-y-0"
+                                : "opacity-0 translate-y-4 absolute top-0 left-0 right-0 pointer-events-none"
                             }`}
                           >
-                            {typeof founder.whatDrivesMe === "string" ? (
-                              <p className="text-white/90 leading-relaxed text-left px-2">
-                                {founder.whatDrivesMe}
-                              </p>
-                            ) : (
-                              <div>
-                                {founder.whatDrivesMe.qualities.map((quality, index) => (
-                                  <div key={index} className="mb-4">
-                                    <h4 className="text-xl font-bold text-white/90 mb-2">
-                                      {quality.label}
-                                    </h4>
-                                    <p className="text-white/80 leading-relaxed text-left px-2">
-                                      {quality.text}
-                                    </p>
-                                  </div>
-                                ))}
-                                {founder.whatDrivesMe.closing && (
-                                  <p className="text-white/90 leading-relaxed text-left px-2 mt-6">
-                                    {founder.whatDrivesMe.closing}
+                            <div>
+                              {founder.whatDrivesMe.qualities.map((quality, qIndex) => (
+                                <div key={qIndex} className="mb-4">
+                                  <h4 className="text-xl font-bold text-white/90 mb-2">
+                                    {quality.label}
+                                  </h4>
+                                  <p className="text-white/80 leading-relaxed text-left px-2">
+                                    {quality.text}
                                   </p>
-                                )}
-                              </div>
-                            )}
+                                </div>
+                              ))}
+                              {founder.whatDrivesMe.closing && (
+                                <p className="text-white/90 leading-relaxed text-left px-2 mt-6">
+                                  {founder.whatDrivesMe.closing}
+                                </p>
+                              )}
+                            </div>
                           </div>
                         </div>
 
-                        {/* Contact Icons */}
-                        <div className="flex justify-center gap-4">
-                          <a
-                            href={`mailto:${founder.email}`}
+                        {/* Contact Button */}
+                        <div className="flex justify-center">
+                          <Link
+                            to={`/kontakt?recipient=${founder.recipientKey}`}
                             className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors"
-                            aria-label="E-Mail"
+                            aria-label={`Direkt ${founder.name} kontaktieren`}
                           >
                             <Mail className="w-5 h-5 text-white" />
-                          </a>
-                          <a
-                            href={founder.linkedin}
-                            className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors"
-                            aria-label="LinkedIn"
-                          >
-                            <Linkedin className="w-5 h-5 text-white" />
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -385,7 +369,7 @@ export function AboutPage() {
         {/* Partner Section */}
         <Partners />
 
-        {/* CTA Section - Bereit für das Upgrade? */}
+        {/* CTA Section */}
         <section className="relative bg-[#172545] pt-32 pb-32">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">

@@ -1,11 +1,17 @@
 import { Header } from "@/app/components/header";
 import { Footer } from "@/app/components/footer";
 import { Mail, Phone, MapPin, Clock, ArrowRight } from "lucide-react";
-import { Link } from "react-router";
-import { useState } from "react";
+import { Link, useLocation } from "react-router";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { projectId, publicAnonKey } from "/utils/supabase/info";
 
+type RecipientKey = "general" | "adrian" | "timo";
+
 export function KontaktPage() {
+  const location = useLocation();
+
+  const [recipientKey, setRecipientKey] = useState<RecipientKey>("general");
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -14,15 +20,50 @@ export function KontaktPage() {
     subject: "Allgemeine Anfrage",
     message: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const recipient = params.get("recipient");
+
+    if (recipient === "adrian" || recipient === "timo" || recipient === "general") {
+      setRecipientKey(recipient);
+    } else {
+      setRecipientKey("general");
+    }
+  }, [location.search]);
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
     const { id, value } = e.target;
-    setFormData(prev => ({ ...prev, [id]: value }));
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleRecipientChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setRecipientKey(e.target.value as RecipientKey);
+  };
+
+  const recipientLabel =
+    recipientKey === "adrian"
+      ? "Adrian Nerhoff"
+      : recipientKey === "timo"
+      ? "Timo Konrad"
+      : "Allgemeine Anfrage (kontakt@aveyo.de)";
+
+  const recipientHint =
+    recipientKey === "adrian"
+      ? "Ihre Nachricht wird direkt an Adrian Nerhoff gesendet."
+      : recipientKey === "timo"
+      ? "Ihre Nachricht wird direkt an Timo Konrad gesendet."
+      : "Ihre Nachricht wird an die allgemeine Kontaktadresse gesendet.";
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus(null);
@@ -36,37 +77,46 @@ export function KontaktPage() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${publicAnonKey}`,
           },
-          body: JSON.stringify(formData),
-        }
+          body: JSON.stringify({
+            ...formData,
+            recipientKey,
+            sendCopyToSender: true,
+          }),
+        },
       );
 
       const data = await response.json();
 
-      if (data.success) {
-        setSubmitStatus({
-          type: "success",
-          message: "Vielen Dank! Deine Nachricht wurde erfolgreich gesendet. Wir melden uns in Kürze bei dir.",
-        });
-        // Reset form
-        setFormData({
-          firstname: "",
-          lastname: "",
-          email: "",
-          phone: "",
-          subject: "Allgemeine Anfrage",
-          message: "",
-        });
-      } else {
+      if (!response.ok || !data.success) {
         setSubmitStatus({
           type: "error",
-          message: data.error || "Es gab ein Problem beim Senden deiner Nachricht. Bitte versuche es erneut.",
+          message:
+            data.error ||
+            "Es gab ein Problem beim Senden deiner Nachricht. Bitte versuche es erneut.",
         });
+        return;
       }
+
+      setSubmitStatus({
+        type: "success",
+        message:
+          "Vielen Dank! Deine Nachricht wurde erfolgreich gesendet. Wir melden uns in Kürze bei dir.",
+      });
+
+      setFormData({
+        firstname: "",
+        lastname: "",
+        email: "",
+        phone: "",
+        subject: "Allgemeine Anfrage",
+        message: "",
+      });
     } catch (error) {
       console.error("Contact form error:", error);
       setSubmitStatus({
         type: "error",
-        message: "Ein Fehler ist aufgetreten. Bitte versuche es später erneut oder kontaktiere uns direkt per E-Mail.",
+        message:
+          "Ein Fehler ist aufgetreten. Bitte versuche es später erneut oder kontaktiere uns direkt per E-Mail.",
       });
     } finally {
       setIsSubmitting(false);
@@ -98,6 +148,34 @@ export function KontaktPage() {
               {/* Contact Form */}
               <div className="bg-[#0d1a30] rounded-2xl p-8 border border-[#172545]/20">
                 <h3 className="text-2xl mb-6 text-white">Senden Sie uns eine Nachricht</h3>
+
+                {/* Sichtbarer Empfängerblock */}
+                <div className="mb-6 rounded-xl bg-white/10 border border-white/20 p-4">
+                  <div className="text-white text-sm font-semibold uppercase tracking-wide mb-2">
+                    Empfänger
+                  </div>
+                  <div className="text-white text-base font-medium mb-2">
+                    {recipientLabel}
+                  </div>
+                  <p className="text-white/75 text-sm mb-4">
+                    {recipientHint}
+                  </p>
+
+                  <label htmlFor="recipient" className="block text-white mb-2">
+                    Ansprechpartner auswählen
+                  </label>
+                  <select
+                    id="recipient"
+                    value={recipientKey}
+                    onChange={handleRecipientChange}
+                    className="w-full px-4 py-3 bg-white text-[#172545] border border-white rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
+                  >
+                    <option value="general">Allgemeine Anfrage</option>
+                    <option value="adrian">Adrian Nerhoff</option>
+                    <option value="timo">Timo Konrad</option>
+                  </select>
+                </div>
+
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -129,6 +207,7 @@ export function KontaktPage() {
                       />
                     </div>
                   </div>
+
                   <div>
                     <label htmlFor="email" className="block text-white mb-2">
                       E-Mail *
@@ -143,6 +222,7 @@ export function KontaktPage() {
                       onChange={handleInputChange}
                     />
                   </div>
+
                   <div>
                     <label htmlFor="phone" className="block text-white mb-2">
                       Telefon
@@ -156,6 +236,7 @@ export function KontaktPage() {
                       onChange={handleInputChange}
                     />
                   </div>
+
                   <div>
                     <label htmlFor="subject" className="block text-white mb-2">
                       Betreff *
@@ -167,40 +248,57 @@ export function KontaktPage() {
                       value={formData.subject}
                       onChange={handleInputChange}
                     >
-                      <option className="text-gray-900">Immobilien - Verkauf</option>
-                      <option className="text-gray-900">Immobilien - Kauf</option>
-                      <option className="text-gray-900">Investment - Beratung</option>
-                      <option className="text-gray-900">Vorsorge - Privatpersonen</option>
-                      <option className="text-gray-900">Vorsorge - Unternehmer</option>
-                      <option className="text-gray-900">Allgemeine Anfrage</option>
+                      <option value="Immobilien - Verkauf" className="text-gray-900">
+                        Immobilien - Verkauf
+                      </option>
+                      <option value="Immobilien - Kauf" className="text-gray-900">
+                        Immobilien - Kauf
+                      </option>
+                      <option value="Investment - Beratung" className="text-gray-900">
+                        Investment - Beratung
+                      </option>
+                      <option value="Vorsorge - Privatpersonen" className="text-gray-900">
+                        Vorsorge - Privatpersonen
+                      </option>
+                      <option value="Vorsorge - Unternehmer" className="text-gray-900">
+                        Vorsorge - Unternehmer
+                      </option>
+                      <option value="Allgemeine Anfrage" className="text-gray-900">
+                        Allgemeine Anfrage
+                      </option>
                     </select>
                   </div>
+
                   <div>
                     <label htmlFor="message" className="block text-white mb-2">
-                      Ihre Nachricht *
+                      Deine Nachricht *
                     </label>
                     <textarea
                       id="message"
                       rows={6}
                       required
                       className="w-full px-4 py-3 bg-white/10 border border-white/30 text-white placeholder-white/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent resize-none"
-                      placeholder="Beschreiben Sie uns Ihr Anliegen..."
+                      placeholder="Beschreibe uns dein Anliegen..."
                       value={formData.message}
                       onChange={handleInputChange}
                     />
                   </div>
+
                   <button
                     type="submit"
-                    className="w-full px-8 py-4 bg-white text-[#172545] rounded-lg hover:bg-gray-100 transition-colors shadow-lg font-semibold flex items-center justify-center gap-2"
+                    className="w-full px-8 py-4 bg-white text-[#172545] rounded-lg hover:bg-gray-100 transition-colors shadow-lg font-semibold flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Senden..." : "Nachricht senden"}
                     <ArrowRight className="w-5 h-5" />
                   </button>
+
                   {submitStatus && (
                     <div
                       className={`mt-4 px-4 py-3 rounded-lg ${
-                        submitStatus.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                        submitStatus.type === "success"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
                       }`}
                     >
                       {submitStatus.message}
@@ -269,9 +367,9 @@ export function KontaktPage() {
                 <div className="bg-[#172545] rounded-2xl p-8 text-white">
                   <h4 className="text-xl mb-3 font-semibold">Beratungstermin vereinbaren</h4>
                   <p className="text-white/90 mb-6">
-                    Vereinbaren Sie noch heute einen persönlichen Beratungstermin - vor Ort oder online.
+                    Vereinbare noch heute einen persönlichen Beratungstermin - vor Ort oder online.
                   </p>
-                  <Link 
+                  <Link
                     to="/termin"
                     className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#172545] rounded-lg hover:bg-gray-100 transition-colors shadow-lg font-semibold"
                   >
