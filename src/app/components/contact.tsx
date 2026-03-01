@@ -5,8 +5,10 @@ import { ShapeDivider } from "@/app/components/shape-divider";
 const CONTACT_ENDPOINT =
   "https://hoaidflzabvrsubatjbw.supabase.co/functions/v1/make-server-78b4cf15/contact/send";
 
+type RecipientKey = "general" | "adrian" | "timo";
+
 export function Contact() {
-  const [recipientKey, setRecipientKey] = useState<"general" | "adrian" | "timo">("general");
+  const [recipientKey, setRecipientKey] = useState<RecipientKey>("general");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -30,10 +32,10 @@ export function Contact() {
 
   const recipientLabel =
     recipientKey === "adrian"
-      ? "Ihre Nachricht geht direkt an Adrian Nerhoff."
+      ? "Ihre Nachricht geht aktuell direkt an Adrian Nerhoff."
       : recipientKey === "timo"
-      ? "Ihre Nachricht geht direkt an Timo Konrad."
-      : "Ihre Nachricht geht an kontakt@aveyo.de.";
+      ? "Ihre Nachricht geht aktuell direkt an Timo Konrad."
+      : "Ihre Nachricht geht aktuell an kontakt@aveyo.de.";
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -43,6 +45,11 @@ export function Contact() {
       ...prev,
       [id]: value,
     }));
+  };
+
+  const handleRecipientChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value as RecipientKey;
+    setRecipientKey(value);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -120,11 +127,31 @@ export function Contact() {
               Senden Sie uns eine Nachricht
             </h3>
 
-            <p className="text-white/80 mb-6 text-sm">
-              {recipientLabel}
-            </p>
+            <p className="text-white/80 mb-6 text-sm">{recipientLabel}</p>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
+              <div>
+                <label htmlFor="recipient" className="block text-white mb-2">
+                  Ansprechpartner
+                </label>
+                <select
+                  id="recipient"
+                  value={recipientKey}
+                  onChange={handleRecipientChange}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/30 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
+                >
+                  <option value="general" className="text-gray-900">
+                    Allgemeine Anfrage
+                  </option>
+                  <option value="adrian" className="text-gray-900">
+                    Adrian Nerhoff
+                  </option>
+                  <option value="timo" className="text-gray-900">
+                    Timo Konrad
+                  </option>
+                </select>
+              </div>
+
               <div>
                 <label htmlFor="name" className="block text-white mb-2">
                   Name
@@ -171,10 +198,7 @@ export function Contact() {
                   <option value="Immobilien - Kauf" className="text-gray-900">
                     Immobilien - Kauf
                   </option>
-                  <option
-                    value="Versicherungsberatung"
-                    className="text-gray-900"
-                  >
+                  <option value="Versicherungsberatung" className="text-gray-900">
                     Versicherungsberatung
                   </option>
                   <option value="Allgemeine Anfrage" className="text-gray-900">
