@@ -25,7 +25,7 @@ import { AdminSettingsPage } from "./pages/admin-settings";
 import "@/styles/index.css";
 
 // Placeholder favicon - replace with your actual favicon URL
-const faviconImage = "/images/AVEYO_Favicon";
+const faviconImage = "/AVEYO_Favicon";
 
 function Favicon() {
   useEffect(() => {
