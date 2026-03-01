@@ -406,7 +406,7 @@ export function Vorsorge() {
                       <img
                         src={service.image}
                         alt={service.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-top"
                       />
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#172545]/25" />
                     </div>
