@@ -25,7 +25,7 @@ import { AdminSettingsPage } from "./pages/admin-settings";
 import "@/styles/index.css";
 
 // Placeholder favicon - replace with your actual favicon URL
-const faviconImage = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23172545' width='100' height='100'/><text y='75' font-size='70' fill='white' font-family='Arial' x='50%' text-anchor='middle'>A</text></svg>";
+const faviconImage = "/images/AVEYO_Favicon";
 
 function Favicon() {
   useEffect(() => {
@@ -41,7 +41,7 @@ function Favicon() {
     document.head.appendChild(link);
 
     // Also set the page title
-    document.title = 'AVEYO - Ihr Makler für Immobilien & Versicherungen';
+    document.title = 'AVEYO - Dein Makler für Immobilien & Versicherungen';
   }, []);
 
   return null;
