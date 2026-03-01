@@ -49,20 +49,6 @@ export function KontaktPage() {
     setRecipientKey(e.target.value as RecipientKey);
   };
 
-  const recipientLabel =
-    recipientKey === "adrian"
-      ? "Adrian Nerhoff"
-      : recipientKey === "timo"
-      ? "Timo Konrad"
-      : "Allgemeine Anfrage (kontakt@aveyo.de)";
-
-  const recipientHint =
-    recipientKey === "adrian"
-      ? "Ihre Nachricht wird direkt an Adrian Nerhoff gesendet."
-      : recipientKey === "timo"
-      ? "Ihre Nachricht wird direkt an Timo Konrad gesendet."
-      : "Ihre Nachricht wird an die allgemeine Kontaktadresse gesendet.";
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -149,34 +135,29 @@ export function KontaktPage() {
               <div className="bg-[#0d1a30] rounded-2xl p-8 border border-[#172545]/20">
                 <h3 className="text-2xl mb-6 text-white">Senden Sie uns eine Nachricht</h3>
 
-                {/* Sichtbarer Empfängerblock */}
-                <div className="mb-6 rounded-xl bg-white/10 border border-white/20 p-4">
-                  <div className="text-white text-sm font-semibold uppercase tracking-wide mb-2">
-                    Empfänger
-                  </div>
-                  <div className="text-white text-base font-medium mb-2">
-                    {recipientLabel}
-                  </div>
-                  <p className="text-white/75 text-sm mb-4">
-                    {recipientHint}
-                  </p>
-
-                  <label htmlFor="recipient" className="block text-white mb-2">
-                    Ansprechpartner auswählen
-                  </label>
-                  <select
-                    id="recipient"
-                    value={recipientKey}
-                    onChange={handleRecipientChange}
-                    className="w-full px-4 py-3 bg-white text-[#172545] border border-white rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
-                  >
-                    <option value="general">Allgemeine Anfrage</option>
-                    <option value="adrian">Adrian Nerhoff</option>
-                    <option value="timo">Timo Konrad</option>
-                  </select>
-                </div>
-
                 <form className="space-y-6" onSubmit={handleSubmit}>
+                  <div>
+                    <label htmlFor="recipient" className="block text-white mb-2">
+                      Ansprechpartner auswählen
+                    </label>
+                    <select
+                      id="recipient"
+                      value={recipientKey}
+                      onChange={handleRecipientChange}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/30 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
+                    >
+                      <option value="general" className="text-gray-900">
+                        AVEYO
+                      </option>
+                      <option value="adrian" className="text-gray-900">
+                        Adrian Nerhoff
+                      </option>
+                      <option value="timo" className="text-gray-900">
+                        Timo Konrad
+                      </option>
+                    </select>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="firstname" className="block text-white mb-2">
