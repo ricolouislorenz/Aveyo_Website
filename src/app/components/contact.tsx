@@ -36,10 +36,10 @@ export function Contact() {
 
   const recipientLabel =
     recipientKey === "adrian"
-      ? "Ihre Nachricht geht aktuell direkt an Adrian Nerhoff."
+      ? "Deine Nachricht geht aktuell direkt an Adrian Nerhoff."
       : recipientKey === "timo"
-      ? "Ihre Nachricht geht aktuell direkt an Timo Konrad."
-      : "Ihre Nachricht geht aktuell an kontakt@aveyo.de.";
+      ? "Deine Nachricht geht aktuell direkt an Timo Konrad."
+      : "Deine Nachricht geht aktuell an kontakt@aveyo.de.";
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -120,7 +120,7 @@ export function Contact() {
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl mb-4 text-white">Kontakt</h2>
           <p className="text-xl text-white/90 max-w-2xl mx-auto">
-            Nehmen Sie Kontakt mit uns auf - wir freuen uns auf Ihre Nachricht
+            Nimm Kontakt mit uns auf - wir freuen uns auf deine Nachricht
           </p>
         </div>
 
@@ -128,7 +128,7 @@ export function Contact() {
           {/* Contact Form */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
             <h3 className="text-2xl mb-3 text-white">
-              Senden Sie uns eine Nachricht
+              Schick uns eine Nachricht
             </h3>
 
             {/* Sichtbarer Empfängerblock */}
@@ -236,7 +236,7 @@ export function Contact() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-white/10 border border-white/30 text-white placeholder-white/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent resize-none"
-                  placeholder="Ihre Nachricht..."
+                  placeholder="Deine Nachricht..."
                 />
               </div>
 

@@ -42,15 +42,15 @@ export function AboutPage() {
         qualities: [
           {
             label: "Empathisch",
-            text: "Ich höre zu, bevor ich berate. Es ist mir wichtig, Ihre Situation wirklich zu verstehen – mit all Ihren Zielen, Fragen und Unsicherheiten.",
+            text: "Ich höre zu, bevor ich berate. Es ist mir wichtig, deine Situation wirklich zu verstehen – mit all deinen Zielen, Fragen und Unsicherheiten.",
           },
           {
             label: "Leidenschaftlich",
-            text: "Finanzen sind für mich mehr als Zahlen. Ich brenne dafür, Unternehmerinnen und Unternehmern zu helfen, Klarheit zu gewinnen und das Beste aus ihren Ressourcen zu machen.",
+            text: "Finanzen sind für mich mehr als Zahlen. Ich brenne dafür, Unternehmerinnen und Unternehmern zu helfen, Klarheit zu gewinnen und das Beste aus deinen Ressourcen zu machen.",
           },
           {
             label: "Strukturiert",
-            text: "Komplexe Themen bringe ich auf den Punkt. Mit einem klaren Plan und durchdachten Strategien schaffen wir gemeinsam messbare Fortschritte für Ihr Unternehmen.",
+            text: "Komplexe Themen bringe ich auf den Punkt. Mit einem klaren Plan und durchdachten Strategien schaffen wir gemeinsam messbare Fortschritte für dein Unternehmen.",
           },
           {
             label: "Wertschätzend",
@@ -58,11 +58,11 @@ export function AboutPage() {
           },
           {
             label: "Kompetent",
-            text: "Mit Fachwissen, Erfahrung und kontinuierlicher Weiterbildung sorge ich dafür, dass Sie sich bei mir fachlich wie menschlich bestens aufgehoben fühlen.",
+            text: "Mit Fachwissen, Erfahrung und kontinuierlicher Weiterbildung sorge ich dafür, dass du dich bei mir fachlich wie menschlich bestens aufgehoben fühlen.",
           },
         ],
         closing:
-          "Klingt das nach einer Zusammenarbeit, wie Sie sie sich wünschen? Dann freue ich mich, Sie kennenzulernen und gemeinsam mit Ihnen das Richtige für Ihr Unternehmen zu gestalten.",
+          "Klingt das nach einer Zusammenarbeit, wie du es dir wünschst? Dann freue ich mich, dich kennenzulernen und gemeinsam mit Ihnen das Richtige für dein Unternehmen zu gestalten.",
       },
     },
     {
@@ -76,19 +76,19 @@ export function AboutPage() {
         qualities: [
           {
             label: "Lösungsorientiert",
-            text: "Ich erkenne Herausforderungen – und sorge für Klarheit. Ich analysiere bestehende Versicherungsverträge, erkenne Lücken und optimiere Ihre Absicherung mit durchdachten, individuell abgestimmten Konzepten. Damit Sie sich auf Ihr Kerngeschäft konzentrieren können.",
+            text: "Ich erkenne Herausforderungen – und sorge für Klarheit. Ich analysiere bestehende Versicherungsverträge, erkenne Lücken und optimiere deine Absicherung mit durchdachten, individuell abgestimmten Konzepten. Damit duch dich auf dein Kerngeschäft konzentrieren können.",
           },
           {
             label: "Weitsichtig",
-            text: "Ich denke über den Vertrag hinaus: Absicherung ist mehr als ein Produkt. Ich berate Sie strategisch – mit dem Blick für Risiken, Strukturen und Ziele. Auch bei der Vermögensbildung mit Immobilien bin ich langfristig an Ihrer Seite.",
+            text: "Ich denke über den Vertrag hinaus: Absicherung ist mehr als ein Produkt. Ich berate dich strategisch – mit dem Blick für Risiken, Strukturen und Ziele. Auch bei der Vermögensbildung mit Immobilien bin ich langfristig an deiner Seite.",
           },
           {
             label: "Persönlich",
-            text: "Ich bin Ihr Ansprechpartner – direkt, verlässlich und nahbar. Vertrauen entsteht im Gespräch. Ich nehme mir Zeit, Ihre Situation zu verstehen, bin offen für Ihre Fragen und begleite Sie partnerschaftlich durch alle Phasen Ihrer Absicherungs- oder Investitionsstrategie.",
+            text: "Ich bin dein Ansprechpartner – direkt, verlässlich und nahbar. Vertrauen entsteht im Gespräch. Ich nehme mir Zeit, deine Situation zu verstehen, bin offen für deine Fragen und begleite dich partnerschaftlich durch alle Phasen deiner Absicherungs- oder Investitionsstrategie.",
           },
           {
             label: "Kompetent",
-            text: "Mit Fachwissen, Erfahrung und stetiger Weiterbildung sorge ich dafür, dass Sie sich bei mir gut aufgehoben fühlen – fachlich und menschlich.",
+            text: "Mit Fachwissen, Erfahrung und stetiger Weiterbildung sorge ich dafür, dass du dich bei mir gut aufgehoben fühlen – fachlich und menschlich.",
           },
         ],
         closing: "",

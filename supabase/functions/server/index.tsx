@@ -750,13 +750,13 @@ app.post("/contact/send", async (c) => {
       const customerHtml = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background-color: #172545; padding: 30px; text-align: center;">
-            <h1 style="color: white; margin: 0;">Vielen Dank für Ihre Nachricht</h1>
+            <h1 style="color: white; margin: 0;">Vielen Dank für deine Nachricht</h1>
           </div>
 
           <div style="padding: 30px; background-color: #f5f5f5;">
-            <p>Wir haben Ihre Anfrage erhalten und melden uns schnellstmöglich zurück.</p>
+            <p>Wir haben deine Anfrage erhalten und melden uns schnellstmöglich zurück.</p>
             <p><strong>Betreff:</strong> ${safeSubject}</p>
-            <p><strong>Ihre Nachricht:</strong></p>
+            <p><strong>Deine Nachricht:</strong></p>
             <div style="background: white; padding: 20px; border-radius: 8px; white-space: normal; line-height: 1.6;">
               ${safeMessage}
             </div>
@@ -767,12 +767,12 @@ app.post("/contact/send", async (c) => {
       await transporter.sendMail({
         from: gmailUser,
         to: String(email),
-        subject: `Kopie Ihrer Anfrage an AVEYO: ${String(subject)}`,
+        subject: `Kopie deiner Anfrage an AVEYO: ${String(subject)}`,
         html: customerHtml,
         text:
-          `Vielen Dank für Ihre Nachricht.\n\n` +
+          `Vielen Dank für deine Nachricht.\n\n` +
           `Betreff: ${String(subject)}\n\n` +
-          `Ihre Nachricht:\n${String(message)}`,
+          `Deine Nachricht:\n${String(message)}`,
       });
     }
 

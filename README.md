@@ -134,10 +134,6 @@ VITE_SUPABASE_ANON_KEY=ihr-anon-key
 npm run dev
 ```
 
-Die Website ist jetzt unter `http://localhost:5173` erreichbar.
-
----
-
 ## Entwicklung
 
 ### Verfügbare Scripts
@@ -180,12 +176,6 @@ npm run lint
 Der Admin-Bereich ist über eine Tastenkombination erreichbar:
 
 **Shortcut**: `Shift + A + T`
-
-### Standard-Login
-- **Username**: `admin`
-- **Passwort**: `aveyo2024`
-
-**WICHTIG:** Ändern Sie das Passwort nach dem ersten Login unter "Einstellungen".
 
 ### Admin-Funktionen
 

@@ -1,404 +1,520 @@
-import { Header } from "@/app/components/header";
-import { Footer } from "@/app/components/footer";
+import { useState, useEffect, useRef } from "react";
 import { ShapeDivider } from "@/app/components/shape-divider";
-import { Shield, Heart, Briefcase, Users, Building, FileText, ArrowRight, CheckCircle, UserCheck, Home, Car, Plane, Activity, Umbrella, Lock, Server, Scale, ShieldCheck, Wallet, TrendingUp, PawPrint } from "lucide-react";
-import { useState } from "react";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import { User, Briefcase, ChevronLeft, ChevronRight } from "lucide-react";
+import { assets } from "@/config/assets";
 
-export function VorsorgePage() {
+export function Vorsorge() {
   const [activeTab, setActiveTab] = useState<"private" | "business">("private");
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isScrollLocked, setIsScrollLocked] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const scrollAccumulator = useRef(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
-  const privateInsuranceCategories = [
+  const privateServices = [
     {
-      category: "Deine Existenz im Fokus",
-      description: "Bevor wir über Sachwerte sprechen, sichern wir das Wichtigste ab: Dich und deine finanzielle Zukunft.",
-      insurances: [
-        {
-          icon: <Umbrella className="w-6 h-6" />,
-          title: "Privathaftpflicht",
-          description: "Der absolute Basisschutz. Sie zahlt, wenn du anderen versehentlich einen Schaden zufügst – egal ob Kaffeefleck auf dem Teppich oder ein Unfall mit dem Fahrrad."
-        },
-        {
-          icon: <UserCheck className="w-6 h-6" />,
-          title: "Berufsunfähigkeitsversicherung (BU)",
-          description: "Deine Arbeitskraft ist dein größtes Kapital. Wenn du aus gesundheitlichen Gründen nicht mehr arbeiten kannst, sichert die BU dein Einkommen."
-        },
-        {
-          icon: <Heart className="w-6 h-6" />,
-          title: "Rentenversicherung",
-          description: "Deine Freiheit für später. Baue dir ein finanzielles Polster auf, damit du nach dem Arbeitsleben genau so leben kannst, wie du es dir vorstellst."
-        },
-        {
-          icon: <Activity className="w-6 h-6" />,
-          title: "Pflegezusatzversicherung",
-          description: "Die gesetzliche Pflegeversicherung ist nur ein \"Teilkasko\"-Schutz. Schließe die Lücke, um im Pflegefall dein Vermögen zu schützen."
-        }
-      ]
+      title: "Privathaftpflicht",
+      description:
+        "Der absolute Basisschutz. Schützt dich, wenn du anderen versehentlich einen Schaden zufügst.",
+      image: assets.vorsorge.private.privathaftpflicht,
     },
     {
-      category: "Gesundheit & Wohlbefinden",
-      description: "Die gesetzliche Kasse bietet eine Grundversorgung. Wer mehr will, muss privat vorsorgen.",
-      insurances: [
-        {
-          icon: <Shield className="w-6 h-6" />,
-          title: "Krankenzusatzversicherung",
-          description: "Upgrade für Kassenpatienten. Gönn dir Chefarztbehandlung, Einzelzimmer oder den Zugang zu Naturheilverfahren."
-        },
-        {
-          icon: <Users className="w-6 h-6" />,
-          title: "Zahnzusatzversicherung",
-          description: "Damit du auch morgen noch kraftvoll zubeißen kannst, ohne Angst vor der Rechnung. Sie übernimmt hohe Kosten für Zahnersatz und Implantate."
-        },
-        {
-          icon: <Plane className="w-6 h-6" />,
-          title: "Auslandsreiseversicherung",
-          description: "Krank im Urlaub? Diese Versicherung übernimmt weltweit die Behandlungskosten und den medizinisch sinnvollen Rücktransport."
-        },
-        {
-          icon: <TrendingUp className="w-6 h-6" />,
-          title: "Private Krankenversicherung (PKV)",
-          description: "Für Selbstständige und Gutverdiener oft die leistungsstärkere Wahl mit individuellem Schutz auf höchstem Niveau."
-        }
-      ]
+      title: "Berufsunfähigkeitsversicherung (BU)",
+      description:
+        "Sichert dein Einkommen, wenn du aus gesundheitlichen Gründen nicht mehr arbeiten kannst.",
+      image: assets.vorsorge.private.berufsunfaehigkeit,
     },
     {
-      category: "Hab & Gut",
-      description: "Was du dir aufgebaut hast, sollte auch geschützt bleiben.",
-      insurances: [
-        {
-          icon: <Home className="w-6 h-6" />,
-          title: "Hausratversicherung",
-          description: "Ob Feuer, Wasser oder Einbruch – diese Versicherung ersetzt dir den Neuwert deiner gesamten Einrichtung, vom Sofa bis zum Laptop."
-        },
-        {
-          icon: <Building className="w-6 h-6" />,
-          title: "Wohngebäudeversicherung",
-          description: "Ein Muss für Hausbesitzer. Sie schützt deine vier Wände vor Schäden durch Sturm, Feuer oder Leitungswasser."
-        },
-        {
-          icon: <Car className="w-6 h-6" />,
-          title: "KFZ-Versicherung",
-          description: "Vom gesetzlichen Pflichtschutz bis zur Vollkasko. Wir finden den Tarif, der dich und dein Auto optimal absichert."
-        },
-        {
-          icon: <PawPrint className="w-6 h-6" />,
-          title: "Tierversicherung",
-          description: "Dein Vierbeiner ist ein Familienmitglied. Eine Haftpflicht schützt dich vor Schadensersatzansprüchen, die Tierkrankenversicherung deckt hohe Tierarztkosten ab."
-        }
-      ]
+      title: "Rentenversicherung",
+      description:
+        "Baue dir ein finanzielles Polster auf für einen sorgenfreien Ruhestand.",
+      image: assets.vorsorge.private.rentenversicherung,
     },
     {
-      category: "Recht & Unfall",
-      description: "Für die unvorhersehbaren Momente im Leben.",
-      insurances: [
-        {
-          icon: <Wallet className="w-6 h-6" />,
-          title: "Unfallversicherung",
-          description: "Schützt dich vor den finanziellen Folgen einer dauerhaften Invalidität durch einen Unfall – weltweit und rund um die Uhr."
-        },
-        {
-          icon: <Scale className="w-6 h-6" />,
-          title: "Rechtsschutzversicherung",
-          description: "Recht haben und Recht bekommen sind zweierlei. Diese Versicherung trägt Anwalts- und Gerichtskosten, damit du dein Recht durchsetzen kannst."
-        }
-      ]
-    }
+      title: "Pflegezusatzversicherung",
+      description:
+        "Schließe die Lücke der gesetzlichen Pflegeversicherung und schütze dein Vermögen.",
+      image: assets.vorsorge.private.pflegezusatzversicherung,
+    },
+    {
+      title: "Krankenzusatzversicherung",
+      description:
+        "Upgrade für Kassenpatienten – Chefarztbehandlung, Einzelzimmer und mehr.",
+      image: assets.vorsorge.private.krankenzusatzversicherung,
+    },
+    {
+      title: "Zahnzusatzversicherung",
+      description:
+        "Übernimmt hohe Kosten für Zahnersatz und Implantate ohne Sorgen.",
+      image: assets.vorsorge.private.zahnzusatzversicherung,
+    },
+    {
+      title: "Auslandsreiseversicherung",
+      description:
+        "Weltweit geschützt – übernimmt Behandlungskosten und Rücktransport im Urlaub.",
+      image: assets.vorsorge.private.auslandsreiseversicherung,
+    },
+    {
+      title: "Private Krankenversicherung (PKV)",
+      description:
+        "Individueller Schutz auf höchstem Niveau für Selbstständige und Gutverdiener.",
+      image: assets.vorsorge.private.privateKrankenversicherung,
+    },
+    {
+      title: "Hausratversicherung",
+      description:
+        "Ersetzt den Neuwert deiner Einrichtung bei Feuer, Wasser oder Einbruch.",
+      image: assets.vorsorge.private.hausratversicherung,
+    },
+    {
+      title: "Wohngebäudeversicherung",
+      description:
+        "Schützt deine vier Wände vor Schäden durch Sturm, Feuer oder Leitungswasser.",
+      image: assets.vorsorge.private.wohngebaeudeversicherung,
+    },
+    {
+      title: "KFZ-Versicherung",
+      description:
+        "Optimaler Schutz für dich und dein Auto – vom Pflichtschutz bis zur Vollkasko.",
+      image: assets.vorsorge.private.kfzVersicherung,
+    },
+    {
+      title: "Tierversicherung",
+      description:
+        "Schützt dich vor Schadensersatzansprüchen und deckt hohe Tierarztkosten ab.",
+      image: assets.vorsorge.private.tierversicherung,
+    },
+    {
+      title: "Unfallversicherung",
+      description:
+        "Schützt vor den finanziellen Folgen einer Invalidität – weltweit, rund um die Uhr.",
+      image: assets.vorsorge.private.unfallversicherung,
+    },
+    {
+      title: "Rechtsschutzversicherung",
+      description:
+        "Trägt Anwalts- und Gerichtskosten, damit du dein Recht durchsetzen kannst.",
+      image: assets.vorsorge.private.rechtsschutzversicherung,
+    },
   ];
 
-  const businessInsuranceCategories = [
+  const businessServices = [
     {
-      category: "Die Fundamente deines Erfolgs",
-      description: "Diese Versicherungen sind das Nonplusultra für jedes Unternehmen, egal ob Startup oder etablierter Player. Sie schützen dich vor den größten externen Bedrohungen.",
-      insurances: [
-        {
-          icon: <Shield className="w-6 h-6" />,
-          title: "Betriebshaftpflicht",
-          description: "Das Must-have für jeden Unternehmer. Sie springt ein, wenn dein Unternehmen oder deine Mitarbeiter Dritten einen Schaden zufügen – von der beschädigten Kundenausrüstung bis hin zu Personenschäden."
-        },
-        {
-          icon: <Building className="w-6 h-6" />,
-          title: "Inhaltsversicherung",
-          description: "Schützt dein gesamtes Betriebsinventar – Büromöbel, technische Ausstattung, Waren – gegen Schäden wie Feuer, Wasser, Sturm und Einbruchdiebstahl."
-        },
-        {
-          icon: <TrendingUp className="w-6 h-6" />,
-          title: "Betriebsunterbrechungsversicherung",
-          description: "Was passiert, wenn dein Betrieb nach einem Schaden stillsteht? Diese Versicherung ersetzt dir die fortlaufenden Kosten und den entgangenen Gewinn, bis dein Business wieder läuft."
-        }
-      ]
+      title: "Betriebshaftpflicht",
+      description:
+        "Das Must-have für jeden Unternehmer – schützt vor Schadensersatzansprüchen Dritter.",
+      image: assets.vorsorge.business.betriebshaftpflicht,
     },
     {
-      category: "Schutz für die digitale & rechtliche Welt",
-      description: "In der modernen Wirtschaft lauern Risiken nicht nur in der realen Welt. Wir sichern dich auch digital und rechtlich ab.",
-      insurances: [
-        {
-          icon: <Lock className="w-6 h-6" />,
-          title: "Cyber-Versicherung",
-          description: "Ein Hackerangriff kann Existenzen vernichten. Diese Police deckt die Kosten für Datenwiederherstellung, IT-Forensik, Betriebsunterbrechung und Schadensersatzforderungen nach einem Cyber-Vorfall."
-        },
-        {
-          icon: <Scale className="w-6 h-6" />,
-          title: "Firmen-Rechtsschutz",
-          description: "Ob Streit mit einem Lieferanten, arbeitsrechtliche Auseinandersetzungen oder Ärger mit Behörden – diese Versicherung sorgt dafür, dass du dein Recht ohne hohes Kostenrisiko durchsetzen kannst."
-        }
-      ]
+      title: "Inhaltsversicherung",
+      description:
+        "Schützt dein gesamtes Betriebsinventar gegen Feuer, Wasser, Sturm und Einbruch.",
+      image: assets.vorsorge.business.inhaltsversicherung,
     },
     {
-      category: "Absicherung für die Schlüsselpersonen",
-      description: "Dein Unternehmen ist nur so stark wie die Menschen dahinter. Deshalb steht der Schutz von dir als Geschäftsführer und deinem Team im Mittelpunkt.",
-      insurances: [
-        {
-          icon: <ShieldCheck className="w-6 h-6" />,
-          title: "Geschäftsführer-Vorsorge (D&O)",
-          description: "Als Geschäftsführer haftest du bei Fehlentscheidungen oft mit deinem Privatvermögen. Die D&O-Versicherung schützt dich vor den finanziellen Folgen von Managementfehlern."
-        },
-        {
-          icon: <Users className="w-6 h-6" />,
-          title: "Mitarbeiterabsicherung (bAV & bKV)",
-          description: "Zeige deinem Team, dass es dir wichtig ist. Mit einer betrieblichen Altersvorsorge (bAV) oder Krankenversicherung (bKV) bindest du wertvolle Fachkräfte an dein Unternehmen und positionierst dich als attraktiver Arbeitgeber."
-        }
-      ]
-    }
+      title: "Betriebsunterbrechungsversicherung",
+      description:
+        "Ersetzt fortlaufende Kosten und entgangenen Gewinn bei Betriebsstillstand.",
+      image: assets.vorsorge.business.betriebsunterbrechungsversicherung,
+    },
+    {
+      title: "Cyber-Versicherung",
+      description:
+        "Umfassender Schutz vor den finanziellen Folgen von Cyberangriffen und Datenverlust.",
+      image: assets.vorsorge.business.cyberversicherung,
+    },
+    {
+      title: "Firmen-Rechtsschutz",
+      description:
+        "Durchsetzung deiner Rechte ohne hohes Kostenrisiko bei Streitigkeiten.",
+      image: assets.vorsorge.business.firmenRechtsschutz,
+    },
+    {
+      title: "Geschäftsführer-Vorsorge (D&O)",
+      description:
+        "Schützt dein Privatvermögen vor den Folgen von Managementfehlern.",
+      image: assets.vorsorge.business.geschaeftsfuehrerVorsorgeDo,
+    },
+    {
+      title: "Mitarbeiterabsicherung (bAV & bKV)",
+      description:
+        "Attraktive Zusatzleistungen zur Mitarbeiterbindung und als Wettbewerbsvorteil.",
+      image: assets.vorsorge.business.mitarbeiterabsicherung,
+    },
   ];
 
-  const currentInsurance = activeTab === "private" ? privateInsuranceCategories : businessInsuranceCategories;
+  const currentServices =
+    activeTab === "private" ? privateServices : businessServices;
+  const totalSteps = currentServices.length;
+
+  useEffect(() => {
+    setCurrentStep(0);
+    scrollAccumulator.current = 0;
+  }, [activeTab]);
+
+  useEffect(() => {
+    const handleScroll = (e: WheelEvent) => {
+      if (!sectionRef.current) return;
+
+      if (window.innerWidth < 1024) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      const lockZoneTop = windowHeight * 0.1;
+      const lockZoneBottom = windowHeight * 0.9;
+      const isInLockZone =
+        rect.top <= lockZoneTop && rect.bottom >= lockZoneBottom;
+
+      if (isInLockZone) {
+        if (
+          currentStep === totalSteps - 1 &&
+          e.deltaY > 0 &&
+          scrollAccumulator.current >= 300
+        ) {
+          setIsScrollLocked(false);
+          return;
+        }
+
+        if (
+          currentStep === 0 &&
+          e.deltaY < 0 &&
+          scrollAccumulator.current <= -300
+        ) {
+          setIsScrollLocked(false);
+          return;
+        }
+
+        e.preventDefault();
+        setIsScrollLocked(true);
+
+        scrollAccumulator.current += e.deltaY;
+
+        const threshold = 300;
+
+        if (Math.abs(scrollAccumulator.current) >= threshold) {
+          if (scrollAccumulator.current > 0 && currentStep < totalSteps - 1) {
+            setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1));
+            scrollAccumulator.current = 0;
+          } else if (
+            scrollAccumulator.current < 0 &&
+            currentStep > 0
+          ) {
+            setCurrentStep((prev) => Math.max(prev - 1, 0));
+            scrollAccumulator.current = 0;
+          } else {
+            scrollAccumulator.current = Math.max(
+              -400,
+              Math.min(400, scrollAccumulator.current),
+            );
+          }
+        }
+      } else {
+        setIsScrollLocked(false);
+        if (rect.bottom < 0 || rect.top > windowHeight) {
+          scrollAccumulator.current = 0;
+          setCurrentStep(0);
+        }
+      }
+    };
+
+    window.addEventListener("wheel", handleScroll, { passive: false });
+    return () => window.removeEventListener("wheel", handleScroll);
+  }, [currentStep, totalSteps]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe && currentStep < totalSteps - 1) {
+      setCurrentStep(currentStep + 1);
+    }
+    if (isRightSwipe && currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+
+    setTouchStart(0);
+    setTouchEnd(0);
+  };
+
+  const getOpacity = (index: number) => {
+    if (index === currentStep) return 1;
+    if (index === currentStep - 1 || index === currentStep + 1) return 0.3;
+    return 0;
+  };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <main>
-        {/* Hero Section - Blue background without top divider */}
-        <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl text-white mb-6">
-                Vorsorge & Absicherung
-              </h1>
-              <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto">
-                Umfassende Absicherung für Privatpersonen und Unternehmen - individuell und bedarfsgerecht
-              </p>
-            </div>
-          </div>
-          <ShapeDivider position="bottom" color="#ffffff" alignment="center" />
-        </section>
+    <section
+      id="vorsorge"
+      className="relative bg-[#172545] pt-40 pb-32"
+      ref={sectionRef}
+    >
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12 lg:mb-20">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl mb-6 lg:mb-8 text-white">
+            Vorsorge & Absicherung
+          </h2>
+        </div>
 
-        {/* Intro Section */}
-        <section className="relative bg-white pt-32 pb-0">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl md:text-5xl mb-6 text-[#172545] font-bold">
-                Maßgeschneiderte Absicherung für jeden Lebensbereich
-              </h2>
-              <p className="text-xl text-[#586477] leading-relaxed mb-40">
-                Ob du als Privatperson deine Familie absichern möchtest oder als Unternehmer dein Business schützen willst – wir haben die passende Lösung für dich. Wähle deine Zielgruppe und entdecke unsere spezialisierten Versicherungskonzepte.
-              </p>
-            </div>
-          </div>
-          
-          {/* Shape Divider with Headings */}
-          <div className="relative overflow-visible">
-            <ShapeDivider position="bottom" color="#172545" alignment={activeTab === "private" ? "right" : "left"} />
-            
-            {/* Clickable Headings positioned in/near the transition area */}
-            <div className="absolute bottom-0 left-0 right-0 z-50" style={{ transform: 'translateY(20%)' }}>
-              <div className="container mx-auto px-4">
-                <div className="max-w-6xl mx-auto relative" style={{ height: '60px' }}>
-                  {/* Privatpersonen - Positioned at left */}
-                  <button
-                    onClick={() => setActiveTab("private")}
-                    className="absolute pointer-events-auto"
-                    style={{ 
-                      left: '23%',
-                      transform: 'translateX(-50%)',
-                    }}
-                  >
-                    <h3 className={`text-2xl md:text-3xl lg:text-4xl font-bold whitespace-nowrap ${
-                      activeTab === "private" 
-                        ? "text-white" 
-                        : "text-[#172545]"
-                    }`}>
-                      Privatpersonen
-                    </h3>
-                  </button>
+        <div className="max-w-3xl mx-auto mb-12 lg:mb-16">
+          <p className="text-white/90 text-base md:text-lg leading-relaxed text-center">
+            Schluss mit Papierkram und Chaos: Wir digitalisieren deine Versicherungen.
+            Mit uns weißt du immer, was du zahlst und wofür – keine versteckten
+            Kosten, nur Klarheit.
+          </p>
+        </div>
 
-                  {/* Unternehmer - Positioned at right */}
-                  <button
-                    onClick={() => setActiveTab("business")}
-                    className="absolute pointer-events-auto"
-                    style={{ 
-                      left: '77%',
-                      transform: 'translateX(-50%)',
-                    }}
-                  >
-                    <h3 className={`text-2xl md:text-3xl lg:text-4xl font-bold whitespace-nowrap ${
-                      activeTab === "business" 
-                        ? "text-white" 
-                        : "text-[#172545]"
-                    }`}>
-                      Unternehmer
-                    </h3>
-                  </button>
+        <div className="flex justify-center mb-12 lg:mb-20">
+          <div className="lg:hidden flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-full p-1 border border-white/20">
+            <button
+              onClick={() => setActiveTab("private")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeTab === "private"
+                  ? "bg-white text-[#172545]"
+                  : "text-white/80"
+              }`}
+            >
+              Privat
+            </button>
+            <button
+              onClick={() => setActiveTab("business")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeTab === "business"
+                  ? "bg-white text-[#172545]"
+                  : "text-white/80"
+              }`}
+            >
+              Unternehmen
+            </button>
+          </div>
+
+          <div className="hidden lg:block">
+            <div className="relative inline-flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-1.5 border border-white/20 shadow-2xl">
+              <div
+                className="absolute top-1.5 h-[calc(100%-12px)] rounded-xl bg-white shadow-lg transition-all duration-500 ease-out"
+                style={{
+                  left: activeTab === "private" ? "6px" : "calc(50% + 2px)",
+                  width: "calc(50% - 8px)",
+                }}
+              />
+
+              <button
+                onClick={() => setActiveTab("private")}
+                className="relative px-6 py-3.5 rounded-xl transition-all duration-500 flex items-center gap-2.5 min-w-[180px] justify-center group z-10"
+              >
+                <div
+                  className={`transition-all duration-500 ${
+                    activeTab === "private"
+                      ? "scale-110"
+                      : "scale-90 opacity-70"
+                  }`}
+                >
+                  <User
+                    className={`w-5 h-5 transition-colors duration-500 ${
+                      activeTab === "private"
+                        ? "text-[#172545]"
+                        : "text-white"
+                    }`}
+                    strokeWidth={2.5}
+                  />
                 </div>
-              </div>
+                <span
+                  className={`text-base font-semibold transition-all duration-500 ${
+                    activeTab === "private"
+                      ? "text-[#172545]"
+                      : "text-white/90 group-hover:text-white"
+                  }`}
+                >
+                  Privatpersonen
+                </span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab("business")}
+                className="relative px-6 py-3.5 rounded-xl transition-all duration-500 flex items-center gap-2.5 min-w-[180px] justify-center group z-10"
+              >
+                <div
+                  className={`transition-all duration-500 ${
+                    activeTab === "business"
+                      ? "scale-110"
+                      : "scale-90 opacity-70"
+                  }`}
+                >
+                  <Briefcase
+                    className={`w-5 h-5 transition-colors duration-500 ${
+                      activeTab === "business"
+                        ? "text-[#172545]"
+                        : "text-white"
+                    }`}
+                    strokeWidth={2.5}
+                  />
+                </div>
+                <span
+                  className={`text-base font-semibold transition-all duration-500 ${
+                    activeTab === "business"
+                      ? "text-[#172545]"
+                      : "text-white/90 group-hover:text-white"
+                  }`}
+                >
+                  Unternehmer
+                </span>
+              </button>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Insurance Grid Section */}
-        <section className="relative bg-[#172545] pt-32 pb-32">
-          <div className="container mx-auto px-4">
-            {activeTab === "private" ? (
-              <div className="max-w-6xl mx-auto">
-                {/* Intro for Private */}
-                <div className="max-w-3xl mx-auto text-center mb-16">
-                  <h2 className="text-3xl md:text-4xl text-white font-bold mb-6">
-                    Dein Sicherheitsnetz für alle Fälle
-                  </h2>
-                  <p className="text-white/80 text-lg leading-relaxed mb-4">
-                    Das Leben ist voller Überraschungen – gute wie schlechte. Versicherungen sind kein notwendiges Übel, sondern dein persönliches Sicherheitsnetz. Sie sorgen dafür, dass ein Missgeschick nicht zur finanziellen Katastrophe wird.
-                  </p>
-                  <p className="text-white/80 text-lg leading-relaxed">
-                    Wir helfen dir dabei, den Dschungel aus Tarifen und Klauseln zu lichten. Unser Ziel: So viel Schutz wie nötig, so wenig Kosten wie möglich.
-                  </p>
-                </div>
-
-                {/* Categories */}
-                <div className="space-y-16">
-                  {privateInsuranceCategories.map((category, catIndex) => (
-                    <div key={catIndex}>
-                      <div className="mb-8">
-                        <h3 className="text-2xl md:text-3xl text-white font-bold mb-3">
-                          {category.category}
-                        </h3>
-                        <p className="text-white/70 text-lg">
-                          {category.description}
-                        </p>
-                      </div>
-                      <div className="grid md:grid-cols-2 gap-6">
-                        {category.insurances.map((insurance, idx) => (
-                          <div
-                            key={idx}
-                            className="bg-[#0d1a30] rounded-2xl p-6 border border-[#586477]/30 hover:border-white/30 transition-all duration-300"
-                          >
-                            <div className="flex items-start gap-4">
-                              <div className="w-12 h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
-                                <div className="text-white/90">{insurance.icon}</div>
-                              </div>
-                              <div>
-                                <h4 className="text-lg text-white font-semibold mb-2">
-                                  {insurance.title}
-                                </h4>
-                                <p className="text-white/70 leading-relaxed">
-                                  {insurance.description}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+        <div className="lg:hidden mb-12">
+          <div
+            ref={carouselRef}
+            className="relative -mx-4 px-4 overflow-hidden"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            <div
+              className="flex gap-3 transition-transform duration-500 ease-out"
+              style={{
+                transform: `translateX(calc(-${currentStep * 100}% - ${
+                  currentStep * 12
+                }px + 16px))`,
+              }}
+            >
+              {currentServices.map((service, index) => (
+                <div
+                  key={index}
+                  className="min-w-[calc(100%-32px)] flex-shrink-0"
+                >
+                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 h-full">
+                    <div className="relative w-full h-40 overflow-hidden">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#172545]/20" />
                     </div>
-                  ))}
-                </div>
 
-                {/* Check-Up CTA */}
-                <div className="mt-16 bg-[#0d1a30] rounded-3xl p-8 md:p-12 border border-[#586477]/30 text-center">
-                  <h3 className="text-2xl md:text-3xl text-white font-bold mb-4">
-                    Dein individueller Check-Up
-                  </h3>
-                  <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
-                    Brauchst du wirklich alles? Wahrscheinlich nicht. Welche Versicherungen für dich sinnvoll sind, hängt von deiner Lebensphase und deinen Zielen ab.
-                  </p>
-                  <p className="text-white/80 text-lg leading-relaxed mb-8">
-                    Lass uns gemeinsam prüfen, wo du gut aufgestellt bist und wo Lücken bestehen.
-                  </p>
-                  <a
-                    href="/"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#172545] rounded-xl hover:bg-white/90 transition-all duration-300 hover:shadow-lg text-lg font-semibold"
-                  >
-                    Termin vereinbaren
-                    <ArrowRight className="w-5 h-5" />
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <div className="max-w-6xl mx-auto">
-                {/* Intro for Business */}
-                <div className="max-w-3xl mx-auto text-center mb-16">
-                  <h2 className="text-3xl md:text-4xl text-white font-bold mb-6">
-                    Dein Business auf sicherem Fundament
-                  </h2>
-                  <p className="text-white/80 text-lg leading-relaxed mb-4">
-                    Dein Unternehmen ist mehr als nur ein Job – es ist dein Antrieb, deine Vision. Doch unternehmerischer Erfolg bringt auch Verantwortung und Risiken mit sich. Ein einziger unvorhergesehener Vorfall kann alles gefährden, was du dir aufgebaut hast.
-                  </p>
-                  <p className="text-white/80 text-lg leading-relaxed">
-                    Wir verstehen das. Deshalb entwickeln wir maßgeschneiderte Absicherungskonzepte, die dein Business schützen, damit du dich auf das konzentrieren kannst, was du am besten kannst: wachsen.
-                  </p>
-                </div>
-
-                {/* Categories */}
-                <div className="space-y-16">
-                  {businessInsuranceCategories.map((category, catIndex) => (
-                    <div key={catIndex}>
-                      <div className="mb-8">
-                        <h3 className="text-2xl md:text-3xl text-white font-bold mb-3">
-                          {category.category}
-                        </h3>
-                        <p className="text-white/70 text-lg">
-                          {category.description}
-                        </p>
-                      </div>
-                      <div className="grid md:grid-cols-2 gap-6">
-                        {category.insurances.map((insurance, idx) => (
-                          <div
-                            key={idx}
-                            className="bg-[#0d1a30] rounded-2xl p-6 border border-[#586477]/30 hover:border-white/30 transition-all duration-300"
-                          >
-                            <div className="flex items-start gap-4">
-                              <div className="w-12 h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
-                                <div className="text-white/90">{insurance.icon}</div>
-                              </div>
-                              <div>
-                                <h4 className="text-lg text-white font-semibold mb-2">
-                                  {insurance.title}
-                                </h4>
-                                <p className="text-white/70 leading-relaxed">
-                                  {insurance.description}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                    <div className="p-5">
+                      <h3 className="text-lg font-semibold text-white mb-2 line-clamp-2">
+                        {service.title}
+                      </h3>
+                      <p className="text-white/70 text-sm leading-relaxed line-clamp-3">
+                        {service.description}
+                      </p>
                     </div>
-                  ))}
+                  </div>
                 </div>
+              ))}
 
-                {/* Check-Up CTA */}
-                <div className="mt-16 bg-[#0d1a30] rounded-3xl p-8 md:p-12 border border-[#586477]/30 text-center">
-                  <h3 className="text-2xl md:text-3xl text-white font-bold mb-4">
-                    Dein strategischer Sicherheits-Check
-                  </h3>
-                  <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
-                    Jedes Business ist einzigartig. Standardlösungen greifen hier zu kurz. Lass uns gemeinsam eine Risikoanalyse durchführen und ein Sicherheitsnetz spannen, das perfekt zu deinem Geschäftsmodell, deiner Branche und deiner Wachstumsphase passt.
-                  </p>
-                  <p className="text-white/80 text-lg leading-relaxed mb-8">
-                    Sichere dein Lebenswerk ab – strategisch und effizient.
-                  </p>
-                  <a
-                    href="/"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#172545] rounded-xl hover:bg-white/90 transition-all duration-300 hover:shadow-lg text-lg font-semibold"
-                  >
-                    Termin vereinbaren
-                    <ArrowRight className="w-5 h-5" />
-                  </a>
-                </div>
-              </div>
-            )}
+              <div className="min-w-[60px] flex-shrink-0" />
+            </div>
+
+            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none z-10 px-2">
+              <button
+                onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+                disabled={currentStep === 0}
+                className={`pointer-events-auto p-2.5 rounded-full bg-white/90 backdrop-blur-md shadow-lg transition-all ${
+                  currentStep === 0 ? "opacity-0 scale-75" : "opacity-100 scale-100"
+                }`}
+              >
+                <ChevronLeft
+                  className="w-5 h-5 text-[#172545]"
+                  strokeWidth={2.5}
+                />
+              </button>
+
+              <button
+                onClick={() =>
+                  setCurrentStep(Math.min(totalSteps - 1, currentStep + 1))
+                }
+                disabled={currentStep === totalSteps - 1}
+                className={`pointer-events-auto p-2.5 rounded-full bg-white/90 backdrop-blur-md shadow-lg transition-all ${
+                  currentStep === totalSteps - 1
+                    ? "opacity-0 scale-75"
+                    : "opacity-100 scale-100"
+                }`}
+              >
+                <ChevronRight
+                  className="w-5 h-5 text-[#172545]"
+                  strokeWidth={2.5}
+                />
+              </button>
+            </div>
           </div>
-          <ShapeDivider position="bottom" color="#ffffff" alignment="center" />
-        </section>
-      </main>
-      <Footer />
-    </div>
+
+          <div className="flex justify-center items-center gap-2 mt-6">
+            <span className="text-white/60 text-sm font-medium">
+              {currentStep + 1} / {totalSteps}
+            </span>
+          </div>
+        </div>
+
+        <div className="hidden lg:block relative mb-20">
+          <div className="flex flex-col lg:flex-row items-start gap-12 max-w-6xl mx-auto">
+            <div className="lg:w-1/2 relative h-[600px] overflow-hidden">
+              {currentServices.map((service, index) => (
+                <div
+                  key={index}
+                  className="absolute top-1/2 -translate-y-1/2 left-0 w-full transition-all duration-700 ease-out"
+                  style={{
+                    opacity: getOpacity(index),
+                    transform: `translateY(calc(-50% + ${
+                      (index - currentStep) * 150
+                    }px))`,
+                    pointerEvents: index === currentStep ? "auto" : "none",
+                  }}
+                >
+                  <div className="w-full">
+                    <h3 className="text-2xl md:text-3xl text-white mb-4">
+                      {service.title}
+                    </h3>
+                    <p className="text-lg text-white/90 leading-relaxed">
+                      {service.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="lg:w-1/2 flex justify-end">
+              <div className="relative w-[450px]">
+                {currentServices.map((service, index) => (
+                  <img
+                    key={index}
+                    src={service.image}
+                    alt={service.title}
+                    className="absolute top-0 left-0 w-[450px] h-[450px] rounded-3xl shadow-2xl object-cover transition-opacity duration-700"
+                    style={{
+                      opacity: index === currentStep ? 1 : 0,
+                      pointerEvents: index === currentStep ? "auto" : "none",
+                    }}
+                  />
+                ))}
+                <img
+                  src={currentServices[0].image}
+                  alt=""
+                  className="w-[450px] h-[450px] rounded-3xl opacity-0"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ShapeDivider position="bottom" color="#ffffff" alignment="left" />
+    </section>
   );
 }
