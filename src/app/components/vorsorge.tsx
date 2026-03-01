@@ -9,7 +9,6 @@ export function Vorsorge() {
   const [, setIsScrollLocked] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollAccumulator = useRef(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
@@ -220,8 +219,17 @@ export function Vorsorge() {
     return () => window.removeEventListener("wheel", handleScroll);
   }, [currentStep, totalSteps]);
 
+  const goToPrevious = () => {
+    setCurrentStep((prev) => Math.max(prev - 1, 0));
+  };
+
+  const goToNext = () => {
+    setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1));
+  };
+
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(e.targetTouches[0].clientX);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -236,10 +244,11 @@ export function Vorsorge() {
     const isRightSwipe = distance < -50;
 
     if (isLeftSwipe && currentStep < totalSteps - 1) {
-      setCurrentStep(currentStep + 1);
+      goToNext();
     }
+
     if (isRightSwipe && currentStep > 0) {
-      setCurrentStep(currentStep - 1);
+      goToPrevious();
     }
 
     setTouchStart(0);
@@ -372,94 +381,102 @@ export function Vorsorge() {
           </div>
         </div>
 
+        {/* Mobile */}
         <div className="lg:hidden mb-12">
           <div
-            ref={carouselRef}
-            className="relative -mx-4 px-4 overflow-hidden"
+            className="overflow-hidden"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            style={{ touchAction: "pan-y" }}
           >
             <div
-              className="flex gap-3 transition-transform duration-500 ease-out"
+              className="flex transition-transform duration-500 ease-out"
               style={{
-                transform: `translateX(calc(-${currentStep * 100}% - ${
-                  currentStep * 12
-                }px + 16px))`,
+                transform: `translateX(-${currentStep * 100}%)`,
               }}
             >
               {currentServices.map((service, index) => (
                 <div
                   key={index}
-                  className="min-w-[calc(100%-32px)] flex-shrink-0"
+                  className="w-full flex-shrink-0 px-1"
                 >
-                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 h-full">
-                    <div className="relative w-full h-40 overflow-hidden">
+                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10">
+                    <div className="relative w-full aspect-[16/10] overflow-hidden">
                       <img
                         src={service.image}
                         alt={service.title}
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#172545]/20" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#172545]/25" />
                     </div>
 
                     <div className="p-5">
-                      <h3 className="text-lg font-semibold text-white mb-2 line-clamp-2">
+                      <h3 className="text-lg font-semibold text-white mb-3 leading-snug break-words">
                         {service.title}
                       </h3>
-                      <p className="text-white/70 text-sm leading-relaxed line-clamp-3">
+                      <p className="text-white/80 text-sm leading-relaxed break-words">
                         {service.description}
                       </p>
                     </div>
                   </div>
                 </div>
               ))}
-
-              <div className="min-w-[60px] flex-shrink-0" />
-            </div>
-
-            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none z-10 px-2">
-              <button
-                onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
-                disabled={currentStep === 0}
-                className={`pointer-events-auto p-2.5 rounded-full bg-white/90 backdrop-blur-md shadow-lg transition-all ${
-                  currentStep === 0
-                    ? "opacity-0 scale-75"
-                    : "opacity-100 scale-100"
-                }`}
-              >
-                <ChevronLeft
-                  className="w-5 h-5 text-[#172545]"
-                  strokeWidth={2.5}
-                />
-              </button>
-
-              <button
-                onClick={() =>
-                  setCurrentStep(Math.min(totalSteps - 1, currentStep + 1))
-                }
-                disabled={currentStep === totalSteps - 1}
-                className={`pointer-events-auto p-2.5 rounded-full bg-white/90 backdrop-blur-md shadow-lg transition-all ${
-                  currentStep === totalSteps - 1
-                    ? "opacity-0 scale-75"
-                    : "opacity-100 scale-100"
-                }`}
-              >
-                <ChevronRight
-                  className="w-5 h-5 text-[#172545]"
-                  strokeWidth={2.5}
-                />
-              </button>
             </div>
           </div>
 
-          <div className="flex justify-center items-center gap-2 mt-6">
+          {/* Mobile navigation */}
+          <div className="mt-5 flex items-center justify-between gap-3">
+            <button
+              onClick={goToPrevious}
+              disabled={currentStep === 0}
+              className={`flex items-center justify-center w-11 h-11 rounded-full transition-all ${
+                currentStep === 0
+                  ? "bg-white/10 text-white/30 cursor-not-allowed"
+                  : "bg-white/90 text-[#172545] shadow-lg"
+              }`}
+              aria-label="Vorherige Leistung"
+            >
+              <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
+            </button>
+
+            <div className="flex items-center gap-2">
+              {currentServices.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentStep(index)}
+                  aria-label={`Zu Schritt ${index + 1}`}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    index === currentStep
+                      ? "w-6 bg-white"
+                      : "w-2 bg-white/30"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={goToNext}
+              disabled={currentStep === totalSteps - 1}
+              className={`flex items-center justify-center w-11 h-11 rounded-full transition-all ${
+                currentStep === totalSteps - 1
+                  ? "bg-white/10 text-white/30 cursor-not-allowed"
+                  : "bg-white/90 text-[#172545] shadow-lg"
+              }`}
+              aria-label="Nächste Leistung"
+            >
+              <ChevronRight className="w-5 h-5" strokeWidth={2.5} />
+            </button>
+          </div>
+
+          <div className="flex justify-center items-center gap-2 mt-4">
             <span className="text-white/60 text-sm font-medium">
               {currentStep + 1} / {totalSteps}
             </span>
           </div>
         </div>
 
+        {/* Desktop */}
         <div className="hidden lg:block relative mb-20">
           <div className="flex flex-col lg:flex-row items-start gap-12 max-w-6xl mx-auto">
             <div className="lg:w-1/2 relative h-[600px] overflow-hidden">
