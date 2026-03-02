@@ -1,174 +1,285 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ShapeDivider } from "@/app/components/shape-divider";
 import { assets } from "@/config/assets";
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 
+const LOCK_DISTANCE = 2400;
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
-function progressBetween(value: number, start: number, end: number) {
-  return clamp((value - start) / (end - start), 0, 1);
-}
-
 export function FinancialAnalysis() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [isSectionPinned, setIsSectionPinned] = useState(false);
+  const [animationProgress, setAnimationProgress] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
 
-  const stageRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const progressRef = useRef(0);
+  const touchStartYRef = useRef<number | null>(null);
+  const lastTouchYRef = useRef<number | null>(null);
 
-  const updateAnimation = useCallback(() => {
-    if (!stageRef.current) return;
+  const updateProgress = (nextValue: number) => {
+    const clamped = clamp(nextValue, 0, LOCK_DISTANCE);
+    progressRef.current = clamped;
+    setAnimationProgress(clamped / LOCK_DISTANCE);
+  };
 
-    const stage = stageRef.current;
-    const rect = stage.getBoundingClientRect();
+  const isAtLockPoint = () => {
+    if (!sectionRef.current) return false;
+
+    const rect = sectionRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
-    const stageHeight = stage.offsetHeight;
 
-    const scrollRange = Math.max(stageHeight - viewportHeight, 1);
-    const rawProgress = clamp(-rect.top / scrollRange, 0, 1);
-    const pinned = rect.top <= 0 && rect.bottom >= viewportHeight;
-
-    setScrollProgress(rawProgress);
-    setIsSectionPinned(pinned);
-  }, []);
+    // Lock exactly while the sticky stage is active:
+    // section top has reached the top of the viewport,
+    // and the section still extends below the viewport.
+    return rect.top <= 0 && rect.bottom >= viewportHeight;
+  };
 
   useEffect(() => {
-    const requestUpdate = () => {
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    const handleWheel = (e: WheelEvent) => {
+      if (!isAtLockPoint()) {
+        setIsLocked(false);
+        return;
+      }
 
-      rafRef.current = requestAnimationFrame(() => {
-        updateAnimation();
-        rafRef.current = null;
-      });
+      const delta = e.deltaY;
+
+      // Scroll down: play forward until end
+      if (delta > 0 && progressRef.current < LOCK_DISTANCE) {
+        e.preventDefault();
+        setIsLocked(true);
+        updateProgress(progressRef.current + delta);
+        return;
+      }
+
+      // Scroll up: rewind until start
+      if (delta < 0 && progressRef.current > 0) {
+        e.preventDefault();
+        setIsLocked(true);
+        updateProgress(progressRef.current + delta);
+        return;
+      }
+
+      // At bounds: allow leaving the section normally
+      setIsLocked(false);
     };
 
-    requestUpdate();
+    const handleTouchStart = (e: TouchEvent) => {
+      const y = e.touches[0]?.clientY;
+      if (typeof y === "number") {
+        touchStartYRef.current = y;
+        lastTouchYRef.current = y;
+      }
+    };
 
-    window.addEventListener("scroll", requestUpdate, { passive: true });
-    window.addEventListener("resize", requestUpdate);
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isAtLockPoint()) {
+        setIsLocked(false);
+        return;
+      }
+
+      const currentY = e.touches[0]?.clientY;
+      const lastY = lastTouchYRef.current;
+
+      if (typeof currentY !== "number" || typeof lastY !== "number") return;
+
+      // Finger moves up => page would scroll down
+      const delta = (lastY - currentY) * 4;
+
+      if (delta > 0 && progressRef.current < LOCK_DISTANCE) {
+        e.preventDefault();
+        setIsLocked(true);
+        updateProgress(progressRef.current + delta);
+        lastTouchYRef.current = currentY;
+        return;
+      }
+
+      if (delta < 0 && progressRef.current > 0) {
+        e.preventDefault();
+        setIsLocked(true);
+        updateProgress(progressRef.current + delta);
+        lastTouchYRef.current = currentY;
+        return;
+      }
+
+      setIsLocked(false);
+      lastTouchYRef.current = currentY;
+    };
+
+    const handleTouchEnd = () => {
+      touchStartYRef.current = null;
+      lastTouchYRef.current = null;
+      if (!isAtLockPoint()) {
+        setIsLocked(false);
+      }
+    };
+
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // If the user is clearly above the section again,
+      // reset to the start state for the next pass.
+      if (rect.top >= viewportHeight && progressRef.current !== 0) {
+        updateProgress(0);
+      }
+
+      if (!isAtLockPoint()) {
+        setIsLocked(false);
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", requestUpdate);
-      window.removeEventListener("resize", requestUpdate);
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [updateAnimation]);
+  }, []);
 
   /**
    * Timeline
-   * 0.00 - 0.08  Logo sichtbar, kurze Haltephase
-   * 0.08 - 0.24  Logo schrumpft + blendet aus
-   * 0.18 - 0.42  Dokument fährt von unten rein
-   * 0.34 - 0.52  Überschrift + Button blenden ein
-   * 0.52 - 1.00  Finale Ansicht bleibt lange sichtbar
+   * 0.00 - 0.20: Logo stays centered and visible
+   * 0.20 - 0.42: Logo shrinks and fades out
+   * 0.42 - 0.64: Document slides in
+   * 0.56 - 0.74: Heading + button fade in
+   * 0.74 - 1.00: Final state remains visible
    */
 
-  const logoFadeProgress = progressBetween(scrollProgress, 0.08, 0.24);
-  const imageEnterProgress = progressBetween(scrollProgress, 0.18, 0.42);
-  const textFadeProgress = progressBetween(scrollProgress, 0.34, 0.52);
+  const logoFadeProgress =
+    animationProgress < 0.2
+      ? 0
+      : animationProgress < 0.42
+      ? (animationProgress - 0.2) / 0.22
+      : 1;
 
-  const image1Scale = 1 - logoFadeProgress * 0.22; // 1 -> 0.78
+  const imageEnterProgress =
+    animationProgress < 0.42
+      ? 0
+      : animationProgress < 0.64
+      ? (animationProgress - 0.42) / 0.22
+      : 1;
+
+  const textFadeProgress =
+    animationProgress < 0.56
+      ? 0
+      : animationProgress < 0.74
+      ? (animationProgress - 0.56) / 0.18
+      : 1;
+
+  // Logo
+  const image1Scale = 1 - logoFadeProgress * 0.28; // 1 -> 0.72
   const image1Opacity = 1 - logoFadeProgress;
 
-  const image2Scale = 0.64 + imageEnterProgress * 0.1; // 0.64 -> 0.74
+  // Document
+  const image2Scale = 0.62 + imageEnterProgress * 0.1; // 0.62 -> 0.72
   const image2Opacity = imageEnterProgress;
   const image2TranslateY = (1 - imageEnterProgress) * 18; // 18% -> 0%
 
+  // Heading + CTA
   const textOpacity = textFadeProgress;
   const textTranslateY = (1 - textFadeProgress) * 8;
+
+  const showScrollHint = isLocked && animationProgress < 0.18;
 
   return (
     <section
       id="finanzanalyse"
-      className="relative overflow-hidden bg-gradient-to-b from-white to-[#f8fafc]"
+      ref={sectionRef}
+      className="relative bg-white overflow-hidden"
+      style={{ minHeight: "135vh" }}
     >
-      {/* Scroll-Strecke für spürbares "Anhalten" */}
       <div
-        ref={stageRef}
-        className="relative h-[320vh] sm:h-[360vh] lg:h-[400vh]"
+        className="sticky top-0 h-screen flex items-center justify-center"
+        style={{ height: "100svh" }}
       >
-        {/* Sticky Bühne */}
-        <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-          <div className="relative w-full h-full flex items-center justify-center px-4">
-            {/* Logo */}
-            <div
-              className="absolute inset-0 z-10 flex items-center justify-center transition-all duration-200 ease-out"
-              style={{
-                transform: `scale(${image1Scale})`,
-                opacity: image1Opacity,
-                pointerEvents: image1Opacity > 0 ? "auto" : "none",
-              }}
-            >
-              <img
-                src={assets.financialAnalysis.logo}
-                alt="AVEYO"
-                className="max-w-[78%] sm:max-w-[64%] md:max-w-[520px] h-auto drop-shadow-[0_12px_32px_rgba(23,37,69,0.08)]"
-              />
-            </div>
-
-            {/* Dokument */}
-            <div
-              className="absolute inset-0 z-20 flex items-center justify-center transition-all duration-200 ease-out"
-              style={{
-                transform: `scale(${image2Scale}) translateY(${image2TranslateY}%)`,
-                opacity: image2Opacity,
-                pointerEvents: image2Opacity > 0 ? "auto" : "none",
-              }}
-            >
-              <div className="w-full max-w-5xl flex flex-col items-center gap-4 md:gap-6 px-2 sm:px-4">
-                <h2
-                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#172545] text-center transition-all duration-300"
-                  style={{
-                    opacity: textOpacity,
-                    transform: `translateY(${textTranslateY}px)`,
-                  }}
-                >
-                  Dein kostenloses Finanzgutachten
-                </h2>
-
-                <img
-                  src={assets.financialAnalysis.document}
-                  alt="Dein persönliches Finanzgutachten"
-                  className="w-full max-w-[84vw] sm:max-w-[72vw] md:max-w-[660px] lg:max-w-[700px] h-auto rounded-2xl shadow-2xl"
-                />
-
-                <Link
-                  to="/finanzcheck"
-                  className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
-                  style={{
-                    opacity: textOpacity,
-                    transform: `translateY(${textTranslateY}px)`,
-                  }}
-                >
-                  Mehr erfahren
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-              </div>
-            </div>
-
-            {/* Scroll-Hinweis */}
-            {isSectionPinned && scrollProgress < 0.1 && (
-              <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce z-30">
-                <span className="text-gray-400 text-xs sm:text-sm">
-                  Scrolle weiter
-                </span>
-                <svg
-                  className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-              </div>
-            )}
+        <div className="relative w-full h-full flex items-center justify-center px-4">
+          {/* Image 1: AVEYO Logo */}
+          <div
+            className="absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out"
+            style={{
+              transform: `scale(${image1Scale})`,
+              opacity: image1Opacity,
+              pointerEvents: image1Opacity > 0 ? "auto" : "none",
+            }}
+          >
+            <img
+              src={assets.financialAnalysis.logo}
+              alt="AVEYO"
+              className="max-w-[78%] sm:max-w-[64%] md:max-w-[520px] h-auto"
+            />
           </div>
+
+          {/* Image 2: Finanzgutachten */}
+          <div
+            className="absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out"
+            style={{
+              transform: `scale(${image2Scale}) translateY(${image2TranslateY}%)`,
+              opacity: image2Opacity,
+              pointerEvents: image2Opacity > 0 ? "auto" : "none",
+            }}
+          >
+            <div className="w-full max-w-5xl flex flex-col items-center justify-center gap-4 md:gap-6 px-2 sm:px-4">
+              <h2
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#172545] text-center transition-all duration-300"
+                style={{
+                  opacity: textOpacity,
+                  transform: `translateY(${textTranslateY}px)`,
+                }}
+              >
+                Dein kostenloses Finanzgutachten
+              </h2>
+
+              <img
+                src={assets.financialAnalysis.document}
+                alt="Dein persönliches Finanzgutachten"
+                className="w-full max-w-[84vw] sm:max-w-[72vw] md:max-w-[660px] lg:max-w-[700px] h-auto rounded-2xl shadow-2xl"
+              />
+
+              <Link
+                to="/finanzcheck"
+                className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
+                style={{
+                  opacity: textOpacity,
+                  transform: `translateY(${textTranslateY}px)`,
+                }}
+              >
+                Mehr erfahren
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Scroll hint */}
+          {showScrollHint && (
+            <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+              <span className="text-gray-400 text-xs sm:text-sm">
+                Scrolle weiter
+              </span>
+              <svg
+                className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </div>
+          )}
         </div>
       </div>
 
