@@ -8,8 +8,12 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
+function progressBetween(value: number, start: number, end: number) {
+  return clamp((value - start) / (end - start), 0, 1);
+}
+
 export function FinancialAnalysis() {
-  const [animationProgress, setAnimationProgress] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [isSectionPinned, setIsSectionPinned] = useState(false);
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -23,17 +27,16 @@ export function FinancialAnalysis() {
     const viewportHeight = window.innerHeight;
     const sectionHeight = section.offsetHeight;
 
-    // Scroll distance available while the sticky area is "active"
+    // Longer scroll range = longer visible "pause" while sticky
     const scrollRange = Math.max(sectionHeight - viewportHeight, 1);
 
-    // Progress starts when the section reaches the top of the viewport
-    // and ends when the section bottom reaches the bottom of the viewport.
-    const rawProgress = -rect.top / scrollRange;
-    const nextProgress = clamp(rawProgress, 0, 1);
+    // 0 when section reaches viewport top, 1 when sticky phase is fully passed
+    const rawProgress = clamp(-rect.top / scrollRange, 0, 1);
 
+    // Sticky is actively pinning while the section spans at least one viewport
     const pinned = rect.top <= 0 && rect.bottom >= viewportHeight;
 
-    setAnimationProgress(nextProgress);
+    setScrollProgress(rawProgress);
     setIsSectionPinned(pinned);
   }, []);
 
@@ -64,21 +67,30 @@ export function FinancialAnalysis() {
     };
   }, [updateAnimation]);
 
-  // Animation phases
-  const logoFadeProgress = clamp((animationProgress - 0.2) / 0.18, 0, 1);
-  const imageEnterProgress = clamp((animationProgress - 0.32) / 0.22, 0, 1);
-  const textFadeProgress = clamp((animationProgress - 0.5) / 0.18, 0, 1);
+  /**
+   * Timeline (intentionally stretched so the section "holds" longer):
+   *
+   * 0.00 - 0.20  Logo stays centered (clear pause)
+   * 0.20 - 0.42  Logo shrinks + fades out
+   * 0.42 - 0.66  Document slides in from below
+   * 0.58 - 0.76  Heading + button fade in
+   * 0.76 - 1.00  Final state stays visible (clear pause)
+   */
 
-  // Logo animation
-  const image1Scale = 1 - logoFadeProgress * 0.3; // 1 -> 0.7
+  const logoFadeProgress = progressBetween(scrollProgress, 0.2, 0.42);
+  const imageEnterProgress = progressBetween(scrollProgress, 0.42, 0.66);
+  const textFadeProgress = progressBetween(scrollProgress, 0.58, 0.76);
+
+  // Logo
+  const image1Scale = 1 - logoFadeProgress * 0.28; // 1 -> 0.72
   const image1Opacity = 1 - logoFadeProgress;
 
-  // Document animation: smaller and truly centered
-  const image2Scale = 0.62 + imageEnterProgress * 0.14; // 0.62 -> 0.76
+  // Document image: slightly smaller so heading + button remain visible
+  const image2Scale = 0.58 + imageEnterProgress * 0.14; // 0.58 -> 0.72
   const image2Opacity = imageEnterProgress;
-  const image2TranslateY = (1 - imageEnterProgress) * 24; // 24% -> 0%
+  const image2TranslateY = (1 - imageEnterProgress) * 22; // 22% -> 0%
 
-  // Heading + button
+  // Heading + CTA
   const textOpacity = textFadeProgress;
   const textTranslateY = (1 - textFadeProgress) * 10;
 
@@ -86,12 +98,11 @@ export function FinancialAnalysis() {
     <section
       id="finanzanalyse"
       ref={sectionRef}
-      className="relative bg-white overflow-hidden"
-      style={{ minHeight: "260vh" }}
+      className="relative bg-white overflow-hidden min-h-[380vh] sm:min-h-[430vh] lg:min-h-[470vh]"
     >
-      {/* Sticky stage: creates the "pause" naturally through scroll height */}
+      {/* Sticky stage */}
       <div
-        className="sticky top-0 flex items-center justify-center"
+        className="sticky top-0 h-screen flex items-center justify-center"
         style={{ height: "100svh" }}
       >
         <div className="relative w-full h-full flex items-center justify-center px-4">
@@ -121,7 +132,6 @@ export function FinancialAnalysis() {
             }}
           >
             <div className="w-full max-w-5xl flex flex-col items-center gap-4 md:gap-6 px-2 sm:px-4">
-              {/* Heading */}
               <h2
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#172545] text-center transition-all duration-300"
                 style={{
@@ -132,14 +142,12 @@ export function FinancialAnalysis() {
                 Dein kostenloses Finanzgutachten
               </h2>
 
-              {/* Image */}
               <img
                 src={assets.financialAnalysis.document}
                 alt="Dein persönliches Finanzgutachten"
-                className="w-full max-w-[88vw] sm:max-w-[78vw] md:max-w-[720px] lg:max-w-[760px] h-auto rounded-2xl shadow-2xl"
+                className="w-full max-w-[86vw] sm:max-w-[74vw] md:max-w-[680px] lg:max-w-[720px] h-auto rounded-2xl shadow-2xl"
               />
 
-              {/* Button */}
               <Link
                 to="/finanzcheck"
                 className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
@@ -154,8 +162,8 @@ export function FinancialAnalysis() {
             </div>
           </div>
 
-          {/* Scroll indicator */}
-          {isSectionPinned && animationProgress < 0.22 && (
+          {/* Scroll indicator during initial hold */}
+          {isSectionPinned && scrollProgress < 0.18 && (
             <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
               <span className="text-gray-400 text-xs sm:text-sm">
                 Scrolle weiter
