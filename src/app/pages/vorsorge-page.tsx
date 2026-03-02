@@ -345,27 +345,22 @@ export function VorsorgePage() {
                             key={idx}
                             className="bg-[#0d1a30] rounded-2xl p-6 border border-[#586477]/30 hover:border-white/30 transition-all duration-300"
                           >
-                            <div className="flex items-start gap-4">
-                              <div className="w-12 h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
-                                <div className="text-white/90">
-                                  {insurance.icon}
-                                </div>
-                              </div>
-                              <div>
-                                <h4 className="text-lg text-white font-semibold mb-2">
-                                  {insurance.title}
-                                </h4>
-                                <p className="text-white/70 leading-relaxed">
-                                  {insurance.description}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                            <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+  <div className="w-11 h-11 sm:w-12 sm:h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
+    <div className="text-white/90">
+      {insurance.icon}
+    </div>
+  </div>
+
+  <div className="min-w-0 flex-1">
+    <h4 className="text-base sm:text-lg text-white font-semibold mb-2 leading-snug [overflow-wrap:anywhere]">
+      {insurance.title}
+    </h4>
+    <p className="text-sm sm:text-base text-white/70 leading-relaxed [overflow-wrap:anywhere]">
+      {insurance.description}
+    </p>
+  </div>
+</div>
 
                 {/* Check-Up CTA */}
                 <div className="mt-16 bg-[#0d1a30] rounded-3xl p-8 md:p-12 border border-[#586477]/30 text-center">
