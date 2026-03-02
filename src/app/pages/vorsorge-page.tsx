@@ -91,8 +91,7 @@ export function VorsorgePage() {
     },
     {
       category: "Hab & Gut",
-      description:
-        "Was du dir aufgebaut hast, sollte auch geschützt bleiben.",
+      description: "Was du dir aufgebaut hast, sollte auch geschützt bleiben.",
       insurances: [
         {
           icon: <Home className="w-6 h-6" />,
@@ -122,8 +121,7 @@ export function VorsorgePage() {
     },
     {
       category: "Recht & Unfall",
-      description:
-        "Für die unvorhersehbaren Momente im Leben.",
+      description: "Für die unvorhersehbaren Momente im Leben.",
       insurances: [
         {
           icon: <Wallet className="w-6 h-6" />,
@@ -207,13 +205,8 @@ export function VorsorgePage() {
     },
   ];
 
-  const currentInsurance =
-    activeTab === "private"
-      ? privateInsuranceCategories
-      : businessInsuranceCategories;
-
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       <Header />
       <main>
         {/* Hero Section - Blue background without top divider */}
@@ -262,18 +255,21 @@ export function VorsorgePage() {
               style={{ transform: "translateY(20%)" }}
             >
               <div className="container mx-auto px-4">
-                <div className="max-w-6xl mx-auto relative" style={{ height: "60px" }}>
+                <div
+                  className="max-w-6xl mx-auto relative"
+                  style={{ height: "60px" }}
+                >
                   {/* Privatpersonen - Positioned at left */}
                   <button
                     onClick={() => setActiveTab("private")}
-                    className="absolute pointer-events-auto"
+                    className="absolute pointer-events-auto w-[42%] sm:w-auto"
                     style={{
                       left: "23%",
                       transform: "translateX(-50%)",
                     }}
                   >
                     <h3
-                      className={`text-base sm:text-xl md:text-3xl lg:text-4xl font-bold whitespace-nowrap ${
+                      className={`text-xs sm:text-xl md:text-3xl lg:text-4xl font-bold text-center leading-tight sm:whitespace-nowrap ${
                         activeTab === "private" ? "text-white" : "text-[#172545]"
                       }`}
                     >
@@ -284,14 +280,14 @@ export function VorsorgePage() {
                   {/* Unternehmer - Positioned at right */}
                   <button
                     onClick={() => setActiveTab("business")}
-                    className="absolute pointer-events-auto"
+                    className="absolute pointer-events-auto w-[42%] sm:w-auto"
                     style={{
                       left: "77%",
                       transform: "translateX(-50%)",
                     }}
                   >
                     <h3
-                      className={`text-base sm:text-xl md:text-3xl lg:text-4xl font-bold whitespace-nowrap ${
+                      className={`text-xs sm:text-xl md:text-3xl lg:text-4xl font-bold text-center leading-tight sm:whitespace-nowrap ${
                         activeTab === "business" ? "text-white" : "text-[#172545]"
                       }`}
                     >
@@ -332,30 +328,30 @@ export function VorsorgePage() {
                   {privateInsuranceCategories.map((category, catIndex) => (
                     <div key={catIndex}>
                       <div className="mb-8">
-                        <h3 className="text-2xl md:text-3xl text-white font-bold mb-3">
+                        <h3 className="text-2xl md:text-3xl text-white font-bold mb-3 break-words">
                           {category.category}
                         </h3>
-                        <p className="text-white/70 text-lg">
+                        <p className="text-white/70 text-lg break-words">
                           {category.description}
                         </p>
                       </div>
-                      <div className="grid md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {category.insurances.map((insurance, idx) => (
                           <div
                             key={idx}
-                            className="bg-[#0d1a30] rounded-2xl p-6 border border-[#586477]/30 hover:border-white/30 transition-all duration-300"
+                            className="bg-[#0d1a30] rounded-2xl p-5 sm:p-6 border border-[#586477]/30 hover:border-white/30 transition-all duration-300 w-full max-w-full min-w-0"
                           >
-                            <div className="flex items-start gap-4">
-                              <div className="w-12 h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
+                            <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+                              <div className="w-11 h-11 sm:w-12 sm:h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
                                 <div className="text-white/90">
                                   {insurance.icon}
                                 </div>
                               </div>
-                              <div>
-                                <h4 className="text-lg text-white font-semibold mb-2">
+                              <div className="min-w-0 flex-1">
+                                <h4 className="text-base sm:text-lg text-white font-semibold mb-2 leading-snug break-words">
                                   {insurance.title}
                                 </h4>
-                                <p className="text-white/70 leading-relaxed">
+                                <p className="text-sm sm:text-base text-white/70 leading-relaxed break-words">
                                   {insurance.description}
                                 </p>
                               </div>
@@ -417,30 +413,30 @@ export function VorsorgePage() {
                   {businessInsuranceCategories.map((category, catIndex) => (
                     <div key={catIndex}>
                       <div className="mb-8">
-                        <h3 className="text-2xl md:text-3xl text-white font-bold mb-3">
+                        <h3 className="text-2xl md:text-3xl text-white font-bold mb-3 break-words">
                           {category.category}
                         </h3>
-                        <p className="text-white/70 text-lg">
+                        <p className="text-white/70 text-lg break-words">
                           {category.description}
                         </p>
                       </div>
-                      <div className="grid md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {category.insurances.map((insurance, idx) => (
                           <div
                             key={idx}
-                            className="bg-[#0d1a30] rounded-2xl p-6 border border-[#586477]/30 hover:border-white/30 transition-all duration-300"
+                            className="bg-[#0d1a30] rounded-2xl p-5 sm:p-6 border border-[#586477]/30 hover:border-white/30 transition-all duration-300 w-full max-w-full min-w-0"
                           >
-                            <div className="flex items-start gap-4">
-                              <div className="w-12 h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
+                            <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+                              <div className="w-11 h-11 sm:w-12 sm:h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
                                 <div className="text-white/90">
                                   {insurance.icon}
                                 </div>
                               </div>
-                              <div>
-                                <h4 className="text-lg text-white font-semibold mb-2">
+                              <div className="min-w-0 flex-1">
+                                <h4 className="text-base sm:text-lg text-white font-semibold mb-2 leading-snug break-words">
                                   {insurance.title}
                                 </h4>
-                                <p className="text-white/70 leading-relaxed">
+                                <p className="text-sm sm:text-base text-white/70 leading-relaxed break-words">
                                   {insurance.description}
                                 </p>
                               </div>
