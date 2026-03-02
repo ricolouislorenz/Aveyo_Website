@@ -31,9 +31,6 @@ export function FinancialAnalysis() {
     const rect = sectionRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
 
-    // Lock exactly while the sticky stage is active:
-    // section top has reached the top of the viewport,
-    // and the section still extends below the viewport.
     return rect.top <= 0 && rect.bottom >= viewportHeight;
   };
 
@@ -46,7 +43,6 @@ export function FinancialAnalysis() {
 
       const delta = e.deltaY;
 
-      // Scroll down: play forward until end
       if (delta > 0 && progressRef.current < LOCK_DISTANCE) {
         e.preventDefault();
         setIsLocked(true);
@@ -54,7 +50,6 @@ export function FinancialAnalysis() {
         return;
       }
 
-      // Scroll up: rewind until start
       if (delta < 0 && progressRef.current > 0) {
         e.preventDefault();
         setIsLocked(true);
@@ -62,7 +57,6 @@ export function FinancialAnalysis() {
         return;
       }
 
-      // At bounds: allow leaving the section normally
       setIsLocked(false);
     };
 
@@ -85,7 +79,6 @@ export function FinancialAnalysis() {
 
       if (typeof currentY !== "number" || typeof lastY !== "number") return;
 
-      // Finger moves up => page would scroll down
       const delta = (lastY - currentY) * 4;
 
       if (delta > 0 && progressRef.current < LOCK_DISTANCE) {
@@ -122,8 +115,6 @@ export function FinancialAnalysis() {
       const rect = sectionRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
 
-      // If the user is clearly above the section again,
-      // reset to the start state for the next pass.
       if (rect.top >= viewportHeight && progressRef.current !== 0) {
         updateProgress(0);
       }
@@ -148,15 +139,6 @@ export function FinancialAnalysis() {
     };
   }, []);
 
-  /**
-   * Timeline
-   * 0.00 - 0.20: Logo stays centered and visible
-   * 0.20 - 0.42: Logo shrinks and fades out
-   * 0.42 - 0.64: Document slides in
-   * 0.56 - 0.74: Heading + button fade in
-   * 0.74 - 1.00: Final state remains visible
-   */
-
   const logoFadeProgress =
     animationProgress < 0.2
       ? 0
@@ -178,20 +160,20 @@ export function FinancialAnalysis() {
       ? (animationProgress - 0.56) / 0.18
       : 1;
 
-  // Logo
-  const image1Scale = 1 - logoFadeProgress * 0.28; // 1 -> 0.72
+  const image1Scale = 1 - logoFadeProgress * 0.28;
   const image1Opacity = 1 - logoFadeProgress;
 
-  // Document
-  const image2Scale = 0.62 + imageEnterProgress * 0.1; // 0.62 -> 0.72
+  const image2Scale = 0.62 + imageEnterProgress * 0.1;
   const image2Opacity = imageEnterProgress;
-  const image2TranslateY = (1 - imageEnterProgress) * 18; // 18% -> 0%
+  const image2TranslateY = (1 - imageEnterProgress) * 18;
 
-  // Heading + CTA
   const textOpacity = textFadeProgress;
   const textTranslateY = (1 - textFadeProgress) * 8;
 
   const showScrollHint = isLocked && animationProgress < 0.18;
+
+  // Gesamte Animationsbühne etwas tiefer setzen
+  const stageOffsetVh = 7;
 
   return (
     <section
@@ -205,59 +187,66 @@ export function FinancialAnalysis() {
         style={{ height: "100svh" }}
       >
         <div className="relative w-full h-full flex items-center justify-center px-4">
-          {/* Image 1: AVEYO Logo */}
           <div
-            className="absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out"
-            style={{
-              transform: `scale(${image1Scale})`,
-              opacity: image1Opacity,
-              pointerEvents: image1Opacity > 0 ? "auto" : "none",
-            }}
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ transform: `translateY(${stageOffsetVh}vh)` }}
           >
-            <img
-              src={assets.financialAnalysis.logo}
-              alt="AVEYO"
-              className="max-w-[78%] sm:max-w-[64%] md:max-w-[520px] h-auto"
-            />
-          </div>
-
-          {/* Image 2: Finanzgutachten */}
-          <div
-            className="absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out"
-            style={{
-              transform: `scale(${image2Scale}) translateY(${image2TranslateY}%)`,
-              opacity: image2Opacity,
-              pointerEvents: image2Opacity > 0 ? "auto" : "none",
-            }}
-          >
-            <div className="w-full max-w-5xl flex flex-col items-center justify-center gap-4 md:gap-6 px-2 sm:px-4">
-              <h2
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#172545] text-center transition-all duration-300"
+            <div className="relative w-full h-full">
+              {/* Image 1: AVEYO Logo */}
+              <div
+                className="absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out"
                 style={{
-                  opacity: textOpacity,
-                  transform: `translateY(${textTranslateY}px)`,
+                  transform: `scale(${image1Scale})`,
+                  opacity: image1Opacity,
+                  pointerEvents: image1Opacity > 0 ? "auto" : "none",
                 }}
               >
-                Dein kostenloses Finanzgutachten
-              </h2>
+                <img
+                  src={assets.financialAnalysis.logo}
+                  alt="AVEYO"
+                  className="max-w-[78%] sm:max-w-[64%] md:max-w-[520px] h-auto"
+                />
+              </div>
 
-              <img
-                src={assets.financialAnalysis.document}
-                alt="Dein persönliches Finanzgutachten"
-                className="w-full max-w-[84vw] sm:max-w-[72vw] md:max-w-[660px] lg:max-w-[700px] h-auto rounded-2xl shadow-2xl"
-              />
-
-              <Link
-                to="/finanzcheck"
-                className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
+              {/* Image 2: Finanzgutachten */}
+              <div
+                className="absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out"
                 style={{
-                  opacity: textOpacity,
-                  transform: `translateY(${textTranslateY}px)`,
+                  transform: `scale(${image2Scale}) translateY(${image2TranslateY}%)`,
+                  opacity: image2Opacity,
+                  pointerEvents: image2Opacity > 0 ? "auto" : "none",
                 }}
               >
-                Mehr erfahren
-                <ArrowRight className="w-5 h-5" />
-              </Link>
+                <div className="w-full max-w-5xl flex flex-col items-center justify-center gap-4 md:gap-6 px-2 sm:px-4">
+                  <h2
+                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#172545] text-center transition-all duration-300"
+                    style={{
+                      opacity: textOpacity,
+                      transform: `translateY(${textTranslateY}px)`,
+                    }}
+                  >
+                    Dein kostenloses Finanzgutachten
+                  </h2>
+
+                  <img
+                    src={assets.financialAnalysis.document}
+                    alt="Dein persönliches Finanzgutachten"
+                    className="w-full max-w-[84vw] sm:max-w-[72vw] md:max-w-[660px] lg:max-w-[700px] h-auto rounded-2xl shadow-2xl"
+                  />
+
+                  <Link
+                    to="/finanzcheck"
+                    className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
+                    style={{
+                      opacity: textOpacity,
+                      transform: `translateY(${textTranslateY}px)`,
+                    }}
+                  >
+                    Mehr erfahren
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
 
