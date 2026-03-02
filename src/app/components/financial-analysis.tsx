@@ -204,7 +204,7 @@ export function FinancialAnalysis() {
   const showScrollHint = isLocked && animationProgress < 0.16;
 
   // Slightly lower than before
-  const stageOffsetVh = 9;
+  const stageOffsetVh = 12;
 
   return (
     <section
