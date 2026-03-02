@@ -91,7 +91,8 @@ export function VorsorgePage() {
     },
     {
       category: "Hab & Gut",
-      description: "Was du dir aufgebaut hast, sollte auch geschützt bleiben.",
+      description:
+        "Was du dir aufgebaut hast, sollte auch geschützt bleiben.",
       insurances: [
         {
           icon: <Home className="w-6 h-6" />,
@@ -121,7 +122,8 @@ export function VorsorgePage() {
     },
     {
       category: "Recht & Unfall",
-      description: "Für die unvorhersehbaren Momente im Leben.",
+      description:
+        "Für die unvorhersehbaren Momente im Leben.",
       insurances: [
         {
           icon: <Wallet className="w-6 h-6" />,
@@ -205,19 +207,23 @@ export function VorsorgePage() {
     },
   ];
 
-  return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
-      <Header />
+  const currentInsurance =
+    activeTab === "private"
+      ? privateInsuranceCategories
+      : businessInsuranceCategories;
 
+  return (
+    <div className="min-h-screen bg-white">
+      <Header />
       <main>
-        {/* Hero Section */}
+        {/* Hero Section - Blue background without top divider */}
         <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl text-white mb-6">
                 Vorsorge & Absicherung
               </h1>
-              <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-2xl mx-auto">
+              <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto">
                 Umfassende Absicherung für Privatpersonen und Unternehmen -
                 individuell und bedarfsgerecht
               </p>
@@ -227,13 +233,13 @@ export function VorsorgePage() {
         </section>
 
         {/* Intro Section */}
-        <section className="relative bg-white pt-24 md:pt-32 pb-0">
+        <section className="relative bg-white pt-32 pb-0">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl mb-6 text-[#172545] font-bold">
+              <h2 className="text-4xl md:text-5xl mb-6 text-[#172545] font-bold">
                 Maßgeschneiderte Absicherung für jeden Lebensbereich
               </h2>
-              <p className="text-lg sm:text-xl text-[#586477] leading-relaxed mb-40">
+              <p className="text-xl text-[#586477] leading-relaxed mb-40">
                 Ob du als Privatperson deine Familie absichern möchtest oder als
                 Unternehmer dein Business schützen willst – wir haben die
                 passende Lösung für dich. Wähle deine Zielgruppe und entdecke
@@ -250,49 +256,43 @@ export function VorsorgePage() {
               alignment={activeTab === "private" ? "right" : "left"}
             />
 
+            {/* Clickable Headings positioned in/near the transition area */}
             <div
               className="absolute bottom-0 left-0 right-0 z-50"
               style={{ transform: "translateY(20%)" }}
             >
               <div className="container mx-auto px-4">
-                <div
-                  className="max-w-6xl mx-auto relative"
-                  style={{ height: "60px" }}
-                >
-                  {/* Privatpersonen */}
+                <div className="max-w-6xl mx-auto relative" style={{ height: "60px" }}>
+                  {/* Privatpersonen - Positioned at left */}
                   <button
                     onClick={() => setActiveTab("private")}
-                    className="absolute pointer-events-auto w-[42%] sm:w-auto"
+                    className="absolute pointer-events-auto"
                     style={{
                       left: "23%",
                       transform: "translateX(-50%)",
                     }}
                   >
                     <h3
-                      className={`text-xs sm:text-xl md:text-3xl lg:text-4xl font-bold text-center leading-tight sm:whitespace-nowrap ${
-                        activeTab === "private"
-                          ? "text-white"
-                          : "text-[#172545]"
+                      className={`text-base sm:text-xl md:text-3xl lg:text-4xl font-bold whitespace-nowrap ${
+                        activeTab === "private" ? "text-white" : "text-[#172545]"
                       }`}
                     >
                       Privatpersonen
                     </h3>
                   </button>
 
-                  {/* Unternehmer */}
+                  {/* Unternehmer - Positioned at right */}
                   <button
                     onClick={() => setActiveTab("business")}
-                    className="absolute pointer-events-auto w-[42%] sm:w-auto"
+                    className="absolute pointer-events-auto"
                     style={{
                       left: "77%",
                       transform: "translateX(-50%)",
                     }}
                   >
                     <h3
-                      className={`text-xs sm:text-xl md:text-3xl lg:text-4xl font-bold text-center leading-tight sm:whitespace-nowrap ${
-                        activeTab === "business"
-                          ? "text-white"
-                          : "text-[#172545]"
+                      className={`text-base sm:text-xl md:text-3xl lg:text-4xl font-bold whitespace-nowrap ${
+                        activeTab === "business" ? "text-white" : "text-[#172545]"
                       }`}
                     >
                       Unternehmer
@@ -305,7 +305,7 @@ export function VorsorgePage() {
         </section>
 
         {/* Insurance Grid Section */}
-        <section className="relative bg-[#172545] pt-32 pb-32 overflow-x-hidden">
+        <section className="relative bg-[#172545] pt-32 pb-32">
           <div className="container mx-auto px-4">
             {activeTab === "private" ? (
               <div className="max-w-6xl mx-auto">
@@ -314,13 +314,13 @@ export function VorsorgePage() {
                   <h2 className="text-3xl md:text-4xl text-white font-bold mb-6">
                     Dein Sicherheitsnetz für alle Fälle
                   </h2>
-                  <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-4">
+                  <p className="text-white/80 text-lg leading-relaxed mb-4">
                     Das Leben ist voller Überraschungen – gute wie schlechte.
                     Versicherungen sind kein notwendiges Übel, sondern dein
                     persönliches Sicherheitsnetz. Sie sorgen dafür, dass ein
                     Missgeschick nicht zur finanziellen Katastrophe wird.
                   </p>
-                  <p className="text-white/80 text-base sm:text-lg leading-relaxed">
+                  <p className="text-white/80 text-lg leading-relaxed">
                     Wir helfen dir dabei, den Dschungel aus Tarifen und Klauseln
                     zu lichten. Unser Ziel: So viel Schutz wie nötig, so wenig
                     Kosten wie möglich.
@@ -332,60 +332,53 @@ export function VorsorgePage() {
                   {privateInsuranceCategories.map((category, catIndex) => (
                     <div key={catIndex}>
                       <div className="mb-8">
-                        <h3 className="text-2xl md:text-3xl text-white font-bold mb-3 break-words">
+                        <h3 className="text-2xl md:text-3xl text-white font-bold mb-3">
                           {category.category}
                         </h3>
-                        <p className="text-white/70 text-base sm:text-lg break-words">
+                        <p className="text-white/70 text-lg">
                           {category.description}
                         </p>
                       </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid md:grid-cols-2 gap-6">
                         {category.insurances.map((insurance, idx) => (
                           <div
                             key={idx}
-                            className="bg-[#0d1a30] rounded-2xl p-5 sm:p-6 border border-[#586477]/30 hover:border-white/30 transition-all duration-300 w-full max-w-full min-w-0"
+                            className="bg-[#0d1a30] rounded-2xl p-6 border border-[#586477]/30 hover:border-white/30 transition-all duration-300"
                           >
                             <div className="flex items-start gap-3 sm:gap-4 min-w-0">
-                              <div className="w-11 h-11 sm:w-12 sm:h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
-                                <div className="text-white/90">
-                                  {insurance.icon}
-                                </div>
-                              </div>
+  <div className="w-11 h-11 sm:w-12 sm:h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
+    <div className="text-white/90">
+      {insurance.icon}
+    </div>
+  </div>
 
-                              <div className="min-w-0 flex-1">
-                                <h4 className="text-base sm:text-lg text-white font-semibold mb-2 leading-snug break-words">
-                                  {insurance.title}
-                                </h4>
-                                <p className="text-sm sm:text-base text-white/70 leading-relaxed break-words">
-                                  {insurance.description}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+  <div className="min-w-0 flex-1">
+    <h4 className="text-base sm:text-lg text-white font-semibold mb-2 leading-snug [overflow-wrap:anywhere]">
+      {insurance.title}
+    </h4>
+    <p className="text-sm sm:text-base text-white/70 leading-relaxed [overflow-wrap:anywhere]">
+      {insurance.description}
+    </p>
+  </div>
+</div>
 
                 {/* Check-Up CTA */}
                 <div className="mt-16 bg-[#0d1a30] rounded-3xl p-8 md:p-12 border border-[#586477]/30 text-center">
                   <h3 className="text-2xl md:text-3xl text-white font-bold mb-4">
                     Dein individueller Check-Up
                   </h3>
-                  <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
+                  <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
                     Brauchst du wirklich alles? Wahrscheinlich nicht. Welche
                     Versicherungen für dich sinnvoll sind, hängt von deiner
                     Lebensphase und deinen Zielen ab.
                   </p>
-                  <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-8">
+                  <p className="text-white/80 text-lg leading-relaxed mb-8">
                     Lass uns gemeinsam prüfen, wo du gut aufgestellt bist und wo
                     Lücken bestehen.
                   </p>
                   <Link
                     to="/termin"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#172545] rounded-xl hover:bg-white/90 transition-all duration-300 hover:shadow-lg text-base sm:text-lg font-semibold"
+                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#172545] rounded-xl hover:bg-white/90 transition-all duration-300 hover:shadow-lg text-lg font-semibold"
                   >
                     Termin vereinbaren
                     <ArrowRight className="w-5 h-5" />
@@ -399,14 +392,14 @@ export function VorsorgePage() {
                   <h2 className="text-3xl md:text-4xl text-white font-bold mb-6">
                     Dein Business auf sicherem Fundament
                   </h2>
-                  <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-4">
+                  <p className="text-white/80 text-lg leading-relaxed mb-4">
                     Dein Unternehmen ist mehr als nur ein Job – es ist dein
                     Antrieb, deine Vision. Doch unternehmerischer Erfolg bringt
                     auch Verantwortung und Risiken mit sich. Ein einziger
                     unvorhergesehener Vorfall kann alles gefährden, was du dir
                     aufgebaut hast.
                   </p>
-                  <p className="text-white/80 text-base sm:text-lg leading-relaxed">
+                  <p className="text-white/80 text-lg leading-relaxed">
                     Wir verstehen das. Deshalb entwickeln wir maßgeschneiderte
                     Absicherungskonzepte, die dein Business schützen, damit du
                     dich auf das konzentrieren kannst, was du am besten kannst:
@@ -419,32 +412,30 @@ export function VorsorgePage() {
                   {businessInsuranceCategories.map((category, catIndex) => (
                     <div key={catIndex}>
                       <div className="mb-8">
-                        <h3 className="text-2xl md:text-3xl text-white font-bold mb-3 break-words">
+                        <h3 className="text-2xl md:text-3xl text-white font-bold mb-3">
                           {category.category}
                         </h3>
-                        <p className="text-white/70 text-base sm:text-lg break-words">
+                        <p className="text-white/70 text-lg">
                           {category.description}
                         </p>
                       </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid md:grid-cols-2 gap-6">
                         {category.insurances.map((insurance, idx) => (
                           <div
                             key={idx}
-                            className="bg-[#0d1a30] rounded-2xl p-5 sm:p-6 border border-[#586477]/30 hover:border-white/30 transition-all duration-300 w-full max-w-full min-w-0"
+                            className="bg-[#0d1a30] rounded-2xl p-6 border border-[#586477]/30 hover:border-white/30 transition-all duration-300"
                           >
-                            <div className="flex items-start gap-3 sm:gap-4 min-w-0">
-                              <div className="w-11 h-11 sm:w-12 sm:h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
+                            <div className="flex items-start gap-4">
+                              <div className="w-12 h-12 bg-[#172545] rounded-xl flex items-center justify-center border border-[#586477]/30 flex-shrink-0">
                                 <div className="text-white/90">
                                   {insurance.icon}
                                 </div>
                               </div>
-
-                              <div className="min-w-0 flex-1">
-                                <h4 className="text-base sm:text-lg text-white font-semibold mb-2 leading-snug break-words">
+                              <div>
+                                <h4 className="text-lg text-white font-semibold mb-2">
                                   {insurance.title}
                                 </h4>
-                                <p className="text-sm sm:text-base text-white/70 leading-relaxed break-words">
+                                <p className="text-white/70 leading-relaxed">
                                   {insurance.description}
                                 </p>
                               </div>
@@ -461,19 +452,19 @@ export function VorsorgePage() {
                   <h3 className="text-2xl md:text-3xl text-white font-bold mb-4">
                     Dein strategischer Sicherheits-Check
                   </h3>
-                  <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
+                  <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
                     Jedes Business ist einzigartig. Standardlösungen greifen
                     hier zu kurz. Lass uns gemeinsam eine Risikoanalyse
                     durchführen und ein Sicherheitsnetz spannen, das perfekt zu
                     deinem Geschäftsmodell, deiner Branche und deiner
                     Wachstumsphase passt.
                   </p>
-                  <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-8">
+                  <p className="text-white/80 text-lg leading-relaxed mb-8">
                     Sichere dein Lebenswerk ab – strategisch und effizient.
                   </p>
                   <Link
                     to="/termin"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#172545] rounded-xl hover:bg-white/90 transition-all duration-300 hover:shadow-lg text-base sm:text-lg font-semibold"
+                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#172545] rounded-xl hover:bg-white/90 transition-all duration-300 hover:shadow-lg text-lg font-semibold"
                   >
                     Termin vereinbaren
                     <ArrowRight className="w-5 h-5" />
@@ -482,11 +473,9 @@ export function VorsorgePage() {
               </div>
             )}
           </div>
-
           <ShapeDivider position="bottom" color="#ffffff" alignment="center" />
         </section>
       </main>
-
       <Footer />
     </div>
   );
