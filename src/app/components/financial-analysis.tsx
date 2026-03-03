@@ -7,7 +7,13 @@ import { ArrowRight } from "lucide-react";
 const LOCK_DISTANCE = 2400;
 const LOCK_TOP_TOLERANCE = 8;
 const LOCK_BOTTOM_TOLERANCE = 8;
-const STAGE_SHIFT_VH = 5; // gesamte Animation leicht nach unten
+
+// WICHTIG: Das ist der Platz für deinen fixen Header.
+// Wenn dein Header höher/niedriger ist, kannst du nur diesen Wert anpassen.
+const HEADER_CLEARANCE_PX = 110;
+
+// Kleine optische Korrektur nach unten
+const VISUAL_NUDGE_PX = 12;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -124,6 +130,7 @@ export function FinancialAnalysis() {
       const rect = sectionRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
 
+      // Oberhalb der Section -> sauber auf Start zurücksetzen
       if (rect.top > LOCK_TOP_TOLERANCE) {
         if (progressRef.current !== 0) {
           updateProgress(0);
@@ -132,6 +139,7 @@ export function FinancialAnalysis() {
         return;
       }
 
+      // Unterhalb der Section -> Endzustand beibehalten
       if (rect.bottom < viewportHeight - LOCK_BOTTOM_TOLERANCE) {
         if (progressRef.current !== LOCK_DISTANCE) {
           updateProgress(LOCK_DISTANCE);
@@ -162,11 +170,11 @@ export function FinancialAnalysis() {
 
   /**
    * Timeline
-   * 0.00 - 0.18: Logo stays visible
-   * 0.18 - 0.40: Logo shrinks + fades out
-   * 0.40 - 0.62: Document enters
-   * 0.54 - 0.72: Heading + button fade in
-   * 0.72 - 1.00: Final state remains visible
+   * 0.00 - 0.18: Logo sichtbar
+   * 0.18 - 0.40: Logo schrumpft + blendet aus
+   * 0.40 - 0.62: Dokument fährt ein
+   * 0.54 - 0.72: Überschrift + Button blenden ein
+   * 0.72 - 1.00: Finale Ansicht bleibt sichtbar
    */
 
   const logoFadeProgress =
@@ -190,12 +198,14 @@ export function FinancialAnalysis() {
       ? (animationProgress - 0.54) / 0.18
       : 1;
 
-  const image1Scale = 1 - logoFadeProgress * 0.24;
+  // Logo
+  const image1Scale = 1 - logoFadeProgress * 0.22;
   const image1Opacity = 1 - logoFadeProgress;
 
-  const image2Scale = 0.72 + imageEnterProgress * 0.12; // größer
+  // Dokument + Inhalt etwas größer
+  const image2Scale = 0.76 + imageEnterProgress * 0.08;
   const image2Opacity = imageEnterProgress;
-  const image2TranslateY = (1 - imageEnterProgress) * 14;
+  const image2TranslateY = (1 - imageEnterProgress) * 12;
 
   const textOpacity = textFadeProgress;
   const textTranslateY = (1 - textFadeProgress) * 8;
@@ -210,95 +220,108 @@ export function FinancialAnalysis() {
       style={{ minHeight: "135vh" }}
     >
       <div
-        className="sticky top-0 h-screen flex items-center justify-center"
+        className="sticky top-0 h-screen"
         style={{ height: "100svh" }}
       >
-        <div className="relative w-full h-full flex items-center justify-center px-4">
-          {/* Image 1: AVEYO Logo */}
+        <div className="relative w-full h-full">
+          {/* Sichtbarer Animationsbereich unter dem Header */}
           <div
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ transform: `translateY(${STAGE_SHIFT_VH}svh)` }}
+            className="absolute inset-x-0"
+            style={{
+              top: `${HEADER_CLEARANCE_PX}px`,
+              bottom: 0,
+            }}
           >
             <div
-              className="flex items-center justify-center transition-all duration-200 ease-out"
-              style={{
-                transform: `scale(${image1Scale})`,
-                opacity: image1Opacity,
-                pointerEvents: image1Opacity > 0 ? "auto" : "none",
-              }}
+              className="relative w-full h-full flex items-center justify-center"
+              style={{ transform: `translateY(${VISUAL_NUDGE_PX}px)` }}
             >
-              <img
-                src={assets.financialAnalysis.logo}
-                alt="AVEYO"
-                className="max-w-[84%] sm:max-w-[70%] md:max-w-[600px] h-auto"
-              />
-            </div>
-          </div>
-
-          {/* Image 2: Finanzgutachten */}
-          <div
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ transform: `translateY(${STAGE_SHIFT_VH}svh)` }}
-          >
-            <div
-              className="transition-all duration-200 ease-out"
-              style={{
-                transform: `scale(${image2Scale}) translateY(${image2TranslateY}%)`,
-                opacity: image2Opacity,
-                pointerEvents: image2Opacity > 0 ? "auto" : "none",
-              }}
-            >
-              <div className="w-full max-w-5xl h-[72svh] sm:h-[74svh] md:h-[76svh] flex flex-col items-center justify-between px-2 sm:px-4 pt-[1svh] pb-[5svh]">
-                <h2
-                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#172545] text-center transition-all duration-300"
+              {/* Image 1: AVEYO Logo */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div
+                  className="transition-all duration-200 ease-out"
                   style={{
-                    opacity: textOpacity,
-                    transform: `translateY(${textTranslateY}px)`,
+                    transform: `scale(${image1Scale})`,
+                    opacity: image1Opacity,
+                    pointerEvents: image1Opacity > 0 ? "auto" : "none",
                   }}
                 >
-                  Dein kostenloses Finanzgutachten
-                </h2>
-
-                <img
-                  src={assets.financialAnalysis.document}
-                  alt="Dein persönliches Finanzgutachten"
-                  className="w-full max-w-[92vw] sm:max-w-[80vw] md:max-w-[780px] lg:max-w-[860px] max-h-[48svh] sm:max-h-[50svh] md:max-h-[52svh] object-contain rounded-2xl shadow-2xl"
-                />
-
-                <Link
-                  to="/finanzcheck"
-                  className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 sm:py-[1.125rem] bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
-                  style={{
-                    opacity: textOpacity,
-                    transform: `translateY(${textTranslateY}px)`,
-                  }}
-                >
-                  Mehr erfahren
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
+                  <img
+                    src={assets.financialAnalysis.logo}
+                    alt="AVEYO"
+                    className="max-w-[84%] sm:max-w-[70%] md:max-w-[620px] h-auto"
+                  />
+                </div>
               </div>
+
+              {/* Image 2: Finanzgutachten */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div
+                  className="transition-all duration-200 ease-out"
+                  style={{
+                    transform: `scale(${image2Scale}) translateY(${image2TranslateY}%)`,
+                    opacity: image2Opacity,
+                    pointerEvents: image2Opacity > 0 ? "auto" : "none",
+                  }}
+                >
+                  <div
+                    className="w-full max-w-5xl flex flex-col items-center justify-between px-2 sm:px-4"
+                    style={{
+                      height: "min(78svh, 760px)",
+                    }}
+                  >
+                    <h2
+                      className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#172545] text-center transition-all duration-300"
+                      style={{
+                        opacity: textOpacity,
+                        transform: `translateY(${textTranslateY}px)`,
+                      }}
+                    >
+                      Dein kostenloses Finanzgutachten
+                    </h2>
+
+                    <img
+                      src={assets.financialAnalysis.document}
+                      alt="Dein persönliches Finanzgutachten"
+                      className="w-full max-w-[94vw] sm:max-w-[82vw] md:max-w-[820px] lg:max-w-[900px] max-h-[50svh] sm:max-h-[52svh] md:max-h-[54svh] object-contain rounded-2xl shadow-2xl"
+                    />
+
+                    <Link
+                      to="/finanzcheck"
+                      className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
+                      style={{
+                        opacity: textOpacity,
+                        transform: `translateY(${textTranslateY}px)`,
+                      }}
+                    >
+                      Mehr erfahren
+                      <ArrowRight className="w-5 h-5" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Scroll hint */}
+              {showScrollHint && (
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+                  <span className="text-gray-400 text-xs sm:text-sm">
+                    Scrolle weiter
+                  </span>
+                  <svg
+                    className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                </div>
+              )}
             </div>
           </div>
-
-          {/* Scroll hint */}
-          {showScrollHint && (
-            <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-              <span className="text-gray-400 text-xs sm:text-sm">
-                Scrolle weiter
-              </span>
-              <svg
-                className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </div>
-          )}
         </div>
       </div>
 
