@@ -8,12 +8,11 @@ const LOCK_DISTANCE = 2400;
 const LOCK_TOP_TOLERANCE = 8;
 const LOCK_BOTTOM_TOLERANCE = 8;
 
-// WICHTIG: Das ist der Platz für deinen fixen Header.
-// Wenn dein Header höher/niedriger ist, kannst du nur diesen Wert anpassen.
-const HEADER_CLEARANCE_PX = 110;
+// Höhe des fixen Headers inkl. etwas Luft darunter
+const HEADER_CLEARANCE_PX = 100;
 
-// Kleine optische Korrektur nach unten
-const VISUAL_NUDGE_PX = 12;
+// Untere Luft, damit der Button nicht zu tief sitzt
+const STAGE_BOTTOM_PADDING_PX = 28;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -130,7 +129,7 @@ export function FinancialAnalysis() {
       const rect = sectionRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
 
-      // Oberhalb der Section -> sauber auf Start zurücksetzen
+      // Oberhalb der Section -> auf Anfang zurücksetzen
       if (rect.top > LOCK_TOP_TOLERANCE) {
         if (progressRef.current !== 0) {
           updateProgress(0);
@@ -139,7 +138,7 @@ export function FinancialAnalysis() {
         return;
       }
 
-      // Unterhalb der Section -> Endzustand beibehalten
+      // Unterhalb der Section -> Endzustand halten
       if (rect.bottom < viewportHeight - LOCK_BOTTOM_TOLERANCE) {
         if (progressRef.current !== LOCK_DISTANCE) {
           updateProgress(LOCK_DISTANCE);
@@ -170,11 +169,11 @@ export function FinancialAnalysis() {
 
   /**
    * Timeline
-   * 0.00 - 0.18: Logo sichtbar
+   * 0.00 - 0.18: Logo bleibt sichtbar
    * 0.18 - 0.40: Logo schrumpft + blendet aus
-   * 0.40 - 0.62: Dokument fährt ein
+   * 0.40 - 0.62: Dokument fährt von unten ein
    * 0.54 - 0.72: Überschrift + Button blenden ein
-   * 0.72 - 1.00: Finale Ansicht bleibt sichtbar
+   * 0.72 - 1.00: Finale Ansicht bleibt stehen
    */
 
   const logoFadeProgress =
@@ -199,14 +198,17 @@ export function FinancialAnalysis() {
       : 1;
 
   // Logo
-  const image1Scale = 1 - logoFadeProgress * 0.22;
+  const image1Scale = 1 - logoFadeProgress * 0.18;
   const image1Opacity = 1 - logoFadeProgress;
 
-  // Dokument + Inhalt etwas größer
-  const image2Scale = 0.76 + imageEnterProgress * 0.08;
-  const image2Opacity = imageEnterProgress;
-  const image2TranslateY = (1 - imageEnterProgress) * 12;
+  // Dokument-Block: nur reinfahren + opacity, nicht global skalieren
+  const contentOpacity = imageEnterProgress;
+  const contentTranslateY = (1 - imageEnterProgress) * 14;
 
+  // Nur das Bild selbst etwas größer werden lassen
+  const documentScale = 0.94 + imageEnterProgress * 0.1;
+
+  // Text/Button
   const textOpacity = textFadeProgress;
   const textTranslateY = (1 - textFadeProgress) * 8;
 
@@ -219,24 +221,18 @@ export function FinancialAnalysis() {
       className="relative bg-white overflow-hidden"
       style={{ minHeight: "135vh" }}
     >
-      <div
-        className="sticky top-0 h-screen"
-        style={{ height: "100svh" }}
-      >
+      <div className="sticky top-0 h-screen" style={{ height: "100svh" }}>
         <div className="relative w-full h-full">
-          {/* Sichtbarer Animationsbereich unter dem Header */}
+          {/* Bühne exakt unter dem Header */}
           <div
             className="absolute inset-x-0"
             style={{
               top: `${HEADER_CLEARANCE_PX}px`,
-              bottom: 0,
+              bottom: `${STAGE_BOTTOM_PADDING_PX}px`,
             }}
           >
-            <div
-              className="relative w-full h-full flex items-center justify-center"
-              style={{ transform: `translateY(${VISUAL_NUDGE_PX}px)` }}
-            >
-              {/* Image 1: AVEYO Logo */}
+            <div className="relative w-full h-full">
+              {/* Logo mittig in der sichtbaren Bühne */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div
                   className="transition-all duration-200 ease-out"
@@ -249,61 +245,76 @@ export function FinancialAnalysis() {
                   <img
                     src={assets.financialAnalysis.logo}
                     alt="AVEYO"
-                    className="max-w-[84%] sm:max-w-[70%] md:max-w-[620px] h-auto"
+                    className="max-w-[84%] sm:max-w-[72%] md:max-w-[620px] h-auto"
                   />
                 </div>
               </div>
 
-              {/* Image 2: Finanzgutachten */}
+              {/* Dokument-Ansicht */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div
-                  className="transition-all duration-200 ease-out"
+                  className="w-full h-full flex items-center justify-center transition-all duration-200 ease-out"
                   style={{
-                    transform: `scale(${image2Scale}) translateY(${image2TranslateY}%)`,
-                    opacity: image2Opacity,
-                    pointerEvents: image2Opacity > 0 ? "auto" : "none",
+                    opacity: contentOpacity,
+                    transform: `translateY(${contentTranslateY}%)`,
+                    pointerEvents: contentOpacity > 0 ? "auto" : "none",
                   }}
                 >
                   <div
-                    className="w-full max-w-5xl flex flex-col items-center justify-between px-2 sm:px-4"
+                    className="w-full max-w-6xl h-full grid"
                     style={{
-                      height: "min(78svh, 760px)",
+                      gridTemplateRows: "auto 1fr auto",
+                      rowGap: "clamp(20px, 3vh, 36px)",
+                      paddingTop: "clamp(8px, 1.5vh, 16px)",
+                      paddingBottom: "clamp(10px, 2vh, 20px)",
                     }}
                   >
-                    <h2
-                      className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#172545] text-center transition-all duration-300"
-                      style={{
-                        opacity: textOpacity,
-                        transform: `translateY(${textTranslateY}px)`,
-                      }}
-                    >
-                      Dein kostenloses Finanzgutachten
-                    </h2>
+                    {/* Überschrift */}
+                    <div className="flex items-start justify-center">
+                      <h2
+                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#172545] text-center transition-all duration-300"
+                        style={{
+                          opacity: textOpacity,
+                          transform: `translateY(${textTranslateY}px)`,
+                        }}
+                      >
+                        Dein kostenloses Finanzgutachten
+                      </h2>
+                    </div>
 
-                    <img
-                      src={assets.financialAnalysis.document}
-                      alt="Dein persönliches Finanzgutachten"
-                      className="w-full max-w-[94vw] sm:max-w-[82vw] md:max-w-[820px] lg:max-w-[900px] max-h-[50svh] sm:max-h-[52svh] md:max-h-[54svh] object-contain rounded-2xl shadow-2xl"
-                    />
+                    {/* Bild mittig */}
+                    <div className="flex items-center justify-center min-h-0">
+                      <img
+                        src={assets.financialAnalysis.document}
+                        alt="Dein persönliches Finanzgutachten"
+                        className="w-full max-w-[96vw] sm:max-w-[84vw] md:max-w-[900px] lg:max-w-[980px] max-h-[46vh] sm:max-h-[48vh] md:max-h-[52vh] object-contain rounded-2xl shadow-2xl transition-all duration-200 ease-out"
+                        style={{
+                          transform: `scale(${documentScale})`,
+                        }}
+                      />
+                    </div>
 
-                    <Link
-                      to="/finanzcheck"
-                      className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
-                      style={{
-                        opacity: textOpacity,
-                        transform: `translateY(${textTranslateY}px)`,
-                      }}
-                    >
-                      Mehr erfahren
-                      <ArrowRight className="w-5 h-5" />
-                    </Link>
+                    {/* Button unten */}
+                    <div className="flex items-end justify-center">
+                      <Link
+                        to="/finanzcheck"
+                        className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
+                        style={{
+                          opacity: textOpacity,
+                          transform: `translateY(${textTranslateY}px)`,
+                        }}
+                      >
+                        Mehr erfahren
+                        <ArrowRight className="w-5 h-5" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Scroll hint */}
+              {/* Scroll-Hinweis */}
               {showScrollHint && (
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
                   <span className="text-gray-400 text-xs sm:text-sm">
                     Scrolle weiter
                   </span>
