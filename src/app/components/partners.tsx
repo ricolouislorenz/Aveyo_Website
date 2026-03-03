@@ -13,7 +13,7 @@ export function Partners() {
       logo: assets.partners.solveLogo,
       teamImage: assets.partners.solveTeam,
       url: "https://www.solve-law.de/",
-      useTextLogo: false, // Logo wieder aktiviert
+      useTextLogo: false,
     },
     {
       id: "martin",
@@ -30,7 +30,9 @@ export function Partners() {
     <section id="partner" className="pt-40 pb-32 bg-white relative">
       <div className="container mx-auto px-4">
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl mb-4 text-[#172545]">Unsere Partner</h2>
+          <h2 className="text-4xl md:text-5xl mb-4 text-[#172545]">
+            Unsere Partner
+          </h2>
           <p className="text-xl text-[#586477] max-w-2xl mx-auto">
             Gemeinsam stark – mit unseren Partnern bieten wir Ihnen umfassende Expertise
           </p>
@@ -49,13 +51,12 @@ export function Partners() {
               >
                 <div className="relative bg-white rounded-2xl overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-2xl aspect-[2/1] border border-[#172545]/10">
                   {/* Logo or Text Fallback */}
-                  <div 
+                  <div
                     className={`absolute inset-0 bg-white transition-opacity duration-500 flex items-center justify-center ${
-                      hoveredPartner === partner.id ? 'opacity-0' : 'opacity-100'
+                      hoveredPartner === partner.id ? "opacity-0" : "opacity-100"
                     }`}
                   >
                     {partner.useTextLogo ? (
-                      // Text Logo für SOLVE (immer anzeigen wenn useTextLogo=true)
                       <div className="text-center p-8">
                         <h3 className="text-5xl md:text-6xl font-bold text-[#172545] tracking-wider">
                           {partner.shortName}
@@ -74,9 +75,9 @@ export function Partners() {
                   </div>
 
                   {/* Team Image */}
-                  <div 
+                  <div
                     className={`absolute inset-0 transition-opacity duration-500 ${
-                      hoveredPartner === partner.id ? 'opacity-100' : 'opacity-0'
+                      hoveredPartner === partner.id ? "opacity-100" : "opacity-0"
                     }`}
                   >
                     <img
@@ -84,11 +85,11 @@ export function Partners() {
                       alt={`${partner.name} Team`}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#172545]/60 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#172545]/60 to-transparent" />
                   </div>
                 </div>
               </a>
-              
+
               {/* Name below image */}
               <a
                 href={partner.url}
@@ -104,7 +105,8 @@ export function Partners() {
           ))}
         </div>
       </div>
-      <ShapeDivider position="bottom" color="#172545" alignment="left" />
+
+      <ShapeDivider position="bottom" color="#172545" alignment="center" />
     </section>
   );
 }

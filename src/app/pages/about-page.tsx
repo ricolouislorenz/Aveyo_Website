@@ -62,7 +62,7 @@ export function AboutPage() {
           },
         ],
         closing:
-          "Klingt das nach einer Zusammenarbeit, wie du es dir wünschst? Dann freue ich mich, dich kennenzulernen und gemeinsam mit Ihnen das Richtige für dein Unternehmen zu gestalten.",
+          "Klingt das nach einer Zusammenarbeit, wie du es dir wünschst? Dann freue ich mich, dich kennenzulernen und gemeinsam mit dir das Richtige für dein Unternehmen zu gestalten.",
       },
     },
     {
@@ -76,7 +76,7 @@ export function AboutPage() {
         qualities: [
           {
             label: "Lösungsorientiert",
-            text: "Ich erkenne Herausforderungen – und sorge für Klarheit. Ich analysiere bestehende Versicherungsverträge, erkenne Lücken und optimiere deine Absicherung mit durchdachten, individuell abgestimmten Konzepten. Damit duch dich auf dein Kerngeschäft konzentrieren können.",
+            text: "Ich erkenne Herausforderungen – und sorge für Klarheit. Ich analysiere bestehende Versicherungsverträge, erkenne Lücken und optimiere deine Absicherung mit durchdachten, individuell abgestimmten Konzepten. Damit duch dich auf dein Kerngeschäft konzentrieren kannst.",
           },
           {
             label: "Weitsichtig",
@@ -245,7 +245,6 @@ export function AboutPage() {
                       key={index}
                       className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300"
                     >
-                      {/* Profile Image */}
                       <div className="w-40 h-40 mx-auto mb-6 overflow-hidden rounded-full">
                         <img
                           src={index === 0 ? assets.team.profile1 : assets.team.profile2}
@@ -254,7 +253,6 @@ export function AboutPage() {
                         />
                       </div>
 
-                      {/* Info */}
                       <div className="text-center">
                         <h3 className="text-2xl font-bold text-white mb-2">
                           {founder.name}
@@ -266,7 +264,6 @@ export function AboutPage() {
                           {founder.expertise}
                         </p>
 
-                        {/* Tab Toggle */}
                         <div className="flex justify-center mb-8">
                           <div className="relative inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-xl p-1 border border-white/20">
                             <div
@@ -305,7 +302,6 @@ export function AboutPage() {
                           </div>
                         </div>
 
-                        {/* Text Content */}
                         <div className="relative mb-6 min-h-[200px] overflow-hidden">
                           <div
                             className={`transition-all duration-500 ease-out ${
@@ -346,7 +342,6 @@ export function AboutPage() {
                           </div>
                         </div>
 
-                        {/* Contact Button */}
                         <div className="flex justify-center">
                           <Link
                             to={`/kontakt?recipient=${founder.recipientKey}`}
@@ -390,7 +385,7 @@ export function AboutPage() {
           </div>
         </section>
       </main>
-      <Footer variant="blue" />
+      <Footer variant="white" />
     </div>
   );
 }
