@@ -3,12 +3,15 @@ import { ShapeDivider } from "@/app/components/shape-divider";
 import { User, Briefcase, ChevronLeft, ChevronRight } from "lucide-react";
 import { assets } from "@/config/assets";
 
+const DESKTOP_STICKY_TOP = 120;
+
 export function Vorsorge() {
   const [activeTab, setActiveTab] = useState<"private" | "business">("private");
   const [currentStep, setCurrentStep] = useState(0);
-  const [, setIsScrollLocked] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const scrollAccumulator = useRef(0);
+  const desktopScrollRef = useRef<HTMLDivElement>(null);
+  const desktopStickyRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
+
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
@@ -148,76 +151,60 @@ export function Vorsorge() {
     activeTab === "private" ? privateServices : businessServices;
   const totalSteps = currentServices.length;
 
+  const desktopScrollHeightVh = Math.max(320, 110 + (totalSteps - 1) * 34);
+
   useEffect(() => {
     setCurrentStep(0);
-    scrollAccumulator.current = 0;
   }, [activeTab]);
 
   useEffect(() => {
-    const handleScroll = (e: WheelEvent) => {
-      if (!sectionRef.current) return;
+    const updateDesktopStep = () => {
       if (window.innerWidth < 1024) return;
+      if (!desktopScrollRef.current || !desktopStickyRef.current) return;
 
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+      const container = desktopScrollRef.current;
+      const sticky = desktopStickyRef.current;
 
-      const lockZoneTop = windowHeight * 0.1;
-      const lockZoneBottom = windowHeight * 0.9;
-      const isInLockZone =
-        rect.top <= lockZoneTop && rect.bottom >= lockZoneBottom;
+      const rect = container.getBoundingClientRect();
+      const stickyHeight = sticky.offsetHeight;
+      const scrollRange = Math.max(container.offsetHeight - stickyHeight, 1);
 
-      if (isInLockZone) {
-        if (
-          currentStep === totalSteps - 1 &&
-          e.deltaY > 0 &&
-          scrollAccumulator.current >= 300
-        ) {
-          setIsScrollLocked(false);
-          return;
-        }
+      const rawProgress = -rect.top / scrollRange;
+      const clampedProgress = Math.min(Math.max(rawProgress, 0), 1);
 
-        if (
-          currentStep === 0 &&
-          e.deltaY < 0 &&
-          scrollAccumulator.current <= -300
-        ) {
-          setIsScrollLocked(false);
-          return;
-        }
+      const nextStep = Math.min(
+        totalSteps - 1,
+        Math.floor(clampedProgress * totalSteps),
+      );
 
-        e.preventDefault();
-        setIsScrollLocked(true);
-
-        scrollAccumulator.current += e.deltaY;
-
-        const threshold = 300;
-
-        if (Math.abs(scrollAccumulator.current) >= threshold) {
-          if (scrollAccumulator.current > 0 && currentStep < totalSteps - 1) {
-            setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1));
-            scrollAccumulator.current = 0;
-          } else if (scrollAccumulator.current < 0 && currentStep > 0) {
-            setCurrentStep((prev) => Math.max(prev - 1, 0));
-            scrollAccumulator.current = 0;
-          } else {
-            scrollAccumulator.current = Math.max(
-              -400,
-              Math.min(400, scrollAccumulator.current),
-            );
-          }
-        }
-      } else {
-        setIsScrollLocked(false);
-        if (rect.bottom < 0 || rect.top > windowHeight) {
-          scrollAccumulator.current = 0;
-          setCurrentStep(0);
-        }
-      }
+      setCurrentStep((prev) => (prev === nextStep ? prev : nextStep));
     };
 
-    window.addEventListener("wheel", handleScroll, { passive: false });
-    return () => window.removeEventListener("wheel", handleScroll);
-  }, [currentStep, totalSteps]);
+    const requestUpdate = () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+
+      rafRef.current = requestAnimationFrame(() => {
+        updateDesktopStep();
+        rafRef.current = null;
+      });
+    };
+
+    requestUpdate();
+
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, [totalSteps]);
 
   const goToPrevious = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0));
@@ -262,11 +249,7 @@ export function Vorsorge() {
   };
 
   return (
-    <section
-      id="vorsorge"
-      className="relative bg-[#172545] pt-40 pb-32"
-      ref={sectionRef}
-    >
+    <section id="vorsorge" className="relative bg-[#172545] pt-40 pb-32">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 lg:mb-20">
           <h2 className="text-3xl md:text-4xl lg:text-5xl mb-6 lg:mb-8 text-white">
@@ -397,10 +380,7 @@ export function Vorsorge() {
               }}
             >
               {currentServices.map((service, index) => (
-                <div
-                  key={index}
-                  className="w-full flex-shrink-0 px-1"
-                >
+                <div key={index} className="w-full flex-shrink-0 px-1">
                   <div className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10">
                     <div className="relative w-full aspect-[16/10] overflow-hidden">
                       <img
@@ -425,7 +405,6 @@ export function Vorsorge() {
             </div>
           </div>
 
-          {/* Mobile navigation */}
           <div className="mt-5 flex items-center justify-between gap-3">
             <button
               onClick={goToPrevious}
@@ -477,52 +456,62 @@ export function Vorsorge() {
         </div>
 
         {/* Desktop */}
-        <div className="hidden lg:block relative mb-20">
-          <div className="flex flex-col lg:flex-row items-start gap-12 max-w-6xl mx-auto">
-            <div className="lg:w-1/2 relative h-[600px] overflow-hidden">
-              {currentServices.map((service, index) => (
-                <div
-                  key={index}
-                  className="absolute top-1/2 -translate-y-1/2 left-0 w-full transition-all duration-700 ease-out"
-                  style={{
-                    opacity: getOpacity(index),
-                    transform: `translateY(calc(-50% + ${
-                      (index - currentStep) * 150
-                    }px))`,
-                    pointerEvents: index === currentStep ? "auto" : "none",
-                  }}
-                >
-                  <div className="w-full">
-                    <h3 className="text-2xl md:text-3xl text-white mb-4">
-                      {service.title}
-                    </h3>
-                    <p className="text-lg text-white/90 leading-relaxed">
-                      {service.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="lg:w-1/2 flex justify-end">
-              <div className="relative w-[450px]">
+        <div
+          ref={desktopScrollRef}
+          className="hidden lg:block relative mb-20"
+          style={{ minHeight: `${desktopScrollHeightVh}svh` }}
+        >
+          <div
+            ref={desktopStickyRef}
+            className="sticky"
+            style={{ top: `${DESKTOP_STICKY_TOP}px` }}
+          >
+            <div
+              className="flex flex-col lg:flex-row items-start gap-12 max-w-6xl mx-auto"
+              style={{
+                height: `min(620px, calc(100svh - ${DESKTOP_STICKY_TOP + 32}px))`,
+              }}
+            >
+              <div className="lg:w-1/2 relative h-full overflow-hidden">
                 {currentServices.map((service, index) => (
-                  <img
+                  <div
                     key={index}
-                    src={service.image}
-                    alt={service.title}
-                    className="absolute top-0 left-0 w-[450px] h-[450px] rounded-3xl shadow-2xl object-cover transition-opacity duration-700"
+                    className="absolute top-1/2 -translate-y-1/2 left-0 w-full transition-all duration-700 ease-out"
                     style={{
-                      opacity: index === currentStep ? 1 : 0,
+                      opacity: getOpacity(index),
+                      transform: `translateY(calc(-50% + ${
+                        (index - currentStep) * 150
+                      }px))`,
                       pointerEvents: index === currentStep ? "auto" : "none",
                     }}
-                  />
+                  >
+                    <div className="w-full">
+                      <h3 className="text-2xl md:text-3xl text-white mb-4">
+                        {service.title}
+                      </h3>
+                      <p className="text-lg text-white/90 leading-relaxed">
+                        {service.description}
+                      </p>
+                    </div>
+                  </div>
                 ))}
-                <img
-                  src={currentServices[0].image}
-                  alt=""
-                  className="w-[450px] h-[450px] rounded-3xl opacity-0"
-                />
+              </div>
+
+              <div className="lg:w-1/2 h-full flex items-center justify-end">
+                <div className="relative w-[450px] h-[450px]">
+                  {currentServices.map((service, index) => (
+                    <img
+                      key={index}
+                      src={service.image}
+                      alt={service.title}
+                      className="absolute top-0 left-0 w-[450px] h-[450px] rounded-3xl shadow-2xl object-cover transition-opacity duration-700"
+                      style={{
+                        opacity: index === currentStep ? 1 : 0,
+                        pointerEvents: index === currentStep ? "auto" : "none",
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
