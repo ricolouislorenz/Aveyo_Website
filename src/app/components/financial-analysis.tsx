@@ -5,9 +5,11 @@ import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 
-const HEADER_OFFSET = 120; // Abstand unter deinem fixen Header
-const BOTTOM_GUTTER = 24;  // Luft nach unten
-const SECTION_HEIGHT = "360svh"; // länger = mehr "Verweilen"
+const HEADER_OFFSET = 120;
+const BOTTOM_GUTTER = 24;
+
+// Länger = mehr "Verweilen" beim Scrollen
+const SECTION_HEIGHT = "420svh";
 
 export function FinancialAnalysis() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -15,22 +17,23 @@ export function FinancialAnalysis() {
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
+    trackContentSize: true,
   });
 
   /**
    * Timeline
-   * 0.00 - 0.16: Logo bleibt sichtbar
-   * 0.16 - 0.32: Logo schrumpft + blendet aus
+   * 0.00 - 0.18: Logo bleibt sichtbar
+   * 0.18 - 0.32: Logo schrumpft + blendet aus
    * 0.28 - 0.48: Dokument fährt von unten ein
    * 0.42 - 0.58: Überschrift + Button blenden ein
-   * 0.58 - 1.00: Endzustand bleibt stehen
+   * 0.58 - 1.00: Endzustand bleibt sichtbar
    */
 
   // Logo
-  const logoOpacity = useTransform(scrollYProgress, [0, 0.16, 0.32], [1, 1, 0]);
-  const logoScale = useTransform(scrollYProgress, [0, 0.16, 0.32], [1, 1, 0.72]);
+  const logoOpacity = useTransform(scrollYProgress, [0, 0.18, 0.32], [1, 1, 0]);
+  const logoScale = useTransform(scrollYProgress, [0, 0.18, 0.32], [1, 1, 0.72]);
 
-  // Gesamter Dokument-Block
+  // Dokument-Gesamtblock
   const contentOpacity = useTransform(
     scrollYProgress,
     [0.26, 0.36, 1],
@@ -39,7 +42,7 @@ export function FinancialAnalysis() {
   const contentY = useTransform(
     scrollYProgress,
     [0.26, 0.48, 1],
-    [80, 0, 0]
+    [96, 0, 0]
   );
 
   // Nur das Bild selbst
@@ -49,48 +52,35 @@ export function FinancialAnalysis() {
     [0.92, 1.02, 1.02]
   );
 
-  // Überschrift + Button
-  const textOpacity = useTransform(
-    scrollYProgress,
-    [0.42, 0.58],
-    [0, 1]
-  );
-  const textY = useTransform(
-    scrollYProgress,
-    [0.42, 0.58],
-    [16, 0]
-  );
+  // Text/Button
+  const textOpacity = useTransform(scrollYProgress, [0.42, 0.58], [0, 1]);
+  const textY = useTransform(scrollYProgress, [0.42, 0.58], [16, 0]);
 
   // Scroll-Hinweis am Anfang
-  const hintOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.10, 0.14],
-    [1, 1, 0]
-  );
+  const hintOpacity = useTransform(scrollYProgress, [0, 0.10, 0.14], [1, 1, 0]);
 
   return (
     <section
       id="finanzanalyse"
       ref={sectionRef}
-      className="relative bg-white overflow-hidden"
-      style={{ minHeight: SECTION_HEIGHT }}
+      className="relative bg-white"
+      style={{ height: SECTION_HEIGHT }}
     >
-      {/* Sticky Stage */}
+      {/* Sticky Bühne */}
       <div className="sticky top-0 h-screen" style={{ height: "100svh" }}>
-        {/* Sichtbare Bühne unter dem Header */}
-        <div
-          className="absolute inset-x-0"
-          style={{
-            top: `${HEADER_OFFSET}px`,
-            bottom: `${BOTTOM_GUTTER}px`,
-          }}
-        >
-          <div className="relative w-full h-full px-4">
-            {/* Zentrierter, konstanter Animationsbereich */}
-            <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative w-full h-full overflow-hidden">
+          {/* Sichtbarer Bereich unter dem Header */}
+          <div
+            className="absolute inset-x-0"
+            style={{
+              top: `${HEADER_OFFSET}px`,
+              bottom: `${BOTTOM_GUTTER}px`,
+            }}
+          >
+            <div className="absolute inset-0 flex items-center justify-center px-4">
               <div
                 className="relative w-full max-w-6xl"
-                style={{ height: "min(72svh, 720px)" }}
+                style={{ height: "min(74svh, 760px)" }}
               >
                 {/* Logo-Ebene */}
                 <motion.div
@@ -120,8 +110,8 @@ export function FinancialAnalysis() {
                     style={{
                       gridTemplateRows: "auto 1fr auto",
                       rowGap: "clamp(28px, 4vh, 52px)",
-                      paddingTop: "clamp(10px, 1.8vh, 18px)",
-                      paddingBottom: "clamp(12px, 2vh, 22px)",
+                      paddingTop: "clamp(12px, 2vh, 20px)",
+                      paddingBottom: "clamp(14px, 2vh, 24px)",
                     }}
                   >
                     {/* Überschrift */}
