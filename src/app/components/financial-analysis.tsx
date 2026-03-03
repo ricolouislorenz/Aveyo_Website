@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 const LOCK_DISTANCE = 2400;
 const LOCK_TOP_TOLERANCE = 8;
 const LOCK_BOTTOM_TOLERANCE = 8;
+const STAGE_SHIFT_VH = 5; // gesamte Animation leicht nach unten
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -123,7 +124,6 @@ export function FinancialAnalysis() {
       const rect = sectionRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
 
-      // User is above the section again -> always start fresh next time
       if (rect.top > LOCK_TOP_TOLERANCE) {
         if (progressRef.current !== 0) {
           updateProgress(0);
@@ -132,7 +132,6 @@ export function FinancialAnalysis() {
         return;
       }
 
-      // User is below the section -> keep final state until scrolling back up
       if (rect.bottom < viewportHeight - LOCK_BOTTOM_TOLERANCE) {
         if (progressRef.current !== LOCK_DISTANCE) {
           updateProgress(LOCK_DISTANCE);
@@ -163,9 +162,9 @@ export function FinancialAnalysis() {
 
   /**
    * Timeline
-   * 0.00 - 0.18: Logo stays centered and visible
-   * 0.18 - 0.40: Logo shrinks and fades out
-   * 0.40 - 0.62: Document slides in
+   * 0.00 - 0.18: Logo stays visible
+   * 0.18 - 0.40: Logo shrinks + fades out
+   * 0.40 - 0.62: Document enters
    * 0.54 - 0.72: Heading + button fade in
    * 0.72 - 1.00: Final state remains visible
    */
@@ -194,17 +193,14 @@ export function FinancialAnalysis() {
   const image1Scale = 1 - logoFadeProgress * 0.24;
   const image1Opacity = 1 - logoFadeProgress;
 
-  const image2Scale = 0.66 + imageEnterProgress * 0.12; // bigger than before
+  const image2Scale = 0.72 + imageEnterProgress * 0.12; // größer
   const image2Opacity = imageEnterProgress;
-  const image2TranslateY = (1 - imageEnterProgress) * 16;
+  const image2TranslateY = (1 - imageEnterProgress) * 14;
 
   const textOpacity = textFadeProgress;
   const textTranslateY = (1 - textFadeProgress) * 8;
 
   const showScrollHint = isLocked && animationProgress < 0.16;
-
-  // Slightly lower than before
-  const stageOffsetVh = 12;
 
   return (
     <section
@@ -218,65 +214,68 @@ export function FinancialAnalysis() {
         style={{ height: "100svh" }}
       >
         <div className="relative w-full h-full flex items-center justify-center px-4">
+          {/* Image 1: AVEYO Logo */}
           <div
             className="absolute inset-0 flex items-center justify-center"
-            style={{ transform: `translateY(${stageOffsetVh}vh)` }}
+            style={{ transform: `translateY(${STAGE_SHIFT_VH}svh)` }}
           >
-            <div className="relative w-full h-full">
-              {/* Image 1: AVEYO Logo */}
-              <div
-                className="absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out"
-                style={{
-                  transform: `scale(${image1Scale})`,
-                  opacity: image1Opacity,
-                  pointerEvents: image1Opacity > 0 ? "auto" : "none",
-                }}
-              >
+            <div
+              className="flex items-center justify-center transition-all duration-200 ease-out"
+              style={{
+                transform: `scale(${image1Scale})`,
+                opacity: image1Opacity,
+                pointerEvents: image1Opacity > 0 ? "auto" : "none",
+              }}
+            >
+              <img
+                src={assets.financialAnalysis.logo}
+                alt="AVEYO"
+                className="max-w-[84%] sm:max-w-[70%] md:max-w-[600px] h-auto"
+              />
+            </div>
+          </div>
+
+          {/* Image 2: Finanzgutachten */}
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ transform: `translateY(${STAGE_SHIFT_VH}svh)` }}
+          >
+            <div
+              className="transition-all duration-200 ease-out"
+              style={{
+                transform: `scale(${image2Scale}) translateY(${image2TranslateY}%)`,
+                opacity: image2Opacity,
+                pointerEvents: image2Opacity > 0 ? "auto" : "none",
+              }}
+            >
+              <div className="w-full max-w-5xl h-[72svh] sm:h-[74svh] md:h-[76svh] flex flex-col items-center justify-between px-2 sm:px-4 pt-[1svh] pb-[5svh]">
+                <h2
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#172545] text-center transition-all duration-300"
+                  style={{
+                    opacity: textOpacity,
+                    transform: `translateY(${textTranslateY}px)`,
+                  }}
+                >
+                  Dein kostenloses Finanzgutachten
+                </h2>
+
                 <img
-                  src={assets.financialAnalysis.logo}
-                  alt="AVEYO"
-                  className="max-w-[82%] sm:max-w-[68%] md:max-w-[560px] h-auto"
+                  src={assets.financialAnalysis.document}
+                  alt="Dein persönliches Finanzgutachten"
+                  className="w-full max-w-[92vw] sm:max-w-[80vw] md:max-w-[780px] lg:max-w-[860px] max-h-[48svh] sm:max-h-[50svh] md:max-h-[52svh] object-contain rounded-2xl shadow-2xl"
                 />
-              </div>
 
-              {/* Image 2: Finanzgutachten */}
-              <div
-                className="absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out"
-                style={{
-                  transform: `scale(${image2Scale}) translateY(${image2TranslateY}%)`,
-                  opacity: image2Opacity,
-                  pointerEvents: image2Opacity > 0 ? "auto" : "none",
-                }}
-              >
-                <div className="w-full max-w-5xl flex flex-col items-center justify-center gap-5 md:gap-7 px-2 sm:px-4">
-                  <h2
-                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#172545] text-center transition-all duration-300"
-                    style={{
-                      opacity: textOpacity,
-                      transform: `translateY(${textTranslateY}px)`,
-                    }}
-                  >
-                    Dein kostenloses Finanzgutachten
-                  </h2>
-
-                  <img
-                    src={assets.financialAnalysis.document}
-                    alt="Dein persönliches Finanzgutachten"
-                    className="w-full max-w-[88vw] sm:max-w-[76vw] md:max-w-[720px] lg:max-w-[760px] h-auto rounded-2xl shadow-2xl"
-                  />
-
-                  <Link
-                    to="/finanzcheck"
-                    className="inline-flex items-center gap-2 px-7 sm:px-9 py-3.5 sm:py-4.5 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
-                    style={{
-                      opacity: textOpacity,
-                      transform: `translateY(${textTranslateY}px)`,
-                    }}
-                  >
-                    Mehr erfahren
-                    <ArrowRight className="w-5 h-5" />
-                  </Link>
-                </div>
+                <Link
+                  to="/finanzcheck"
+                  className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 sm:py-[1.125rem] bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
+                  style={{
+                    opacity: textOpacity,
+                    transform: `translateY(${textTranslateY}px)`,
+                  }}
+                >
+                  Mehr erfahren
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
               </div>
             </div>
           </div>
