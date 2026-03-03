@@ -24,29 +24,6 @@ import { AdminAnalyticsPage } from "./pages/admin-analytics";
 import { AdminSettingsPage } from "./pages/admin-settings";
 import "@/styles/index.css";
 
-// Placeholder favicon - replace with your actual favicon URL
-const faviconImage = "/AVEYO_Favicon";
-
-function Favicon() {
-  useEffect(() => {
-    // Remove existing favicons
-    const existingFavicons = document.querySelectorAll("link[rel*='icon']");
-    existingFavicons.forEach(icon => icon.remove());
-
-    // Add new favicon
-    const link = document.createElement('link');
-    link.rel = 'icon';
-    link.type = 'image/png';
-    link.href = faviconImage;
-    document.head.appendChild(link);
-
-    // Also set the page title
-    document.title = 'AVEYO - Dein Makler für Immobilien & Versicherungen';
-  }, []);
-
-  return null;
-}
-
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -67,8 +44,7 @@ function KeyboardShortcuts() {
       newKeys.add(e.key.toLowerCase());
       setKeysPressed(newKeys);
 
-      // Check for Shift + A + T combination
-      if (e.shiftKey && newKeys.has('a') && newKeys.has('t')) {
+      if (e.shiftKey && newKeys.has("a") && newKeys.has("t")) {
         e.preventDefault();
         setShowLogin(true);
         setKeysPressed(new Set());
@@ -81,17 +57,18 @@ function KeyboardShortcuts() {
       setKeysPressed(newKeys);
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
   }, [keysPressed]);
 
-  // Only render AdminLogin when it should be shown
-  return showLogin ? <AdminLogin isOpen={true} onClose={() => setShowLogin(false)} /> : null;
+  return showLogin ? (
+    <AdminLogin isOpen={true} onClose={() => setShowLogin(false)} />
+  ) : null;
 }
 
 export default function App() {
@@ -99,7 +76,6 @@ export default function App() {
     <AuthProvider>
       <CookieProvider>
         <BrowserRouter>
-          <Favicon />
           <ScrollToTop />
           <KeyboardShortcuts />
           <Routes>
