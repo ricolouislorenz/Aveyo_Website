@@ -269,15 +269,15 @@ export function FinancialAnalysis() {
                     }}
                   >
                     <div
-                      className="w-full max-w-6xl grid"
-                      style={{
-                        height: "min(70svh, 700px)",
-                        gridTemplateRows: "auto 1fr auto",
-                        rowGap: "clamp(20px, 3vh, 36px)",
-                        paddingTop: "clamp(8px, 1.5vh, 16px)",
-                        paddingBottom: "clamp(10px, 2vh, 20px)",
-                      }}
-                    >
+  className="w-full max-w-6xl grid"
+  style={{
+    height: "min(76svh, 760px)",
+    gridTemplateRows: "auto 1fr auto",
+    rowGap: "clamp(30px, 4.5vh, 56px)",
+    paddingTop: "clamp(12px, 2vh, 20px)",
+    paddingBottom: "clamp(14px, 2.5vh, 24px)",
+  }}
+>
                       {/* Überschrift */}
                       <div className="flex items-start justify-center">
                         <h2
@@ -304,7 +304,7 @@ export function FinancialAnalysis() {
                       </div>
 
                       {/* Button */}
-                      <div className="flex items-end justify-center">
+                      <div className="flex items-end justify-center pt-2 sm:pt-3">
                         <Link
                           to="/finanzcheck"
                           className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
