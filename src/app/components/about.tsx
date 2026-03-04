@@ -1,13 +1,15 @@
 import { Mail } from "lucide-react";
 import { ShapeDivider } from "@/app/components/shape-divider";
-import { assets } from "@/config/assets";
+
+const ADRIAN_IMAGE = "/images/home/about/adrian_320.webp";
+const TIMO_IMAGE = "/images/home/about/timo_320.webp";
 
 export function About() {
   const team = [
     {
       name: "Adrian Nerhoff",
       role: "Geschäftsführer",
-      image: assets.team.profile1,
+      image: ADRIAN_IMAGE,
       description: "Experte für Investment und Versicherungen",
       statement:
         "Meine Leidenschaft ist es, Menschen dabei zu helfen, finanzielle Freiheit zu erreichen. Jeder verdient eine maßgeschneiderte Strategie für langfristigen Erfolg.",
@@ -16,10 +18,10 @@ export function About() {
     {
       name: "Timo Konrad",
       role: "Geschäftsführer",
-      image: assets.team.profile2,
+      image: TIMO_IMAGE,
       description: "Experte für Immobilieninvestment und Versicherungen",
       statement:
-        "Absicherung bedeutet Lebensqualität. Ich sorge dafür, dass Sie und Ihr Unternehmen optimal geschützt sind – transparent und verlässlich.",
+        "Absicherung bedeutet Lebensqualität. Ich sorge dafür, dass du und dein Unternehmen optimal geschützt sind – transparent und verlässlich.",
       recipientKey: "timo",
     },
   ];
@@ -37,11 +39,12 @@ export function About() {
         {/* Digital Benefits */}
         <div className="max-w-3xl mx-auto mb-20">
           <p className="text-[#172545] text-lg leading-relaxed text-center">
-            Warum wir? Weil wir verstehen, was du brauchst. Weil wir modern denken und handeln.
-            Wir haben den Mahagoni-Schreibtisch gegen schlanke Dashboards getauscht –
-            Beratung per Video-Call oder Chat, deine Unterlagen immer griffbereit in der App.
-            Kein Papier, kein Stress, keine Öffnungszeiten. Egal ob du Startup-Gründer,
-            Creator oder Skalierer bist: Wir matchen dein Tempo.
+            Warum wir? Weil wir verstehen, was du brauchst. Weil wir modern
+            denken und handeln. Wir haben den Mahagoni-Schreibtisch gegen
+            schlanke Dashboards getauscht – Beratung per Video-Call oder Chat,
+            deine Unterlagen immer griffbereit in der App. Kein Papier, kein
+            Stress, keine Öffnungszeiten. Egal ob du Startup-Gründer, Creator
+            oder Skalierer bist: Wir matchen dein Tempo.
           </p>
         </div>
 
@@ -63,7 +66,11 @@ export function About() {
                   <div className="w-36 h-36 rounded-2xl overflow-hidden shadow-2xl ring-2 ring-white/10 group-hover:ring-white/30 transition-all duration-500">
                     <img
                       src={member.image}
+                      width="320"
+                      height="320"
                       alt={member.name}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                   </div>
