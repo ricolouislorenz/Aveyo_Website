@@ -44,21 +44,25 @@ export function Properties() {
 
             {/* Image - Right Side */}
             <div className="lg:w-1/2 flex justify-end w-full">
-              <img
-                src={PROPERTIES_IMAGE_960}
-                srcSet={`
-                  ${PROPERTIES_IMAGE_480} 480w,
-                  ${PROPERTIES_IMAGE_768} 768w,
-                  ${PROPERTIES_IMAGE_960} 960w
-                `}
-                sizes="(max-width: 639px) 100vw, (max-width: 1023px) 80vw, 768px"
-                width="960"
-                height="960"
-                alt="Immobilienberatung"
-                loading="lazy"
-                decoding="async"
-                className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
-              />
+              <picture>
+                <source
+                  media="(min-width: 1024px)"
+                  srcSet={PROPERTIES_IMAGE_960}
+                />
+                <source
+                  media="(min-width: 640px)"
+                  srcSet={PROPERTIES_IMAGE_768}
+                />
+                <img
+                  src={PROPERTIES_IMAGE_480}
+                  width="960"
+                  height="960"
+                  alt="Immobilienberatung"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
+                />
+              </picture>
             </div>
           </div>
         </div>

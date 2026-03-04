@@ -14,26 +14,29 @@ export function Investment() {
           </h2>
         </div>
 
-        {/* Main Content Area with Image and Text */}
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-12 mb-16">
             {/* Image - Left Side */}
-            <div className="lg:w-1/2 flex justify-start">
-              <img
-                src={INVESTMENT_IMAGE_960}
-                srcSet={`
-                  ${INVESTMENT_IMAGE_480} 480w,
-                  ${INVESTMENT_IMAGE_768} 768w,
-                  ${INVESTMENT_IMAGE_960} 960w
-                `}
-                sizes="(max-width: 1023px) 100vw, 450px"
-                width="960"
-                height="960"
-                alt="Investment und Vermögensaufbau"
-                loading="lazy"
-                decoding="async"
-                className="w-full max-w-[450px] h-auto rounded-3xl shadow-2xl object-cover"
-              />
+            <div className="lg:w-1/2 flex justify-start w-full">
+              <picture>
+                <source
+                  media="(min-width: 1024px)"
+                  srcSet={INVESTMENT_IMAGE_960}
+                />
+                <source
+                  media="(min-width: 640px)"
+                  srcSet={INVESTMENT_IMAGE_768}
+                />
+                <img
+                  src={INVESTMENT_IMAGE_480}
+                  width="960"
+                  height="960"
+                  alt="Investment und Vermögensaufbau"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
+                />
+              </picture>
             </div>
 
             {/* Text Content - Right Side */}
