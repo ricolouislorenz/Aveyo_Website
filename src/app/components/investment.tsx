@@ -1,5 +1,8 @@
 import { ShapeDivider } from "@/app/components/shape-divider";
-import { assets } from "@/config/assets";
+
+const INVESTMENT_IMAGE_480 = "/images/home/investment/investment_480.webp";
+const INVESTMENT_IMAGE_768 = "/images/home/investment/investment_768.webp";
+const INVESTMENT_IMAGE_960 = "/images/home/investment/investment_960.webp";
 
 export function Investment() {
   return (
@@ -16,9 +19,19 @@ export function Investment() {
           <div className="flex flex-col lg:flex-row items-center gap-12 mb-16">
             {/* Image - Left Side */}
             <div className="lg:w-1/2 flex justify-start">
-              <img 
-                src={assets.investment.main} 
+              <img
+                src={INVESTMENT_IMAGE_960}
+                srcSet={`
+                  ${INVESTMENT_IMAGE_480} 480w,
+                  ${INVESTMENT_IMAGE_768} 768w,
+                  ${INVESTMENT_IMAGE_960} 960w
+                `}
+                sizes="(max-width: 1023px) 100vw, 450px"
+                width="960"
+                height="960"
                 alt="Investment und Vermögensaufbau"
+                loading="lazy"
+                decoding="async"
                 className="w-full max-w-[450px] h-auto rounded-3xl shadow-2xl object-cover"
               />
             </div>
@@ -26,15 +39,25 @@ export function Investment() {
             {/* Text Content - Right Side */}
             <div className="lg:w-1/2 text-white">
               <p className="text-lg leading-relaxed mb-6">
-                Mehr Geld für die Dinge, die dir wichtig sind. Wir zeigen dir, wie du clever sparst und dein Vermögen aufbaust – evidenzbasiert, nicht auf Spekulation. Mit globalen ETFs investierst du in tausende Unternehmen weltweit bei minimalen Kosten.
+                Mehr Geld für die Dinge, die dir wichtig sind. Wir zeigen dir,
+                wie du clever sparst und dein Vermögen aufbaust –
+                evidenzbasiert, nicht auf Spekulation. Mit globalen ETFs
+                investierst du in tausende Unternehmen weltweit bei minimalen
+                Kosten.
               </p>
-              
+
               <p className="text-lg leading-relaxed mb-6">
-                Gemeinsam mit Vanguard, einem der größten und vertrauenswürdigsten Vermögensverwalter der Welt, bieten wir dir kosteneffiziente Lösungen. Niedrige Gebühren bedeuten mehr Rendite für dich – Jahr für Jahr.
+                Gemeinsam mit Vanguard, einem der größten und
+                vertrauenswürdigsten Vermögensverwalter der Welt, bieten wir dir
+                kosteneffiziente Lösungen. Niedrige Gebühren bedeuten mehr
+                Rendite für dich – Jahr für Jahr.
               </p>
-              
+
               <p className="text-lg leading-relaxed">
-                Dabei betrachten wir dein Vermögen ganzheitlich: Von der Risikotragfähigkeit über die Asset Allocation bis zur Liquiditätsplanung. Alles wird exakt auf deine Ziele abgestimmt – wissenschaftlich fundiert und transparent.
+                Dabei betrachten wir dein Vermögen ganzheitlich: Von der
+                Risikotragfähigkeit über die Asset Allocation bis zur
+                Liquiditätsplanung. Alles wird exakt auf deine Ziele abgestimmt –
+                wissenschaftlich fundiert und transparent.
               </p>
             </div>
           </div>
