@@ -29,10 +29,10 @@ export function ImpressumPage() {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="prose prose-lg max-w-none">
-                {/* Angaben gemäß § 5 TMG */}
+                {/* Angaben gemäß § 5 DDG */}
                 <div className="mb-12">
                   <h2 className="text-3xl font-semibold text-[#172545] mb-6">
-                    Angaben gemäß § 5 TMG
+                    Angaben gemäß § 5 DDG
                   </h2>
                   <div className="bg-gray-50 rounded-2xl p-8 space-y-6">
                     <div>

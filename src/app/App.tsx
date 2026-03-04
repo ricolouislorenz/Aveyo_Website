@@ -47,26 +47,10 @@ const EUTransparenzPage = lazy(() =>
     default: m.EUTransparenzPage,
   })),
 );
-const AdminDashboard = lazy(() =>
-  import("./pages/admin-dashboard").then((m) => ({ default: m.AdminDashboard })),
-);
-const AdminImmobilienPage = lazy(() =>
-  import("./pages/admin-immobilien").then((m) => ({
-    default: m.AdminImmobilienPage,
-  })),
-);
-const AdminReviewsPage = lazy(() =>
-  import("./pages/admin-reviews").then((m) => ({ default: m.AdminReviewsPage })),
-);
-const AdminAnalyticsPage = lazy(() =>
-  import("./pages/admin-analytics").then((m) => ({
-    default: m.AdminAnalyticsPage,
-  })),
-);
-const AdminSettingsPage = lazy(() =>
-  import("./pages/admin-settings").then((m) => ({
-    default: m.AdminSettingsPage,
-  })),
+
+// Nur noch EIN Admin-Einstiegspunkt
+const AdminRoutes = lazy(() =>
+  import("./pages/admin-routes").then((m) => ({ default: m.AdminRoutes })),
 );
 
 function ScrollToTop() {
@@ -148,20 +132,9 @@ export default function App() {
                 element={<ErstinformationenPage />}
               />
               <Route path="/eu-transparenz" element={<EUTransparenzPage />} />
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route
-                path="/admin/immobilien"
-                element={<AdminImmobilienPage />}
-              />
-              <Route
-                path="/admin/bewertungen"
-                element={<AdminReviewsPage />}
-              />
-              <Route
-                path="/admin/analytics"
-                element={<AdminAnalyticsPage />}
-              />
-              <Route path="/admin/settings" element={<AdminSettingsPage />} />
+
+              {/* kompletter Admin-Bereich separat */}
+              <Route path="/admin/*" element={<AdminRoutes />} />
             </Routes>
           </Suspense>
           <CookieBanner />
