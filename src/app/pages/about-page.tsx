@@ -5,14 +5,20 @@ import { Partners } from "@/app/components/partners";
 import { CheckCircle, ArrowRight, Mail } from "lucide-react";
 import { Link } from "react-router";
 import { useState } from "react";
-import { assets } from "@/config/assets";
 
 const ABOUT_HERO_IMAGE_768 = "/images/pages/about/about-hero_768.webp";
 const ABOUT_HERO_IMAGE_960 = "/images/pages/about/about-hero_960.webp";
 
+const ADRIAN_IMAGE = "/images/home/about/adrian_320.webp";
+const TIMO_IMAGE = "/images/home/about/timo_320.webp";
+
 export function AboutPage() {
-  const [activeTabAdrian, setActiveTabAdrian] = useState<"about" | "drives">("about");
-  const [activeTabTimo, setActiveTabTimo] = useState<"about" | "drives">("about");
+  const [activeTabAdrian, setActiveTabAdrian] = useState<"about" | "drives">(
+    "about",
+  );
+  const [activeTabTimo, setActiveTabTimo] = useState<"about" | "drives">(
+    "about",
+  );
 
   const promises = [
     {
@@ -39,6 +45,7 @@ export function AboutPage() {
       role: "Geschäftsführer",
       expertise: "Experte für Investment und Versicherungen",
       recipientKey: "adrian",
+      image: ADRIAN_IMAGE,
       aboutMe:
         "Nach über 10 Jahren in der traditionellen Finanzbranche habe ich erkannt, dass die alte Welt nicht mehr zu den Bedürfnissen der digitalen Generation passt. Ich habe bei führenden Finanzinstituten gearbeitet, Hunderte von Kunden betreut und dabei eines gelernt: Die besten Strategien sind die, die man versteht. Mein Weg führte mich von der klassischen Bankenwelt über spezialisierte Versicherungsmakler bis hin zur Gründung von AVEYO – immer mit dem Ziel, Finanzberatung transparenter, digitaler und kundenorientierter zu machen.",
       whatDrivesMe: {
@@ -61,7 +68,7 @@ export function AboutPage() {
           },
           {
             label: "Kompetent",
-            text: "Mit Fachwissen, Erfahrung und kontinuierlicher Weiterbildung sorge ich dafür, dass du dich bei mir fachlich wie menschlich bestens aufgehoben fühlen.",
+            text: "Mit Fachwissen, Erfahrung und kontinuierlicher Weiterbildung sorge ich dafür, dass du dich bei mir fachlich wie menschlich bestens aufgehoben fühlst.",
           },
         ],
         closing:
@@ -73,13 +80,14 @@ export function AboutPage() {
       role: "Geschäftsführer",
       expertise: "Experte für Immobilieninvestment und Versicherungen",
       recipientKey: "timo",
+      image: TIMO_IMAGE,
       aboutMe:
         "Immobilien sind meine Leidenschaft seit meinem ersten Investment vor über 12 Jahren. Ich habe den Markt von allen Seiten kennengelernt: Als Investor, Berater und Projektentwickler. Von der ersten kleinen Eigentumswohnung bis zu komplexen gewerblichen Portfolios – ich habe gesehen, was funktioniert und was nicht. Meine Expertise liegt darin, aus Daten und Marktanalysen konkrete Investmentstrategien zu entwickeln, die wirklich Rendite bringen.",
       whatDrivesMe: {
         qualities: [
           {
             label: "Lösungsorientiert",
-            text: "Ich erkenne Herausforderungen – und sorge für Klarheit. Ich analysiere bestehende Versicherungsverträge, erkenne Lücken und optimiere deine Absicherung mit durchdachten, individuell abgestimmten Konzepten. Damit duch dich auf dein Kerngeschäft konzentrieren kannst.",
+            text: "Ich erkenne Herausforderungen – und sorge für Klarheit. Ich analysiere bestehende Versicherungsverträge, erkenne Lücken und optimiere deine Absicherung mit durchdachten, individuell abgestimmten Konzepten, damit du dich auf dein Kerngeschäft konzentrieren kannst.",
           },
           {
             label: "Weitsichtig",
@@ -91,7 +99,7 @@ export function AboutPage() {
           },
           {
             label: "Kompetent",
-            text: "Mit Fachwissen, Erfahrung und stetiger Weiterbildung sorge ich dafür, dass du dich bei mir gut aufgehoben fühlen – fachlich und menschlich.",
+            text: "Mit Fachwissen, Erfahrung und stetiger Weiterbildung sorge ich dafür, dass du dich bei mir gut aufgehoben fühlst – fachlich und menschlich.",
           },
         ],
         closing: "",
@@ -111,7 +119,9 @@ export function AboutPage() {
                 Wir haben das System gehackt
               </h1>
               <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-                Die traditionelle Finanzwelt ist langsam, staubig und papierbesessen. Wir haben uns diese Welt angesehen und entschieden: Wir bauen das Gegenteil.
+                Die traditionelle Finanzwelt ist langsam, staubig und
+                papierbesessen. Wir haben uns diese Welt angesehen und
+                entschieden: Wir bauen das Gegenteil.
               </p>
             </div>
           </div>
@@ -131,19 +141,28 @@ export function AboutPage() {
               <div className="flex flex-col lg:flex-row items-center gap-12 mb-20">
                 <div className="lg:w-1/2">
                   <p className="text-lg text-[#586477] leading-relaxed mb-6">
-                    Du steuerst dein Leben und dein Business über dein Smartphone. Deine Finanzberatung sollte genau dort stattfinden.
+                    Du steuerst dein Leben und dein Business über dein
+                    Smartphone. Deine Finanzberatung sollte genau dort
+                    stattfinden.
                   </p>
                   <p className="text-lg text-[#586477] leading-relaxed mb-6">
-                    Wir haben den Mahagoni-Schreibtisch gegen schlanke Dashboards getauscht. Statt Verkaufsgesprächen bekommst du datenbasierte Strategien. Keine "Öffnungszeiten" – wir liefern Lösungen, wo du bist.
+                    Wir haben den Mahagoni-Schreibtisch gegen schlanke Dashboards
+                    getauscht. Statt Verkaufsgesprächen bekommst du datenbasierte
+                    Strategien. Keine "Öffnungszeiten" – wir liefern Lösungen,
+                    wo du bist.
                   </p>
                   <p className="text-lg text-[#586477] leading-relaxed">
-                    Egal ob du Startup-Gründer, Creator oder Skalierer bist – wir matchen dein Tempo.
+                    Egal ob du Startup-Gründer, Creator oder Skalierer bist – wir
+                    matchen dein Tempo.
                   </p>
                 </div>
 
                 <div className="lg:w-1/2 flex justify-end w-full">
                   <picture>
-                    <source media="(min-width: 1024px)" srcSet={ABOUT_HERO_IMAGE_960} />
+                    <source
+                      media="(min-width: 1024px)"
+                      srcSet={ABOUT_HERO_IMAGE_960}
+                    />
                     <img
                       src={ABOUT_HERO_IMAGE_768}
                       width="960"
@@ -173,22 +192,32 @@ export function AboutPage() {
                   Wenn es um dein Geld geht, spielen wir keine Spielchen.
                 </p>
                 <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto">
-                  Wir verkaufen Sicherheit und Wohlstand. Wir kümmern uns obsessiv um das Kleingedruckte deiner Versicherungen und die Performance deines Portfolios, damit du es nicht musst.
+                  Wir verkaufen Sicherheit und Wohlstand. Wir kümmern uns obsessiv
+                  um das Kleingedruckte deiner Versicherungen und die Performance
+                  deines Portfolios, damit du es nicht musst.
                 </p>
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
                   <div className="text-center">
-                    <h3 className="text-xl font-semibold text-white mb-2">Komplexe Regularien?</h3>
-                    <p className="text-white/80">Wir übersetzen sie in klares Deutsch.</p>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      Komplexe Regularien?
+                    </h3>
+                    <p className="text-white/80">
+                      Wir übersetzen sie in klares Deutsch.
+                    </p>
                   </div>
                 </div>
 
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
                   <div className="text-center">
-                    <h3 className="text-xl font-semibold text-white mb-2">Privatbank-Kompetenz</h3>
-                    <p className="text-white/80">Mit der Usability deiner Lieblings-App.</p>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      Privatbank-Kompetenz
+                    </h3>
+                    <p className="text-white/80">
+                      Mit der Usability deiner Lieblings-App.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -206,7 +235,8 @@ export function AboutPage() {
                   Unser Versprechen
                 </h2>
                 <p className="text-xl text-[#586477] max-w-2xl mx-auto">
-                  Drei Prinzipien, die uns von der alten Finanzwelt unterscheiden
+                  Drei Prinzipien, die uns von der alten Finanzwelt
+                  unterscheiden
                 </p>
               </div>
 
@@ -238,60 +268,81 @@ export function AboutPage() {
         {/* Founders Section */}
         <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto">
+            <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl mb-6 text-white font-bold">
                   Die Köpfe hinter AVEYO
                 </h2>
+                <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">
+                  Persönlich, erfahren und mit dem klaren Anspruch, moderne
+                  Finanzberatung verständlich, effizient und menschlich zu
+                  gestalten.
+                </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid md:grid-cols-2 gap-8 items-stretch">
                 {founders.map((founder, index) => {
-                  const activeTab = index === 0 ? activeTabAdrian : activeTabTimo;
-                  const setActiveTab = index === 0 ? setActiveTabAdrian : setActiveTabTimo;
+                  const activeTab =
+                    index === 0 ? activeTabAdrian : activeTabTimo;
+                  const setActiveTab =
+                    index === 0 ? setActiveTabAdrian : setActiveTabTimo;
 
                   return (
                     <div
                       key={index}
-                      className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300"
+                      className="relative h-full flex flex-col bg-white/[0.08] backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl hover:bg-white/[0.12] hover:-translate-y-1 transition-all duration-300 overflow-hidden"
                     >
-                      <div className="w-40 h-40 mx-auto mb-6 overflow-hidden rounded-full">
-                        <img
-                          src={index === 0 ? assets.team.profile1 : assets.team.profile2}
-                          alt={founder.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
+                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                      <div className="absolute -top-24 -right-16 w-48 h-48 bg-white/5 rounded-full blur-3xl" />
 
-                      <div className="text-center">
-                        <h3 className="text-2xl font-bold text-white mb-2">
-                          {founder.name}
-                        </h3>
-                        <p className="text-white/60 text-sm font-semibold mb-2 uppercase tracking-wide">
-                          {founder.role}
-                        </p>
-                        <p className="text-white/80 text-sm mb-8 italic">
-                          {founder.expertise}
-                        </p>
+                      <div className="relative z-10 flex flex-col h-full">
+                        <div className="w-40 h-40 mx-auto mb-6 overflow-hidden rounded-full ring-4 ring-white/10 shadow-2xl bg-white/5">
+                          <img
+                            src={founder.image}
+                            width="320"
+                            height="320"
+                            alt={founder.name}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
 
-                        <div className="flex justify-center mb-8">
-                          <div className="relative inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-xl p-1 border border-white/20">
+                        <div className="text-center mb-6">
+                          <h3 className="text-2xl font-bold text-white mb-2">
+                            {founder.name}
+                          </h3>
+                          <p className="text-white/60 text-xs font-semibold mb-3 uppercase tracking-[0.2em]">
+                            {founder.role}
+                          </p>
+                          <div className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-white/10 border border-white/10">
+                            <p className="text-white/85 text-sm italic">
+                              {founder.expertise}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-center mb-6">
+                          <div className="relative grid grid-cols-2 w-full max-w-md bg-white/10 backdrop-blur-md rounded-2xl p-1 border border-white/15">
                             <div
-                              className="absolute top-1 h-[calc(100%-8px)] rounded-lg bg-white shadow-lg transition-all duration-300 ease-out"
+                              className="absolute top-1 bottom-1 rounded-xl bg-white shadow-lg transition-all duration-300 ease-out"
                               style={{
-                                left: activeTab === "about" ? "4px" : "calc(50%)",
-                                width: "calc(50% - 4px)",
+                                left:
+                                  activeTab === "about" ? "4px" : "calc(50% + 2px)",
+                                width: "calc(50% - 6px)",
                               }}
                             />
 
                             <button
                               onClick={() => setActiveTab("about")}
-                              className="relative px-6 py-3 rounded-lg transition-all duration-300 z-10 text-sm font-semibold min-w-[140px]"
+                              className="relative z-10 w-full px-4 py-3 rounded-xl text-sm font-semibold transition-colors duration-300"
                             >
                               <span
-                                className={`transition-colors duration-300 ${
-                                  activeTab === "about" ? "text-[#172545]" : "text-white/90"
-                                }`}
+                                className={
+                                  activeTab === "about"
+                                    ? "text-[#172545]"
+                                    : "text-white/90"
+                                }
                               >
                                 Über mich
                               </span>
@@ -299,12 +350,14 @@ export function AboutPage() {
 
                             <button
                               onClick={() => setActiveTab("drives")}
-                              className="relative px-6 py-3 rounded-lg transition-all duration-300 z-10 text-sm font-semibold min-w-[140px]"
+                              className="relative z-10 w-full px-4 py-3 rounded-xl text-sm font-semibold transition-colors duration-300"
                             >
                               <span
-                                className={`transition-colors duration-300 ${
-                                  activeTab === "drives" ? "text-[#172545]" : "text-white/90"
-                                }`}
+                                className={
+                                  activeTab === "drives"
+                                    ? "text-[#172545]"
+                                    : "text-white/90"
+                                }
                               >
                                 Was mich ausmacht
                               </span>
@@ -312,39 +365,41 @@ export function AboutPage() {
                           </div>
                         </div>
 
-                        <div className="relative mb-6 min-h-[200px] overflow-hidden">
+                        <div className="relative flex-1 mb-6 min-h-[420px]">
                           <div
-                            className={`transition-all duration-500 ease-out ${
+                            className={`absolute inset-0 bg-white/5 rounded-2xl border border-white/10 p-5 sm:p-6 transition-all duration-500 ease-out overflow-y-auto ${
                               activeTab === "about"
                                 ? "opacity-100 translate-y-0"
-                                : "opacity-0 -translate-y-4 absolute top-0 left-0 right-0 pointer-events-none"
+                                : "opacity-0 -translate-y-3 pointer-events-none"
                             }`}
                           >
-                            <p className="text-white/90 leading-relaxed text-left px-2">
+                            <p className="text-white/90 leading-relaxed text-left">
                               {founder.aboutMe}
                             </p>
                           </div>
 
                           <div
-                            className={`transition-all duration-500 ease-out ${
+                            className={`absolute inset-0 bg-white/5 rounded-2xl border border-white/10 p-5 sm:p-6 transition-all duration-500 ease-out overflow-y-auto ${
                               activeTab === "drives"
                                 ? "opacity-100 translate-y-0"
-                                : "opacity-0 translate-y-4 absolute top-0 left-0 right-0 pointer-events-none"
+                                : "opacity-0 translate-y-3 pointer-events-none"
                             }`}
                           >
-                            <div>
-                              {founder.whatDrivesMe.qualities.map((quality, qIndex) => (
-                                <div key={qIndex} className="mb-4">
-                                  <h4 className="text-xl font-bold text-white/90 mb-2">
-                                    {quality.label}
-                                  </h4>
-                                  <p className="text-white/80 leading-relaxed text-left px-2">
-                                    {quality.text}
-                                  </p>
-                                </div>
-                              ))}
+                            <div className="space-y-5">
+                              {founder.whatDrivesMe.qualities.map(
+                                (quality, qIndex) => (
+                                  <div key={qIndex}>
+                                    <h4 className="text-lg font-semibold text-white mb-2">
+                                      {quality.label}
+                                    </h4>
+                                    <p className="text-white/80 leading-relaxed text-left">
+                                      {quality.text}
+                                    </p>
+                                  </div>
+                                ),
+                              )}
                               {founder.whatDrivesMe.closing && (
-                                <p className="text-white/90 leading-relaxed text-left px-2 mt-6">
+                                <p className="text-white/90 leading-relaxed text-left pt-2 border-t border-white/10">
                                   {founder.whatDrivesMe.closing}
                                 </p>
                               )}
@@ -352,15 +407,14 @@ export function AboutPage() {
                           </div>
                         </div>
 
-                        <div className="flex justify-center">
-                          <Link
-                            to={`/kontakt?recipient=${founder.recipientKey}`}
-                            className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors"
-                            aria-label={`Direkt ${founder.name} kontaktieren`}
-                          >
-                            <Mail className="w-5 h-5 text-white" />
-                          </Link>
-                        </div>
+                        <Link
+                          to={`/kontakt?recipient=${founder.recipientKey}`}
+                          className="w-full inline-flex items-center justify-center gap-2 px-5 py-4 bg-white text-[#172545] rounded-2xl hover:bg-white/90 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
+                          aria-label={`Direkt ${founder.name} kontaktieren`}
+                        >
+                          <Mail className="w-5 h-5" />
+                          Direkt Kontakt aufnehmen
+                        </Link>
                       </div>
                     </div>
                   );
@@ -382,7 +436,8 @@ export function AboutPage() {
                 Bereit für das Upgrade?
               </h3>
               <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                Hör auf, dich mit dem Banking von gestern zufrieden zu geben. Lass uns deine Zukunft bauen.
+                Hör auf, dich mit dem Banking von gestern zufrieden zu geben.
+                Lass uns deine Zukunft bauen.
               </p>
               <Link
                 to="/kontakt"
