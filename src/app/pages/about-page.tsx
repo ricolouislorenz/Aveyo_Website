@@ -4,9 +4,11 @@ import { ShapeDivider } from "@/app/components/shape-divider";
 import { Partners } from "@/app/components/partners";
 import { CheckCircle, ArrowRight, Mail } from "lucide-react";
 import { Link } from "react-router";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useState } from "react";
 import { assets } from "@/config/assets";
+
+const ABOUT_HERO_IMAGE_768 = "/images/pages/about/about-hero_768.webp";
+const ABOUT_HERO_IMAGE_960 = "/images/pages/about/about-hero_960.webp";
 
 export function AboutPage() {
   const [activeTabAdrian, setActiveTabAdrian] = useState<"about" | "drives">("about");
@@ -26,7 +28,8 @@ export function AboutPage() {
     {
       icon: <CheckCircle className="w-6 h-6" />,
       title: "Effizienz",
-      description: "Wir respektieren deine Zeit und automatisieren den langweiligen Kram.",
+      description:
+        "Wir respektieren deine Zeit und automatisieren den langweiligen Kram.",
     },
   ];
 
@@ -138,12 +141,19 @@ export function AboutPage() {
                   </p>
                 </div>
 
-                <div className="lg:w-1/2 flex justify-end">
-                  <ImageWithFallback
-                    src="/images/about-hero.png"
-                    alt="Modernes digitales Arbeiten"
-                    className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
-                  />
+                <div className="lg:w-1/2 flex justify-end w-full">
+                  <picture>
+                    <source media="(min-width: 1024px)" srcSet={ABOUT_HERO_IMAGE_960} />
+                    <img
+                      src={ABOUT_HERO_IMAGE_768}
+                      width="960"
+                      height="960"
+                      alt="Modernes digitales Arbeiten"
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
+                    />
+                  </picture>
                 </div>
               </div>
             </div>

@@ -119,24 +119,17 @@ export function InvestmentPage() {
                 {/* Image - Left Side */}
                 <div className="lg:w-1/2 flex justify-start w-full">
                   <picture>
-                    <source
-                      media="(min-width: 1024px)"
-                      srcSet={ETF_IMAGE_960}
-                    />
-                    <source
-                      media="(min-width: 640px)"
-                      srcSet={ETF_IMAGE_768}
-                    />
-                    <img
-                      src={ETF_IMAGE_480}
-                      width="960"
-                      height="960"
-                      alt="Globale Diversifikation"
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
-                    />
-                  </picture>
+  <source media="(min-width: 1024px)" srcSet={ETF_IMAGE_960} />
+  <img
+    src={ETF_IMAGE_768}
+    width="960"
+    height="960"
+    alt="Globale Diversifikation"
+    loading="lazy"
+    decoding="async"
+    className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
+  />
+</picture>
                 </div>
 
                 {/* Text Content - Right Side */}
