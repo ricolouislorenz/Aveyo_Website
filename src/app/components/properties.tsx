@@ -1,5 +1,8 @@
 import { ShapeDivider } from "@/app/components/shape-divider";
-import { assets } from "@/config/assets";
+
+const PROPERTIES_IMAGE_480 = "/images/home/properties/properties_480.webp";
+const PROPERTIES_IMAGE_768 = "/images/home/properties/properties_768.webp";
+const PROPERTIES_IMAGE_960 = "/images/home/properties/properties_960.webp";
 
 export function Properties() {
   return (
@@ -11,30 +14,50 @@ export function Properties() {
           </h2>
         </div>
 
-        {/* Main Content Area with Image and Text */}
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-12 mb-16">
             {/* Text Content - Left Side */}
             <div className="lg:w-1/2 text-gray-700">
               <p className="text-lg leading-relaxed mb-6">
-                Immobilien als langfristige Wertanlage – wir helfen dir, die richtigen Objekte zu finden. Du profitierst von stabilen Mieteinnahmen, die dir Monat für Monat passives Einkommen sichern, gleichzeitig schützt dich die Immobilie vor Inflation und bietet langfristiges Wertsteigerungspotenzial.
+                Immobilien als langfristige Wertanlage – wir helfen dir, die
+                richtigen Objekte zu finden. Du profitierst von stabilen
+                Mieteinnahmen, die dir Monat für Monat passives Einkommen
+                sichern, gleichzeitig schützt dich die Immobilie vor Inflation
+                und bietet langfristiges Wertsteigerungspotenzial.
               </p>
-              
+
               <p className="text-lg leading-relaxed mb-6">
-                Unser Fokus liegt auf A- und B-Lagen in wachsenden Metropolregionen. Standorte mit Zukunft, wo die Nachfrage hoch und die Entwicklung positiv ist. Wir prüfen jedes Objekt auf Herz und Nieren – von der Bausubstanz bis zum wirtschaftlichen Potenzial.
+                Unser Fokus liegt auf A- und B-Lagen in wachsenden
+                Metropolregionen. Standorte mit Zukunft, wo die Nachfrage hoch
+                und die Entwicklung positiv ist. Wir prüfen jedes Objekt auf Herz
+                und Nieren – von der Bausubstanz bis zum wirtschaftlichen
+                Potenzial.
               </p>
-              
+
               <p className="text-lg leading-relaxed">
-                Du erhältst von uns eine transparente Renditeberechnung nach allen Kosten. Keine Milchmädchenrechnungen, sondern echte Fakten für deine Entscheidung. So weißt du genau, was du kaufst und was du erwarten kannst.
+                Du erhältst von uns eine transparente Renditeberechnung nach
+                allen Kosten. Keine Milchmädchenrechnungen, sondern echte Fakten
+                für deine Entscheidung. So weißt du genau, was du kaufst und was
+                du erwarten kannst.
               </p>
             </div>
 
             {/* Image - Right Side */}
-            <div className="lg:w-1/2 flex justify-end">
-              <img 
-                src={assets.properties.main} 
+            <div className="lg:w-1/2 flex justify-end w-full">
+              <img
+                src={PROPERTIES_IMAGE_960}
+                srcSet={`
+                  ${PROPERTIES_IMAGE_480} 480w,
+                  ${PROPERTIES_IMAGE_768} 768w,
+                  ${PROPERTIES_IMAGE_960} 960w
+                `}
+                sizes="(max-width: 639px) 100vw, (max-width: 1023px) 80vw, 768px"
+                width="960"
+                height="960"
                 alt="Immobilienberatung"
-                className="w-[450px] h-[450px] rounded-3xl shadow-2xl object-cover"
+                loading="lazy"
+                decoding="async"
+                className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
               />
             </div>
           </div>
