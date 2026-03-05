@@ -11,6 +11,10 @@ const heroMain = "/images/hero.png";
 const financialAnalysisLogo = "/logo-reveal.png";
 const financialAnalysisDocument = "/images/Finanzgutachten.png";
 
+// Startseite
+const investmentMain = "/images/startseite_investment.png";
+const propertiesMain = "/images/startseite_immobilien.png";
+
 // Vorsorge Overview
 const vorsorgeOverviewPrivate = "/images/vorsorge/overview/private-overview.jpg";
 const vorsorgeOverviewBusiness = "/images/vorsorge/overview/business-overview.jpg";
@@ -64,6 +68,12 @@ const vorsorgeBusinessMitarbeiterabsicherung =
 // Team
 const teamProfile1 = "/images/Adrian.png";
 const teamProfile2 = "/images/Timo.png";
+
+// Partners
+const partnersSolveLogo = "/images/solve_logo.jpg";
+const partnersSolveTeam = "/images/solve_team.jpg";
+const partnersMartinLogo = "/images/martinmuehle-logo.png";
+const partnersMartinTeam = "/images/martinmuehle-team.png";
 
 export const assets = {
   logo: {
