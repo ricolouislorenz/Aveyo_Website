@@ -6,21 +6,10 @@ type Partner = {
   name: string;
   shortName?: string;
   url: string;
-
-  logo: {
-    src: string;
-    srcSet: string;
-    sizes: string;
-  };
-
-  team: {
-    src: string;
-    srcSet: string;
-    sizes: string;
-  };
-
   useTextLogo?: boolean;
   textLogoSubline?: string;
+  logoSrc: string; // immer 640
+  teamSrc: string; // immer 640
 };
 
 function makePartner(id: string, name: string, url: string, shortName?: string): Partner {
@@ -31,25 +20,16 @@ function makePartner(id: string, name: string, url: string, shortName?: string):
     shortName,
     url,
     useTextLogo: false,
-    logo: {
-      src: `${base}/logo_640.webp`,
-      srcSet: `${base}/logo_320.webp 320w, ${base}/logo_640.webp 640w`,
-      // Logo wird auf der Karte eher "mittelgroß" gezeigt -> Browser darf gut 640 nehmen
-      sizes: "(min-width: 1280px) 260px, (min-width: 640px) 35vw, 70vw",
-    },
-    team: {
-      src: `${base}/team_640.webp`,
-      srcSet: `${base}/team_320.webp 320w, ${base}/team_640.webp 640w`,
-      // Teamfoto füllt die Karte -> 640 passt zu 2:1 Kachel meistens gut
-      sizes: "(min-width: 1280px) 420px, (min-width: 640px) 45vw, 90vw",
-    },
+    logoSrc: `${base}/logo_640.webp`,
+    teamSrc: `${base}/team_640.webp`,
   };
 }
 
 const partners: Partner[] = [
   makePartner("solve", "SOLVE Rechtsanwälte & Steuerberatung", "https://www.solve-law.de/", "SOLVE"),
   makePartner("martin", "Finanzierungsberatung Martin Mühle", "https://www.martinmuehle.de/", "Martin Mühle"),
-  makePartner("taxfix", "Taxfix", " https://taxfix.de/finanzberater-adrian-nerhoff/", "Jetzt 1.172€ mit Taxfix zurückholen"),
+  makePartner("taxfix", "Ganz einfach Ø 1.172€ Steuern zurückholen. Mit Taxfix.", "https://taxfix.de/finanzberater-adrian-nerhoff/", "Taxfix"),
+  // weitere Partner einfach hier ergänzen:
 ];
 
 export function Partners() {
@@ -67,13 +47,23 @@ export function Partners() {
           </p>
         </div>
 
-        {/* Robust für 1–10 Partner */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        {/* Symmetrisch bei jeder Anzahl (1–10+) */}
+        <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
           {partners.map((partner) => {
             const isHovered = hoveredPartner === partner.id;
 
             return (
-              <div key={partner.id} className="space-y-6">
+              <div
+                key={partner.id}
+                className="
+                  space-y-6
+                  w-full
+                  sm:basis-[calc(50%-16px)]
+                  lg:basis-[calc(33.333%-21.333px)]
+                  xl:basis-[calc(25%-24px)]
+                  max-w-[520px]
+                "
+              >
                 <a
                   href={partner.url}
                   target="_blank"
@@ -102,9 +92,7 @@ export function Partners() {
                         </div>
                       ) : (
                         <img
-                          src={partner.logo.src}
-                          srcSet={partner.logo.srcSet}
-                          sizes={partner.logo.sizes}
+                          src={partner.logoSrc} // IMMER 640
                           alt={`${partner.name} Logo`}
                           className="w-full h-full object-contain p-8"
                           loading="lazy"
@@ -120,9 +108,7 @@ export function Partners() {
                       }`}
                     >
                       <img
-                        src={partner.team.src}
-                        srcSet={partner.team.srcSet}
-                        sizes={partner.team.sizes}
+                        src={partner.teamSrc} // IMMER 640
                         alt={`${partner.name} Team`}
                         className="w-full h-full object-cover"
                         loading="lazy"
