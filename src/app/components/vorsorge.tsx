@@ -1,21 +1,31 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ShapeDivider } from "@/app/components/shape-divider";
 import { User, Briefcase, ChevronLeft, ChevronRight } from "lucide-react";
 import { assets } from "@/config/assets";
 
 const DESKTOP_STICKY_TOP = 120;
 
+type Service = {
+  title: string;
+  description: string;
+  image: string;
+};
+
 export function Vorsorge() {
   const [activeTab, setActiveTab] = useState<"private" | "business">("private");
   const [currentStep, setCurrentStep] = useState(0);
+
+  // Desktop scroll-driven
   const desktopScrollRef = useRef<HTMLDivElement>(null);
   const desktopStickyRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
 
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
+  // Mobile snap-carousel
+  const mobileTrackRef = useRef<HTMLDivElement>(null);
+  const mobileCardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const mobileRafRef = useRef<number | null>(null);
 
-  const privateServices = [
+  const privateServices: Service[] = [
     {
       title: "Privathaftpflicht",
       description:
@@ -102,7 +112,7 @@ export function Vorsorge() {
     },
   ];
 
-  const businessServices = [
+  const businessServices: Service[] = [
     {
       title: "Betriebshaftpflicht",
       description:
@@ -135,8 +145,7 @@ export function Vorsorge() {
     },
     {
       title: "Geschäftsführer-Vorsorge (D&O)",
-      description:
-        "Schützt dein Privatvermögen vor den Folgen von Managementfehlern.",
+      description: "Schützt dein Privatvermögen vor den Folgen von Managementfehlern.",
       image: assets.vorsorge.business.geschaeftsfuehrerVorsorgeDo,
     },
     {
@@ -147,16 +156,21 @@ export function Vorsorge() {
     },
   ];
 
-  const currentServices =
-    activeTab === "private" ? privateServices : businessServices;
+  const currentServices = activeTab === "private" ? privateServices : businessServices;
   const totalSteps = currentServices.length;
 
   const desktopScrollHeightVh = Math.max(320, 110 + (totalSteps - 1) * 34);
 
+  // Reset on tab switch
   useEffect(() => {
     setCurrentStep(0);
+    // Mobile: scroll back to start
+    if (window.innerWidth < 1024 && mobileTrackRef.current) {
+      mobileTrackRef.current.scrollTo({ left: 0, behavior: "instant" as any });
+    }
   }, [activeTab]);
 
+  // ---------------- Desktop: update step from scroll progress ----------------
   useEffect(() => {
     const updateDesktopStep = () => {
       if (window.innerWidth < 1024) return;
@@ -172,19 +186,12 @@ export function Vorsorge() {
       const rawProgress = -rect.top / scrollRange;
       const clampedProgress = Math.min(Math.max(rawProgress, 0), 1);
 
-      const nextStep = Math.min(
-        totalSteps - 1,
-        Math.floor(clampedProgress * totalSteps),
-      );
-
+      const nextStep = Math.min(totalSteps - 1, Math.floor(clampedProgress * totalSteps));
       setCurrentStep((prev) => (prev === nextStep ? prev : nextStep));
     };
 
     const requestUpdate = () => {
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current);
-      }
-
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(() => {
         updateDesktopStep();
         rafRef.current = null;
@@ -192,61 +199,75 @@ export function Vorsorge() {
     };
 
     requestUpdate();
-
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate);
 
     return () => {
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
-
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current);
-      }
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
   }, [totalSteps]);
 
-  const goToPrevious = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 0));
-  };
+  // ---------------- Mobile: derive step from scroll-snap position ----------------
+  useEffect(() => {
+    const track = mobileTrackRef.current;
+    if (!track) return;
 
-  const goToNext = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1));
-  };
+    const updateFromScroll = () => {
+      if (window.innerWidth >= 1024) return;
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
+      const left = track.scrollLeft;
+      let bestIndex = 0;
+      let bestDist = Number.POSITIVE_INFINITY;
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
+      for (let i = 0; i < mobileCardRefs.current.length; i++) {
+        const el = mobileCardRefs.current[i];
+        if (!el) continue;
+        const dist = Math.abs(el.offsetLeft - left);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIndex = i;
+        }
+      }
 
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
+      setCurrentStep((prev) => (prev === bestIndex ? prev : bestIndex));
+    };
 
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
+    const onScroll = () => {
+      if (mobileRafRef.current !== null) cancelAnimationFrame(mobileRafRef.current);
+      mobileRafRef.current = requestAnimationFrame(() => {
+        updateFromScroll();
+        mobileRafRef.current = null;
+      });
+    };
 
-    if (isLeftSwipe && currentStep < totalSteps - 1) {
-      goToNext();
-    }
+    track.addEventListener("scroll", onScroll, { passive: true });
+    updateFromScroll();
 
-    if (isRightSwipe && currentStep > 0) {
-      goToPrevious();
-    }
+    return () => {
+      track.removeEventListener("scroll", onScroll);
+      if (mobileRafRef.current !== null) cancelAnimationFrame(mobileRafRef.current);
+    };
+  }, [activeTab, totalSteps]);
 
-    setTouchStart(0);
-    setTouchEnd(0);
-  };
+  const scrollToIndex = useCallback((index: number) => {
+    const track = mobileTrackRef.current;
+    const el = mobileCardRefs.current[index];
+    if (!track || !el) return;
+    track.scrollTo({ left: el.offsetLeft, behavior: "smooth" });
+  }, []);
+
+  const goToPrevious = () => scrollToIndex(Math.max(currentStep - 1, 0));
+  const goToNext = () => scrollToIndex(Math.min(currentStep + 1, totalSteps - 1));
 
   const getOpacity = (index: number) => {
     if (index === currentStep) return 1;
     if (index === currentStep - 1 || index === currentStep + 1) return 0.3;
     return 0;
   };
+
+  const progressPct = totalSteps > 0 ? ((currentStep + 1) / totalSteps) * 100 : 0;
 
   return (
     <section id="vorsorge" className="relative bg-[#172545] pt-40 pb-32">
@@ -259,20 +280,20 @@ export function Vorsorge() {
 
         <div className="max-w-3xl mx-auto mb-12 lg:mb-16">
           <p className="text-white/90 text-base md:text-lg leading-relaxed text-center">
-            Schluss mit Papierkram und Chaos: Wir digitalisieren deine
-            Versicherungen. Mit uns weißt du immer, was du zahlst und wofür –
-            keine versteckten Kosten, nur Klarheit.
+            Schluss mit Papierkram und Chaos: Wir digitalisieren deine Versicherungen.
+            Mit uns weißt du immer, was du zahlst und wofür – keine versteckten Kosten,
+            nur Klarheit.
           </p>
         </div>
 
+        {/* Tabs */}
         <div className="flex justify-center mb-12 lg:mb-20">
-          <div className="lg:hidden flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-full p-1 border border-white/20">
+          {/* Mobile toggle */}
+          <div className="lg:hidden flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full p-1 border border-white/20">
             <button
               onClick={() => setActiveTab("private")}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeTab === "private"
-                  ? "bg-white text-[#172545]"
-                  : "text-white/80"
+                activeTab === "private" ? "bg-white text-[#172545]" : "text-white/80"
               }`}
             >
               Privat
@@ -280,15 +301,14 @@ export function Vorsorge() {
             <button
               onClick={() => setActiveTab("business")}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeTab === "business"
-                  ? "bg-white text-[#172545]"
-                  : "text-white/80"
+                activeTab === "business" ? "bg-white text-[#172545]" : "text-white/80"
               }`}
             >
               Unternehmen
             </button>
           </div>
 
+          {/* Desktop toggle */}
           <div className="hidden lg:block">
             <div className="relative inline-flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-1.5 border border-white/20 shadow-2xl">
               <div
@@ -305,16 +325,12 @@ export function Vorsorge() {
               >
                 <div
                   className={`transition-all duration-500 ${
-                    activeTab === "private"
-                      ? "scale-110"
-                      : "scale-90 opacity-70"
+                    activeTab === "private" ? "scale-110" : "scale-90 opacity-70"
                   }`}
                 >
                   <User
                     className={`w-5 h-5 transition-colors duration-500 ${
-                      activeTab === "private"
-                        ? "text-[#172545]"
-                        : "text-white"
+                      activeTab === "private" ? "text-[#172545]" : "text-white"
                     }`}
                     strokeWidth={2.5}
                   />
@@ -336,16 +352,12 @@ export function Vorsorge() {
               >
                 <div
                   className={`transition-all duration-500 ${
-                    activeTab === "business"
-                      ? "scale-110"
-                      : "scale-90 opacity-70"
+                    activeTab === "business" ? "scale-110" : "scale-90 opacity-70"
                   }`}
                 >
                   <Briefcase
                     className={`w-5 h-5 transition-colors duration-500 ${
-                      activeTab === "business"
-                        ? "text-[#172545]"
-                        : "text-white"
+                      activeTab === "business" ? "text-[#172545]" : "text-white"
                     }`}
                     strokeWidth={2.5}
                   />
@@ -364,38 +376,59 @@ export function Vorsorge() {
           </div>
         </div>
 
-        {/* Mobile */}
+        {/* ---------------- Mobile (modern snap carousel) ---------------- */}
         <div className="lg:hidden mb-12">
-          <div
-            className="overflow-hidden"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            style={{ touchAction: "pan-y" }}
-          >
+          <div className="relative">
+            {/* Fade edges */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-[#172545] to-transparent z-10" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-[#172545] to-transparent z-10" />
+
             <div
-              className="flex transition-transform duration-500 ease-out"
-              style={{
-                transform: `translateX(-${currentStep * 100}%)`,
-              }}
+              ref={mobileTrackRef}
+              className="
+                flex gap-4 px-4
+                overflow-x-auto
+                snap-x snap-mandatory
+                scroll-smooth
+                overscroll-x-contain
+                [scrollbar-width:none]
+                [-ms-overflow-style:none]
+                [&::-webkit-scrollbar]:hidden
+              "
             >
               {currentServices.map((service, index) => (
-                <div key={index} className="w-full flex-shrink-0 px-1">
-                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10">
+                <div
+                  key={index}
+                  ref={(el) => {
+                    mobileCardRefs.current[index] = el;
+                  }}
+                  className="snap-start shrink-0 w-[88%] max-w-[420px]"
+                >
+                  <div className="bg-white/5 backdrop-blur-sm rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
                     <div className="relative w-full aspect-[16/10] overflow-hidden">
                       <img
                         src={service.image}
                         alt={service.title}
+                        width="640"
+                        height="400"
+                        loading={index === 0 ? "eager" : "lazy"}
+                        decoding="async"
                         className="w-full h-full object-cover object-top"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#172545]/25" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#172545]/35" />
                     </div>
 
                     <div className="p-5">
-                      <h3 className="text-lg font-semibold text-white mb-3 leading-snug break-words">
-                        {service.title}
-                      </h3>
-                      <p className="text-white/80 text-sm leading-relaxed break-words">
+                      <div className="flex items-center justify-between gap-3 mb-3">
+                        <h3 className="text-lg font-semibold text-white leading-snug [overflow-wrap:anywhere]">
+                          {service.title}
+                        </h3>
+                        <span className="text-xs text-white/70 bg-white/10 border border-white/10 rounded-full px-2.5 py-1">
+                          {index + 1}/{totalSteps}
+                        </span>
+                      </div>
+
+                      <p className="text-white/80 text-sm leading-relaxed [overflow-wrap:anywhere]">
                         {service.description}
                       </p>
                     </div>
@@ -403,69 +436,59 @@ export function Vorsorge() {
                 </div>
               ))}
             </div>
-          </div>
 
-          <div className="mt-5 flex items-center justify-between gap-3">
-            <button
-              onClick={goToPrevious}
-              disabled={currentStep === 0}
-              className={`flex items-center justify-center w-11 h-11 rounded-full transition-all ${
-                currentStep === 0
-                  ? "bg-white/10 text-white/30 cursor-not-allowed"
-                  : "bg-white/90 text-[#172545] shadow-lg"
-              }`}
-              aria-label="Vorherige Leistung"
-            >
-              <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
-            </button>
-
-            <div className="flex items-center gap-2">
-              {currentServices.map((_, index) => (
+            {/* Progress + Controls */}
+            <div className="mt-5 px-4">
+              <div className="flex items-center justify-between gap-3 mb-3">
                 <button
-                  key={index}
-                  onClick={() => setCurrentStep(index)}
-                  aria-label={`Zu Schritt ${index + 1}`}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    index === currentStep
-                      ? "w-6 bg-white"
-                      : "w-2 bg-white/30"
+                  onClick={goToPrevious}
+                  disabled={currentStep === 0}
+                  className={`flex items-center justify-center w-11 h-11 rounded-full transition-all ${
+                    currentStep === 0
+                      ? "bg-white/10 text-white/30 cursor-not-allowed"
+                      : "bg-white/90 text-[#172545] shadow-lg active:scale-95"
                   }`}
-                />
-              ))}
+                  aria-label="Vorherige Leistung"
+                >
+                  <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
+                </button>
+
+                <div className="flex-1">
+                  <div className="h-1.5 bg-white/15 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-white rounded-full transition-[width] duration-300"
+                      style={{ width: `${progressPct}%` }}
+                    />
+                  </div>
+                  <div className="mt-2 text-center text-white/60 text-xs">
+                    Wischen oder Buttons nutzen
+                  </div>
+                </div>
+
+                <button
+                  onClick={goToNext}
+                  disabled={currentStep === totalSteps - 1}
+                  className={`flex items-center justify-center w-11 h-11 rounded-full transition-all ${
+                    currentStep === totalSteps - 1
+                      ? "bg-white/10 text-white/30 cursor-not-allowed"
+                      : "bg-white/90 text-[#172545] shadow-lg active:scale-95"
+                  }`}
+                  aria-label="Nächste Leistung"
+                >
+                  <ChevronRight className="w-5 h-5" strokeWidth={2.5} />
+                </button>
+              </div>
             </div>
-
-            <button
-              onClick={goToNext}
-              disabled={currentStep === totalSteps - 1}
-              className={`flex items-center justify-center w-11 h-11 rounded-full transition-all ${
-                currentStep === totalSteps - 1
-                  ? "bg-white/10 text-white/30 cursor-not-allowed"
-                  : "bg-white/90 text-[#172545] shadow-lg"
-              }`}
-              aria-label="Nächste Leistung"
-            >
-              <ChevronRight className="w-5 h-5" strokeWidth={2.5} />
-            </button>
-          </div>
-
-          <div className="flex justify-center items-center gap-2 mt-4">
-            <span className="text-white/60 text-sm font-medium">
-              {currentStep + 1} / {totalSteps}
-            </span>
           </div>
         </div>
 
-        {/* Desktop */}
+        {/* ---------------- Desktop (deine bestehende Animation) ---------------- */}
         <div
           ref={desktopScrollRef}
           className="hidden lg:block relative mb-20"
           style={{ minHeight: `${desktopScrollHeightVh}svh` }}
         >
-          <div
-            ref={desktopStickyRef}
-            className="sticky"
-            style={{ top: `${DESKTOP_STICKY_TOP}px` }}
-          >
+          <div ref={desktopStickyRef} className="sticky" style={{ top: `${DESKTOP_STICKY_TOP}px` }}>
             <div
               className="flex flex-col lg:flex-row items-start gap-12 max-w-6xl mx-auto"
               style={{
@@ -479,9 +502,7 @@ export function Vorsorge() {
                     className="absolute top-1/2 -translate-y-1/2 left-0 w-full transition-all duration-700 ease-out"
                     style={{
                       opacity: getOpacity(index),
-                      transform: `translateY(calc(-50% + ${
-                        (index - currentStep) * 150
-                      }px))`,
+                      transform: `translateY(calc(-50% + ${(index - currentStep) * 150}px))`,
                       pointerEvents: index === currentStep ? "auto" : "none",
                     }}
                   >
@@ -509,6 +530,8 @@ export function Vorsorge() {
                         opacity: index === currentStep ? 1 : 0,
                         pointerEvents: index === currentStep ? "auto" : "none",
                       }}
+                      loading={index === currentStep ? "eager" : "lazy"}
+                      decoding="async"
                     />
                   ))}
                 </div>

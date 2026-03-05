@@ -28,7 +28,7 @@ function makePartner(id: string, name: string, url: string, shortName?: string):
 const partners: Partner[] = [
   makePartner("solve", "SOLVE Rechtsanwälte & Steuerberatung", "https://www.solve-law.de/", "SOLVE"),
   makePartner("martin", "Finanzierungsberatung Martin Mühle", "https://www.martinmuehle.de/", "Martin Mühle"),
-  makePartner("taxfix", "Ganz einfach Ø 1.172€ Steuern zurückholen. Mit Taxfix.", "https://taxfix.de/finanzberater-adrian-nerhoff/", "Taxfix"),
+  makePartner("taxfix", "Ganz einfach Ø 1.172€ Steuern zurückholen", "https://taxfix.de/finanzberater-adrian-nerhoff/", "Taxfix"),
   // weitere Partner einfach hier ergänzen:
 ];
 
