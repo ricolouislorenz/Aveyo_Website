@@ -1,55 +1,85 @@
 import { Header } from "@/app/components/header";
 import { Footer } from "@/app/components/footer";
 import { ShapeDivider } from "@/app/components/shape-divider";
-import { CheckCircle, ArrowRight, TrendingUp, Shield, FileText, Calendar } from "lucide-react";
+import {
+  CheckCircle,
+  ArrowRight,
+  TrendingUp,
+  Shield,
+  FileText,
+  Calendar,
+} from "lucide-react";
 import { Link } from "react-router";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import { Helmet } from "react-helmet-async";
 
 export function FinanzcheckPage() {
   const benefits = [
     {
       icon: <FileText className="w-6 h-6" />,
       title: "Umfassende Analyse",
-      description: "Wir analysieren deine aktuelle Finanz- und Versicherungssituation ganzheitlich."
+      description:
+        "Wir analysieren deine aktuelle Finanz- und Versicherungssituation ganzheitlich.",
     },
     {
       icon: <TrendingUp className="w-6 h-6" />,
       title: "Optimierungspotenzial",
-      description: "Wir identifizieren Einsparpotenziale und Wachstumschancen in deinem Portfolio."
+      description:
+        "Wir identifizieren Einsparpotenziale und Wachstumschancen in deinem Portfolio.",
     },
     {
       icon: <Shield className="w-6 h-6" />,
       title: "Absicherung checken",
-      description: "Wir prüfen, ob du optimal abgesichert bist – nicht zu viel, nicht zu wenig."
-    }
+      description:
+        "Wir prüfen, ob du optimal abgesichert bist – nicht zu viel, nicht zu wenig.",
+    },
   ];
 
   const steps = [
     {
       number: "01",
       title: "Termin buchen",
-      description: "Wähle einen Termin, der zu deinem Zeitplan passt – online oder vor Ort."
+      description:
+        "Wähle einen Termin, der zu deinem Zeitplan passt – online oder vor Ort.",
     },
     {
       number: "02",
       title: "Daten bereitstellen",
-      description: "Teile uns digital deine aktuellen Verträge und Finanzdaten mit (optional schon vor dem Termin)."
+      description:
+        "Teile uns digital deine aktuellen Verträge und Finanzdaten mit (optional schon vor dem Termin).",
     },
     {
       number: "03",
       title: "Analyse-Gespräch",
-      description: "Wir besprechen deine Situation, Ziele und Wünsche in einem persönlichen Gespräch."
+      description:
+        "Wir besprechen deine Situation, Ziele und Wünsche in einem persönlichen Gespräch.",
     },
     {
       number: "04",
       title: "Finanzgutachten-Report",
-      description: "Du erhältst dein individuelles Finanzgutachten mit konkreten Handlungsempfehlungen."
-    }
+      description:
+        "Du erhältst dein individuelles Finanzgutachten mit konkreten Handlungsempfehlungen.",
+    },
   ];
 
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>Kostenloses Finanzgutachten | AVEYO</title>
+        <meta
+          name="description"
+          content="Dein kostenloses Finanzgutachten: Wir prüfen Versicherungen, Investments und Absicherung, finden Optimierungspotenziale und geben konkrete Handlungsempfehlungen."
+        />
+        {/* Optional für Social Sharing */}
+        <meta property="og:title" content="Kostenloses Finanzgutachten | AVEYO" />
+        <meta
+          property="og:description"
+          content="Wir analysieren deine finanzielle Situation ganzheitlich und zeigen dir konkrete Optimierungen bei Versicherungen, Investments und Absicherung."
+        />
+      </Helmet>
+
       <Header />
+
       <main>
         {/* Hero Section */}
         <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
@@ -59,7 +89,8 @@ export function FinanzcheckPage() {
                 Dein kostenloses Finanzgutachten
               </h1>
               <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed mb-8">
-                Verschenke kein Geld. Finde heraus, wo du optimieren kannst – bei Versicherungen, Investments und Absicherung.
+                Verschenke kein Geld. Finde heraus, wo du optimieren kannst – bei
+                Versicherungen, Investments und Absicherung.
               </p>
               <Link
                 to="/termin"
@@ -97,13 +128,20 @@ export function FinanzcheckPage() {
                 {/* Text Content - Right Side */}
                 <div className="lg:w-1/2">
                   <p className="text-lg mb-6 text-[#586477] leading-relaxed">
-                    Das Finanzgutachten ist deine persönliche Finanzanalyse – komplett kostenlos und unverbindlich. Das Finanzgutachten entspricht einem Marktwert von ca. 500,00 €.
+                    Das Finanzgutachten ist deine persönliche Finanzanalyse –
+                    komplett kostenlos und unverbindlich. Das Finanzgutachten
+                    entspricht einem Marktwert von ca. 500,00 €.
                   </p>
                   <p className="text-lg mb-6 text-[#586477] leading-relaxed">
-                    Wir schauen uns deine aktuelle Situation an: Welche Versicherungen hast du? Wie ist dein Vermögen aufgestellt? Wo fließt dein Geld hin – und wo könnte es besser investiert sein?
+                    Wir schauen uns deine aktuelle Situation an: Welche
+                    Versicherungen hast du? Wie ist dein Vermögen aufgestellt?
+                    Wo fließt dein Geld hin – und wo könnte es besser investiert
+                    sein?
                   </p>
                   <p className="text-lg text-[#586477] leading-relaxed">
-                    Das Ergebnis: Ein klarer, datenbasierter Report, der dir zeigt, wo du stehst und welche Schritte dich finanziell weiterbringen.
+                    Das Ergebnis: Ein klarer, datenbasierter Report, der dir
+                    zeigt, wo du stehst und welche Schritte dich finanziell
+                    weiterbringen.
                   </p>
                 </div>
               </div>
@@ -121,7 +159,8 @@ export function FinanzcheckPage() {
                   Was bringt dir der Finanzcheck?
                 </h2>
                 <p className="text-xl text-white/90 max-w-2xl mx-auto">
-                  Klarheit, Transparenz und konkrete Handlungsempfehlungen für deine finanzielle Zukunft
+                  Klarheit, Transparenz und konkrete Handlungsempfehlungen für
+                  deine finanzielle Zukunft
                 </p>
               </div>
 
@@ -202,73 +241,105 @@ export function FinanzcheckPage() {
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                  <h3 className="text-xl font-semibold text-white mb-4">Versicherungen</h3>
+                  <h3 className="text-xl font-semibold text-white mb-4">
+                    Versicherungen
+                  </h3>
                   <ul className="space-y-3">
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Bist du über- oder unterversichert?</span>
+                      <span className="text-white/80">
+                        Bist du über- oder unterversichert?
+                      </span>
                     </li>
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Zahlst du zu viel für deine Policen?</span>
+                      <span className="text-white/80">
+                        Zahlst du zu viel für deine Policen?
+                      </span>
                     </li>
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Gibt es Lücken in deiner Absicherung?</span>
+                      <span className="text-white/80">
+                        Gibt es Lücken in deiner Absicherung?
+                      </span>
                     </li>
                   </ul>
                 </div>
 
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                  <h3 className="text-xl font-semibold text-white mb-4">Investments</h3>
+                  <h3 className="text-xl font-semibold text-white mb-4">
+                    Investments
+                  </h3>
                   <ul className="space-y-3">
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Wie ist dein Vermögen diversifiziert?</span>
+                      <span className="text-white/80">
+                        Wie ist dein Vermögen diversifiziert?
+                      </span>
                     </li>
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Gibt es Optimierungspotenzial bei Kosten?</span>
+                      <span className="text-white/80">
+                        Gibt es Optimierungspotenzial bei Kosten?
+                      </span>
                     </li>
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Passt deine Strategie zu deinen Zielen?</span>
+                      <span className="text-white/80">
+                        Passt deine Strategie zu deinen Zielen?
+                      </span>
                     </li>
                   </ul>
                 </div>
 
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                  <h3 className="text-xl font-semibold text-white mb-4">Altersvorsorge</h3>
+                  <h3 className="text-xl font-semibold text-white mb-4">
+                    Altersvorsorge
+                  </h3>
                   <ul className="space-y-3">
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Reicht deine Vorsorge für später?</span>
+                      <span className="text-white/80">
+                        Reicht deine Vorsorge für später?
+                      </span>
                     </li>
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Nutzt du alle Förderungen optimal?</span>
+                      <span className="text-white/80">
+                        Nutzt du alle Förderungen optimal?
+                      </span>
                     </li>
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Gibt es bessere Alternativen?</span>
+                      <span className="text-white/80">
+                        Gibt es bessere Alternativen?
+                      </span>
                     </li>
                   </ul>
                 </div>
 
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                  <h3 className="text-xl font-semibold text-white mb-4">Immobilien</h3>
+                  <h3 className="text-xl font-semibold text-white mb-4">
+                    Immobilien
+                  </h3>
                   <ul className="space-y-3">
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Macht ein Immobilienkauf Sinn für dich?</span>
+                      <span className="text-white/80">
+                        Macht ein Immobilienkauf Sinn für dich?
+                      </span>
                     </li>
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Wie viel Eigenkapital brauchst du wirklich?</span>
+                      <span className="text-white/80">
+                        Wie viel Eigenkapital brauchst du wirklich?
+                      </span>
                     </li>
                     <li className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-white/90 flex-shrink-0 mt-1" />
-                      <span className="text-white/80">Welche Finanzierungsoptionen gibt es?</span>
+                      <span className="text-white/80">
+                        Welche Finanzierungsoptionen gibt es?
+                      </span>
                     </li>
                   </ul>
                 </div>
@@ -288,7 +359,8 @@ export function FinanzcheckPage() {
                   Bereit für deinen Finanzcheck?
                 </h3>
                 <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                  Buche jetzt deinen kostenlosen Termin und finde heraus, wie du deine Finanzen auf das nächste Level bringst.
+                  Buche jetzt deinen kostenlosen Termin und finde heraus, wie du
+                  deine Finanzen auf das nächste Level bringst.
                 </p>
                 <Link
                   to="/termin"
@@ -305,6 +377,7 @@ export function FinanzcheckPage() {
           </div>
         </section>
       </main>
+
       <Footer variant="blue" />
     </div>
   );

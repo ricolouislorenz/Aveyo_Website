@@ -5,6 +5,7 @@ import { Partners } from "@/app/components/partners";
 import { CheckCircle, ArrowRight, Mail } from "lucide-react";
 import { Link } from "react-router";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const ABOUT_HERO_IMAGE_768 = "/images/pages/about/about-hero_768.webp";
 const ABOUT_HERO_IMAGE_960 = "/images/pages/about/about-hero_960.webp";
@@ -109,6 +110,20 @@ export function AboutPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>Über uns | AVEYO – Digitale Finanzberatung mit Klarheit</title>
+        <meta
+          name="description"
+          content="Lerne AVEYO kennen: digitale, transparente Finanzberatung ohne Blabla. Unsere Geschäftsführer Adrian Nerhoff & Timo Konrad – persönlich, kompetent, effizient."
+        />
+        {/* Optional: Social Preview */}
+        <meta property="og:title" content="Über uns | AVEYO" />
+        <meta
+          property="og:description"
+          content="Digitale Finanzberatung mit Klarheit: AVEYO steht für Transparenz, Effizienz und verständliche Strategien – persönlich begleitet."
+        />
+      </Helmet>
+
       <Header />
       <main>
         {/* Hero Section */}
@@ -328,7 +343,9 @@ export function AboutPage() {
                               className="absolute top-1 bottom-1 rounded-xl bg-white shadow-lg transition-all duration-300 ease-out"
                               style={{
                                 left:
-                                  activeTab === "about" ? "4px" : "calc(50% + 2px)",
+                                  activeTab === "about"
+                                    ? "4px"
+                                    : "calc(50% + 2px)",
                                 width: "calc(50% - 6px)",
                               }}
                             />

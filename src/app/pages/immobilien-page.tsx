@@ -1,15 +1,39 @@
 import { Header } from "@/app/components/header";
 import { Footer } from "@/app/components/footer";
 import { ShapeDivider } from "@/app/components/shape-divider";
-import { Home, Building2, TrendingUp, Key, Search, Calculator, ArrowRight, CheckCircle, ClipboardCheck, FileText, Shield, Target, MapPin, DollarSign, Lock, BarChart3 } from "lucide-react";
+import {
+  TrendingUp,
+  Shield,
+  FileText,
+  ArrowRight,
+  CheckCircle,
+  Target,
+  BarChart3,
+} from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { PropertiesShowcase } from "@/app/components/properties-showcase";
 import { Link } from "react-router";
+import { Helmet } from "react-helmet-async";
 
 export function ImmobilienPage() {
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>Immobilien als Kapitalanlage | AVEYO</title>
+        <meta
+          name="description"
+          content="Immobilien als Kapitalanlage: Off-Market-Zugang, Standort- & Objektprüfung, transparente Renditeberechnung und passende Finanzierung – strategisch und datenbasiert."
+        />
+        {/* Optional für Social Sharing */}
+        <meta property="og:title" content="Immobilien als Kapitalanlage | AVEYO" />
+        <meta
+          property="og:description"
+          content="Off-Market-Immobilien, datenbasierte Strategie und transparente Renditeberechnung – wir finden passende Kapitalanlage-Objekte für dein Portfolio."
+        />
+      </Helmet>
+
       <Header />
+
       <main>
         {/* Hero Section - Blue background */}
         <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
@@ -19,7 +43,9 @@ export function ImmobilienPage() {
                 Dein Fundament für stabilen Vermögensaufbau
               </h1>
               <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-                Betongold ist mehr als nur ein Sprichwort. Eine Immobilie als Kapitalanlage ist ein bewährter Baustein für finanzielle Stabilität und langfristigen Wohlstand.
+                Betongold ist mehr als nur ein Sprichwort. Eine Immobilie als
+                Kapitalanlage ist ein bewährter Baustein für finanzielle Stabilität
+                und langfristigen Wohlstand.
               </p>
             </div>
           </div>
@@ -35,7 +61,9 @@ export function ImmobilienPage() {
                   Immobilien als Kapitalanlage
                 </h2>
                 <p className="text-xl text-[#586477] max-w-3xl mx-auto leading-relaxed">
-                  Warum in Immobilien investieren? Weil sie eine einzigartige Kombination aus Vorteilen bieten, die andere Anlageklassen oft nicht haben.
+                  Warum in Immobilien investieren? Weil sie eine einzigartige
+                  Kombination aus Vorteilen bieten, die andere Anlageklassen oft
+                  nicht haben.
                 </p>
               </div>
 
@@ -46,7 +74,8 @@ export function ImmobilienPage() {
                   </div>
                   <h3 className="text-2xl mb-4 font-semibold">Stabiler Cashflow</h3>
                   <p className="text-white/80 leading-relaxed">
-                    Mieteinnahmen sorgen für ein regelmäßiges, passives Einkommen, das dir Monat für Monat finanzielle Sicherheit gibt.
+                    Mieteinnahmen sorgen für ein regelmäßiges, passives Einkommen,
+                    das dir Monat für Monat finanzielle Sicherheit gibt.
                   </p>
                 </div>
 
@@ -56,7 +85,8 @@ export function ImmobilienPage() {
                   </div>
                   <h3 className="text-2xl mb-4 font-semibold">Inflationsschutz</h3>
                   <p className="text-white/80 leading-relaxed">
-                    Mieten und Immobilienwerte steigen in der Regel mit der Inflation. Dein investiertes Kapital und deine Erträge bleiben also wertstabil.
+                    Mieten und Immobilienwerte steigen in der Regel mit der Inflation.
+                    Dein investiertes Kapital und deine Erträge bleiben also wertstabil.
                   </p>
                 </div>
 
@@ -64,9 +94,12 @@ export function ImmobilienPage() {
                   <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-6">
                     <BarChart3 className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-2xl mb-4 font-semibold">Wertsteigerungspotenzial</h3>
+                  <h3 className="text-2xl mb-4 font-semibold">
+                    Wertsteigerungspotenzial
+                  </h3>
                   <p className="text-white/80 leading-relaxed">
-                    Gut ausgewählte Immobilien in den richtigen Lagen gewinnen über die Jahre an Wert. Das ist dein langfristiger Vermögens-Booster.
+                    Gut ausgewählte Immobilien in den richtigen Lagen gewinnen über
+                    die Jahre an Wert. Das ist dein langfristiger Vermögens-Booster.
                   </p>
                 </div>
 
@@ -76,7 +109,8 @@ export function ImmobilienPage() {
                   </div>
                   <h3 className="text-2xl mb-4 font-semibold">Steuerliche Vorteile</h3>
                   <p className="text-white/80 leading-relaxed">
-                    Als Kapitalanleger profitierst du von verschiedenen steuerlichen Gestaltungsmöglichkeiten, die deine Rendite optimieren.
+                    Als Kapitalanleger profitierst du von verschiedenen steuerlichen
+                    Gestaltungsmöglichkeiten, die deine Rendite optimieren.
                   </p>
                 </div>
               </div>
@@ -94,7 +128,9 @@ export function ImmobilienPage() {
                   Unsere Immobilien-Strategie
                 </h2>
                 <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-                  Wir verkaufen dir keine beliebige Wohnung. Wir entwickeln mit dir eine Strategie, die zu deinem Leben und deinen finanziellen Zielen passt. Unser Ansatz ist datengetrieben und fokussiert.
+                  Wir verkaufen dir keine beliebige Wohnung. Wir entwickeln mit dir
+                  eine Strategie, die zu deinem Leben und deinen finanziellen Zielen passt.
+                  Unser Ansatz ist datengetrieben und fokussiert.
                 </p>
               </div>
 
@@ -105,9 +141,13 @@ export function ImmobilienPage() {
                       1
                     </div>
                     <div>
-                      <h3 className="text-2xl mb-3 text-white font-semibold">Standortanalyse</h3>
+                      <h3 className="text-2xl mb-3 text-white font-semibold">
+                        Standortanalyse
+                      </h3>
                       <p className="text-white/80 leading-relaxed">
-                        Wir setzen auf A- und B-Lagen in wachsenden Metropolregionen. Denn die Lage entscheidet über die langfristige Wertentwicklung und Vermietbarkeit.
+                        Wir setzen auf A- und B-Lagen in wachsenden Metropolregionen.
+                        Denn die Lage entscheidet über die langfristige Wertentwicklung
+                        und Vermietbarkeit.
                       </p>
                     </div>
                   </div>
@@ -117,9 +157,12 @@ export function ImmobilienPage() {
                       2
                     </div>
                     <div>
-                      <h3 className="text-2xl mb-3 text-white font-semibold">Objektprüfung</h3>
+                      <h3 className="text-2xl mb-3 text-white font-semibold">
+                        Objektprüfung
+                      </h3>
                       <p className="text-white/80 leading-relaxed">
-                        Jede Immobilie wird von uns auf Herz und Nieren geprüft – von der Bausubstanz bis zum wirtschaftlichen Potenzial.
+                        Jede Immobilie wird von uns auf Herz und Nieren geprüft – von der
+                        Bausubstanz bis zum wirtschaftlichen Potenzial.
                       </p>
                     </div>
                   </div>
@@ -129,9 +172,13 @@ export function ImmobilienPage() {
                       3
                     </div>
                     <div>
-                      <h3 className="text-2xl mb-3 text-white font-semibold">Finanzierungs-Check</h3>
+                      <h3 className="text-2xl mb-3 text-white font-semibold">
+                        Finanzierungs-Check
+                      </h3>
                       <p className="text-white/80 leading-relaxed">
-                        Wir sorgen für eine solide Finanzierungsstruktur, die zu deiner Bonität passt und finanzielle Puffer für Unvorhergesehenes berücksichtigt.
+                        Wir sorgen für eine solide Finanzierungsstruktur, die zu deiner
+                        Bonität passt und finanzielle Puffer für Unvorhergesehenes
+                        berücksichtigt.
                       </p>
                     </div>
                   </div>
@@ -141,9 +188,12 @@ export function ImmobilienPage() {
                       4
                     </div>
                     <div>
-                      <h3 className="text-2xl mb-3 text-white font-semibold">Renditeberechnung</h3>
+                      <h3 className="text-2xl mb-3 text-white font-semibold">
+                        Renditeberechnung
+                      </h3>
                       <p className="text-white/80 leading-relaxed">
-                        Keine Milchmädchenrechnungen. Du erhältst eine transparente Kalkulation der Netto-Rendite nach allen Kosten.
+                        Keine Milchmädchenrechnungen. Du erhältst eine transparente
+                        Kalkulation der Netto-Rendite nach allen Kosten.
                       </p>
                     </div>
                   </div>
@@ -158,7 +208,6 @@ export function ImmobilienPage() {
         <section className="relative bg-white pt-32 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
-              {/* Centered Title Only */}
               <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl text-[#172545] font-bold leading-tight">
                   Exklusiver Zugang: Off-Market-Immobilien
@@ -166,7 +215,6 @@ export function ImmobilienPage() {
               </div>
 
               <div className="flex flex-col lg:flex-row items-center gap-12 mb-16">
-                {/* Image - Left Side */}
                 <div className="lg:w-1/2 flex justify-start">
                   <ImageWithFallback
                     src="/images/offmarket.png"
@@ -175,36 +223,57 @@ export function ImmobilienPage() {
                   />
                 </div>
 
-                {/* Text Content - Right Side */}
                 <div className="lg:w-1/2">
                   <p className="text-lg mb-6 text-[#586477] leading-relaxed">
-                    Die besten Deals findest du selten auf den großen Online-Portalen. Dort ist die Konkurrenz hoch und die Preise sind oft schon ausgereizt.
+                    Die besten Deals findest du selten auf den großen Online-Portalen.
+                    Dort ist die Konkurrenz hoch und die Preise sind oft schon ausgereizt.
                   </p>
                   <p className="text-lg mb-6 text-[#586477] leading-relaxed">
-                    Dank unseres starken Netzwerks aus Projektentwicklern, Banken und lokalen Partnern haben wir Zugang zu Off-Market-Immobilien – Objekte, die nie öffentlich zum Verkauf angeboten werden.
+                    Dank unseres starken Netzwerks aus Projektentwicklern, Banken und
+                    lokalen Partnern haben wir Zugang zu Off-Market-Immobilien – Objekte,
+                    die nie öffentlich zum Verkauf angeboten werden.
                   </p>
-                  
+
                   <div className="bg-[#172545]/5 rounded-2xl p-6 space-y-4">
-                    <h4 className="text-xl font-semibold text-[#172545] mb-4">Dein Vorteil:</h4>
+                    <h4 className="text-xl font-semibold text-[#172545] mb-4">
+                      Dein Vorteil:
+                    </h4>
+
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-6 h-6 text-[#172545] flex-shrink-0 mt-1" />
                       <div>
-                        <h5 className="font-semibold text-[#172545] mb-1">Weniger Wettbewerb</h5>
-                        <p className="text-[#586477]">Du agierst ohne den Druck von Massenbesichtigungen.</p>
+                        <h5 className="font-semibold text-[#172545] mb-1">
+                          Weniger Wettbewerb
+                        </h5>
+                        <p className="text-[#586477]">
+                          Du agierst ohne den Druck von Massenbesichtigungen.
+                        </p>
                       </div>
                     </div>
+
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-6 h-6 text-[#172545] flex-shrink-0 mt-1" />
                       <div>
-                        <h5 className="font-semibold text-[#172545] mb-1">Attraktivere Konditionen</h5>
-                        <p className="text-[#586477]">Oft können wir bessere Kaufpreise und Bedingungen für dich verhandeln.</p>
+                        <h5 className="font-semibold text-[#172545] mb-1">
+                          Attraktivere Konditionen
+                        </h5>
+                        <p className="text-[#586477]">
+                          Oft können wir bessere Kaufpreise und Bedingungen für dich
+                          verhandeln.
+                        </p>
                       </div>
                     </div>
+
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-6 h-6 text-[#172545] flex-shrink-0 mt-1" />
                       <div>
-                        <h5 className="font-semibold text-[#172545] mb-1">Geprüfte Qualität</h5>
-                        <p className="text-[#586477]">Wir bekommen nur Objekte angeboten, die bereits eine erste Qualitätsprüfung durch unsere Partner bestanden haben.</p>
+                        <h5 className="font-semibold text-[#172545] mb-1">
+                          Geprüfte Qualität
+                        </h5>
+                        <p className="text-[#586477]">
+                          Wir bekommen nur Objekte angeboten, die bereits eine erste
+                          Qualitätsprüfung durch unsere Partner bestanden haben.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -241,7 +310,9 @@ export function ImmobilienPage() {
                   Die Immobilie im Finanzplan
                 </h2>
                 <p className="text-xl text-[#586477] max-w-3xl mx-auto leading-relaxed">
-                  Eine Immobilie ist kein isoliertes Investment. Sie ist ein zentraler Bestandteil deines gesamten Finanzplans. Wir stellen sicher, dass alles nahtlos ineinandergreift.
+                  Eine Immobilie ist kein isoliertes Investment. Sie ist ein zentraler
+                  Bestandteil deines gesamten Finanzplans. Wir stellen sicher, dass
+                  alles nahtlos ineinandergreift.
                 </p>
               </div>
 
@@ -250,9 +321,13 @@ export function ImmobilienPage() {
                   <div className="w-12 h-12 bg-[#172545] rounded-xl flex items-center justify-center mb-4">
                     <Target className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold text-[#172545] mb-3">Ganzheitliche Planung</h3>
+                  <h3 className="text-xl font-semibold text-[#172545] mb-3">
+                    Ganzheitliche Planung
+                  </h3>
                   <p className="text-[#586477] leading-relaxed">
-                    Passt die monatliche Belastung zu deinem Cashflow? Wie beeinflusst die Immobilie deine Altersvorsorge oder andere Sparziele? Wir betrachten das große Ganze.
+                    Passt die monatliche Belastung zu deinem Cashflow? Wie beeinflusst
+                    die Immobilie deine Altersvorsorge oder andere Sparziele? Wir
+                    betrachten das große Ganze.
                   </p>
                 </div>
 
@@ -260,9 +335,13 @@ export function ImmobilienPage() {
                   <div className="w-12 h-12 bg-[#172545] rounded-xl flex items-center justify-center mb-4">
                     <Shield className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold text-[#172545] mb-3">Risikomanagement</h3>
+                  <h3 className="text-xl font-semibold text-[#172545] mb-3">
+                    Risikomanagement
+                  </h3>
                   <p className="text-[#586477] leading-relaxed">
-                    Was passiert bei Mietausfall oder unvorhergesehenen Reparaturen? Wir planen Puffer und Absicherungen ein, damit dein Fundament nicht ins Wanken gerät.
+                    Was passiert bei Mietausfall oder unvorhergesehenen Reparaturen?
+                    Wir planen Puffer und Absicherungen ein, damit dein Fundament nicht
+                    ins Wanken gerät.
                   </p>
                 </div>
 
@@ -270,9 +349,12 @@ export function ImmobilienPage() {
                   <div className="w-12 h-12 bg-[#172545] rounded-xl flex items-center justify-center mb-4">
                     <TrendingUp className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold text-[#172545] mb-3">Exit-Strategie</h3>
+                  <h3 className="text-xl font-semibold text-[#172545] mb-3">
+                    Exit-Strategie
+                  </h3>
                   <p className="text-[#586477] leading-relaxed">
-                    Wir denken von Anfang an mit dir darüber nach, wann und wie ein späterer Verkauf sinnvoll sein könnte, um Gewinne zu realisieren.
+                    Wir denken von Anfang an mit dir darüber nach, wann und wie ein
+                    späterer Verkauf sinnvoll sein könnte, um Gewinne zu realisieren.
                   </p>
                 </div>
               </div>
@@ -289,7 +371,9 @@ export function ImmobilienPage() {
                 Bereit, dein Fundament zu legen?
               </h2>
               <p className="text-xl text-white/90 mb-10 leading-relaxed">
-                Lass uns darüber sprechen, wie eine Kapitalanlage-Immobilie dein Portfolio perfekt ergänzen kann. Sicher, rentabel und strategisch durchdacht.
+                Lass uns darüber sprechen, wie eine Kapitalanlage-Immobilie dein
+                Portfolio perfekt ergänzen kann. Sicher, rentabel und strategisch
+                durchdacht.
               </p>
               <Link
                 to="/termin"
@@ -302,6 +386,7 @@ export function ImmobilienPage() {
           </div>
         </section>
       </main>
+
       <Footer variant="white" />
     </div>
   );

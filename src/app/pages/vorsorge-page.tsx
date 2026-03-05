@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
+import { Helmet } from "react-helmet-async";
 
 export function VorsorgePage() {
   const [activeTab, setActiveTab] = useState<"private" | "business">("private");
@@ -207,6 +208,23 @@ export function VorsorgePage() {
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
+      <Helmet>
+        <title>Vorsorge & Absicherung | Versicherungen für Privat & Unternehmen | AVEYO</title>
+        <meta
+          name="description"
+          content="Versicherungs-Check für Privatpersonen & Unternehmen: Haftpflicht, BU, Hausrat, PKV, Cyber, Betriebshaftpflicht u.v.m. Digital, transparent, bedarfsgerecht."
+        />
+        {/* Optional für Social Sharing */}
+        <meta
+          property="og:title"
+          content="Vorsorge & Absicherung | Versicherungen für Privat & Unternehmen | AVEYO"
+        />
+        <meta
+          property="og:description"
+          content="Privat & Business optimal absichern: wir prüfen Bedarf, Lücken und Kosten – klar, digital und transparent."
+        />
+      </Helmet>
+
       <Header />
       <main>
         {/* Hero Section - Blue background without top divider */}

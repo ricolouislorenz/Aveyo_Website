@@ -11,15 +11,30 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Link } from "react-router";
+import { Helmet } from "react-helmet-async";
 
-const ETF_IMAGE_480 = "/images/etf_480.webp";
 const ETF_IMAGE_768 = "/images/etf_768.webp";
 const ETF_IMAGE_960 = "/images/etf_960.webp";
 
 export function InvestmentPage() {
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>Investment & Vermögensaufbau | AVEYO</title>
+        <meta
+          name="description"
+          content="ETF-Investments und Vermögensaufbau mit evidenzbasierten Strategien: global diversifiziert, kosteneffizient und transparent – passend zu deinen Zielen."
+        />
+        {/* Optional, aber hilfreich für Social Sharing */}
+        <meta property="og:title" content="Investment & Vermögensaufbau | AVEYO" />
+        <meta
+          property="og:description"
+          content="ETF-Investments und Vermögensaufbau mit evidenzbasierten Strategien: global diversifiziert, kosteneffizient und transparent."
+        />
+      </Helmet>
+
       <Header />
+
       <main>
         {/* Hero Section - Blue background */}
         <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
@@ -108,7 +123,6 @@ export function InvestmentPage() {
         <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
-              {/* Centered Title Only */}
               <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl text-white font-bold leading-tight">
                   Globale Indexfonds (ETFs)
@@ -119,17 +133,17 @@ export function InvestmentPage() {
                 {/* Image - Left Side */}
                 <div className="lg:w-1/2 flex justify-start w-full">
                   <picture>
-  <source media="(min-width: 1024px)" srcSet={ETF_IMAGE_960} />
-  <img
-    src={ETF_IMAGE_768}
-    width="960"
-    height="960"
-    alt="Globale Diversifikation"
-    loading="lazy"
-    decoding="async"
-    className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
-  />
-</picture>
+                    <source media="(min-width: 1024px)" srcSet={ETF_IMAGE_960} />
+                    <img
+                      src={ETF_IMAGE_768}
+                      width="960"
+                      height="960"
+                      alt="Globale Diversifikation"
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
+                    />
+                  </picture>
                 </div>
 
                 {/* Text Content - Right Side */}
@@ -158,6 +172,7 @@ export function InvestmentPage() {
                         </p>
                       </div>
                     </div>
+
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-6 h-6 text-white/90 flex-shrink-0 mt-1" />
                       <div>
@@ -168,6 +183,7 @@ export function InvestmentPage() {
                         </p>
                       </div>
                     </div>
+
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-6 h-6 text-white/90 flex-shrink-0 mt-1" />
                       <div>
@@ -347,6 +363,7 @@ export function InvestmentPage() {
           </div>
         </section>
       </main>
+
       <Footer variant="blue" />
     </div>
   );
