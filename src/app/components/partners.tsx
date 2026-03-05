@@ -49,7 +49,7 @@ function makePartner(id: string, name: string, url: string, shortName?: string):
 const partners: Partner[] = [
   makePartner("solve", "SOLVE Rechtsanwälte & Steuerberatung", "https://www.solve-law.de/", "SOLVE"),
   makePartner("martin", "Finanzierungsberatung Martin Mühle", "https://www.martinmuehle.de/", "Martin Mühle"),
-  makePartner("taxfix", "Taxfix", " https://taxfix.de/finanzberater-adrian-nerhoff/", "Taxfix"),
+  makePartner("taxfix", "Taxfix", " https://taxfix.de/finanzberater-adrian-nerhoff/", "Jetzt 1.172€ mit Taxfix zurückholen"),
 ];
 
 export function Partners() {
