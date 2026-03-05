@@ -1,8 +1,8 @@
 import { Mail } from "lucide-react";
 import { ShapeDivider } from "@/app/components/shape-divider";
 
-const ADRIAN_IMAGE = "/images/home/about/adrian_320.webp";
-const TIMO_IMAGE = "/images/home/about/timo_320.webp";
+const ADRIAN_IMAGE = "/images/team/adrian_320.webp";
+const TIMO_IMAGE = "/images/team/timo_320.webp";
 
 export function About() {
   const team = [

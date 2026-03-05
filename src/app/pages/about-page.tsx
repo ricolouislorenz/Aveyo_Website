@@ -9,8 +9,8 @@ import { useState } from "react";
 const ABOUT_HERO_IMAGE_768 = "/images/pages/about/about-hero_768.webp";
 const ABOUT_HERO_IMAGE_960 = "/images/pages/about/about-hero_960.webp";
 
-const ADRIAN_IMAGE = "/images/home/about/adrian_320.webp";
-const TIMO_IMAGE = "/images/home/about/timo_320.webp";
+const ADRIAN_IMAGE = "/images/team/adrian_320.webp";
+const TIMO_IMAGE = "/images/team/timo_320.webp";
 
 export function AboutPage() {
   const [activeTabAdrian, setActiveTabAdrian] = useState<"about" | "drives">(
