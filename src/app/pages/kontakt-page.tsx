@@ -118,10 +118,10 @@ export function KontaktPage() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h1 className="text-4xl md:text-6xl mb-6 text-white">
-                Kontaktieren Sie uns
+                Schreibe uns
               </h1>
               <p className="text-xl text-white/90 max-w-3xl mx-auto">
-                Wir freuen uns auf Ihre Nachricht und beraten Sie gerne persönlich zu allen Fragen rund um Investment, Immobilien und Vorsorge
+                Wir freuen uns auf deine Nachricht und beraten dich gerne persönlich zu allen Fragen rund um Investment, Immobilien und Vorsorge
               </p>
             </div>
           </div>
@@ -133,7 +133,7 @@ export function KontaktPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Contact Form */}
               <div className="bg-[#0d1a30] rounded-2xl p-8 border border-[#172545]/20">
-                <h3 className="text-2xl mb-6 text-white">Senden Sie uns eine Nachricht</h3>
+                <h3 className="text-2xl mb-6 text-white">Sende uns eine Nachricht</h3>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div>
@@ -362,7 +362,7 @@ export function KontaktPage() {
                 <div className="bg-gray-100 rounded-2xl p-8">
                   <h4 className="text-xl mb-3 text-[#172545] font-semibold">Kostenloses Finanzgutachten</h4>
                   <p className="text-[#586477] mb-6">
-                    Erhalten Sie eine kostenlose Analyse Ihrer aktuellen Finanzsituation und entdecken Sie Optimierungspotenziale.
+                    Erhalte eine kostenlose Analyse deiner aktuellen Finanzsituation und entdecke Optimierungspotenziale.
                   </p>
                   <Link
                     to="/termin"

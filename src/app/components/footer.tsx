@@ -1,5 +1,5 @@
-import { Facebook, Instagram, Linkedin, Mail, Phone, Cookie } from "lucide-react";
-import { ShapeDivider } from "@/app/components/shape-divider";
+import { Mail, Phone, Cookie } from "lucide-react";
+import { Link, useLocation } from "react-router";
 import { useCookies } from "../context/cookie-context";
 
 interface FooterProps {
@@ -8,6 +8,7 @@ interface FooterProps {
 
 export function Footer({ variant = "white" }: FooterProps) {
   const { openSettings } = useCookies();
+  const location = useLocation();
 
   const isBlue = variant === "blue";
   const bgColor = isBlue ? "bg-[#172545]" : "bg-white";
@@ -15,9 +16,14 @@ export function Footer({ variant = "white" }: FooterProps) {
   const textSecondary = isBlue ? "text-white/80" : "text-[#586477]";
   const textTertiary = isBlue ? "text-white/70" : "text-[#586477]";
   const hoverColor = isBlue ? "hover:text-white" : "hover:text-[#172545]";
-  const iconBg = isBlue ? "bg-white/10 hover:bg-white/20" : "bg-[#172545]/10 hover:bg-[#172545]/20";
-  const iconColor = isBlue ? "text-white" : "text-[#172545]";
   const borderColor = isBlue ? "border-white/20" : "border-[#172545]/20";
+
+  const isActive = (path: string) => location.pathname === path;
+
+  const linkClass = (path?: string) =>
+    `${textTertiary} ${hoverColor} transition-colors ${
+      path && isActive(path) ? (isBlue ? "text-white" : "text-[#172545]") : ""
+    }`;
 
   return (
     <footer className={`${bgColor} ${textColor} relative`}>
@@ -25,42 +31,45 @@ export function Footer({ variant = "white" }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <div className={`text-2xl font-bold ${textColor} mb-2`}>
-              AVEYO
-            </div>
+            <div className={`text-2xl font-bold ${textColor} mb-2`}>AVEYO</div>
             <p className={`${textSecondary} leading-relaxed`}>
               Unsere Leistungen – Einfach. Klar. Für dich gemacht.
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Navigation */}
           <div>
             <h4 className={`text-lg mb-4 ${textColor}`}>Navigation</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#home" className={`${textTertiary} ${hoverColor} transition-colors`}>
+                <Link to="/" className={linkClass("/")}>
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#immobilien" className={`${textTertiary} ${hoverColor} transition-colors`}>
+                <Link to="/investment" className={linkClass("/investment")}>
+                  Investment
+                </Link>
+              </li>
+              <li>
+                <Link to="/immobilien" className={linkClass("/immobilien")}>
                   Immobilien
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#versicherungen" className={`${textTertiary} ${hoverColor} transition-colors`}>
-                  Versicherungen
-                </a>
+                <Link to="/vorsorge" className={linkClass("/vorsorge")}>
+                  Vorsorge
+                </Link>
               </li>
               <li>
-                <a href="#uber-uns" className={`${textTertiary} ${hoverColor} transition-colors`}>
+                <Link to="/ueber-uns" className={linkClass("/ueber-uns")}>
                   Über uns
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#kontakt" className={`${textTertiary} ${hoverColor} transition-colors`}>
+                <Link to="/kontakt" className={linkClass("/kontakt")}>
                   Kontakt
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -69,9 +78,21 @@ export function Footer({ variant = "white" }: FooterProps) {
           <div>
             <h4 className={`text-lg mb-4 ${textColor}`}>Services</h4>
             <ul className="space-y-2">
-              <li className={textTertiary}>Immobilienberatung</li>
-              <li className={textTertiary}>Versicherungsberatung</li>
-              <li className={textTertiary}>Investmentberatung</li>
+              <li>
+                <Link to="/investment" className={linkClass("/investment")}>
+                  Investmentberatung
+                </Link>
+              </li>
+              <li>
+                <Link to="/immobilien" className={linkClass("/immobilien")}>
+                  Immobilienberatung
+                </Link>
+              </li>
+              <li>
+                <Link to="/vorsorge" className={linkClass("/vorsorge")}>
+                  Vorsorgeberatung
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -81,13 +102,19 @@ export function Footer({ variant = "white" }: FooterProps) {
             <ul className="space-y-3">
               <li className="flex items-center gap-2">
                 <Phone className={`w-4 h-4 ${textTertiary}`} />
-                <a href="tel:+4940650557200" className={`${textTertiary} ${hoverColor} transition-colors`}>
+                <a
+                  href="tel:+4940650557200"
+                  className={`${textTertiary} ${hoverColor} transition-colors`}
+                >
                   040 65055720
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className={`w-4 h-4 ${textTertiary}`} />
-                <a href="mailto:kontakt@aveyo.de" className={`${textTertiary} ${hoverColor} transition-colors`}>
+                <a
+                  href="mailto:kontakt@aveyo.de"
+                  className={`${textTertiary} ${hoverColor} transition-colors`}
+                >
                   kontakt@aveyo.de
                 </a>
               </li>
@@ -95,26 +122,29 @@ export function Footer({ variant = "white" }: FooterProps) {
           </div>
         </div>
 
-        <div className={`border-t ${borderColor} pt-8 flex flex-col md:flex-row justify-between items-center gap-4`}>
-          <p className={`${textTertiary} text-sm`}>
-            © 2026 AVEYO. Alle Rechte vorbehalten.
-          </p>
+        <div
+          className={`border-t ${borderColor} pt-8 flex flex-col md:flex-row justify-between items-center gap-4`}
+        >
+          <p className={`${textTertiary} text-sm`}>© 2026 AVEYO. Alle Rechte vorbehalten.</p>
+
           <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm">
-            <a href="/impressum" className={`${textTertiary} ${hoverColor} transition-colors`}>
+            <Link to="/impressum" className={linkClass("/impressum")}>
               Impressum
-            </a>
-            <a href="/datenschutz" className={`${textTertiary} ${hoverColor} transition-colors`}>
+            </Link>
+            <Link to="/datenschutz" className={linkClass("/datenschutz")}>
               Datenschutz
-            </a>
-            <a href="/erstinformationen" className={`${textTertiary} ${hoverColor} transition-colors`}>
+            </Link>
+            <Link to="/erstinformationen" className={linkClass("/erstinformationen")}>
               Erstinformationen
-            </a>
-            <a href="/eu-transparenz" className={`${textTertiary} ${hoverColor} transition-colors`}>
+            </Link>
+            <Link to="/eu-transparenz" className={linkClass("/eu-transparenz")}>
               EU-Transparenzverordnung
-            </a>
+            </Link>
+
             <button
               onClick={openSettings}
               className={`flex items-center gap-2 ${textTertiary} ${hoverColor} transition-colors`}
+              type="button"
             >
               <Cookie className="w-4 h-4" />
               Cookie-Einstellungen
