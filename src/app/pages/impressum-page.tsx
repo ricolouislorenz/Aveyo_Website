@@ -1,4 +1,5 @@
 import { Header } from "@/app/components/header";
+import { ObfuscatedLink } from "@/app/components/obfuscated-link";
 import { Footer } from "@/app/components/footer";
 import { ShapeDivider } from "@/app/components/shape-divider";
 import { Building2, Mail, Phone, Scale, FileText, Shield } from "lucide-react";
@@ -71,15 +72,15 @@ export function ImpressumPage() {
                     <div className="flex items-center gap-3 text-[#586477]">
                       <Phone className="w-5 h-5 text-[#172545] flex-shrink-0" />
                       <div>
-                        <p>Telefon: <a href="tel:+494065055720" className="hover:text-[#172545] transition-colors">040 65055720</a></p>
+                        <p>Telefon: <ObfuscatedLink encodedHref="dGVsOis0OTQwNjUwNTU3MjA=" className="hover:text-[#172545] transition-colors">040 65055720</ObfuscatedLink></p>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-3 text-[#586477]">
                       <Mail className="w-5 h-5 text-[#172545] flex-shrink-0" />
-                      <a href="mailto:kontakt@aveyo.de" className="hover:text-[#172545] transition-colors">
+                      <ObfuscatedLink encodedHref="bWFpbHRvOmtvbnRha3RAYXZleW8uZGU=" className="hover:text-[#172545] transition-colors">
                         kontakt@aveyo.de
-                      </a>
+                      </ObfuscatedLink>
                     </div>
                   </div>
                 </div>
@@ -261,10 +262,10 @@ export function ImpressumPage() {
                     </p>
                     <div className="space-y-2">
                       <p className="text-[#586477]">
-                        E-Mail: <a href="mailto:kontakt@aveyo.de" className="text-[#172545] hover:underline">kontakt@aveyo.de</a>
+                        E-Mail: <ObfuscatedLink encodedHref="bWFpbHRvOmtvbnRha3RAYXZleW8uZGU=" className="text-[#172545] hover:underline">kontakt@aveyo.de</ObfuscatedLink>
                       </p>
                       <p className="text-[#586477]">
-                        Telefon: <a href="tel:+494065055720" className="text-[#172545] hover:underline">040 65055720</a>
+                        Telefon: <ObfuscatedLink encodedHref="dGVsOis0OTQwNjUwNTU3MjA=" className="text-[#172545] hover:underline">040 65055720</ObfuscatedLink>
                       </p>
                       <p className="text-[#586477] mt-4">
                         Die für den Kontakt zur Verfügung stehenden Sprachen sind: <strong className="text-[#172545]">Deutsch</strong>

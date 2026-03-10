@@ -102,7 +102,6 @@ export function Hero() {
         position="bottom"
         color="#ffffff"
         alignment="center"
-        inverted={true}
       />
     </section>
   );

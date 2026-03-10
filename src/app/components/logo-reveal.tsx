@@ -99,7 +99,7 @@ export function LogoReveal() {
               Premium Immobilien & Versicherungen
             </h2>
             <p className="text-xl text-white/90">
-              Entdecken Sie exklusive Angebote und maßgeschneiderte Lösungen
+              Entdecke exklusive Angebote und maßgeschneiderte Lösungen
             </p>
           </div>
         </div>

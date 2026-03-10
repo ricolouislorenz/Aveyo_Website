@@ -1,6 +1,8 @@
 import { Mail, Phone, Cookie } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import { useCookies } from "../context/cookie-context";
+import { assets } from "@/config/assets";
+import { ObfuscatedLink } from "@/app/components/obfuscated-link";
 
 interface FooterProps {
   variant?: "blue" | "white";
@@ -32,9 +34,12 @@ export function Footer({ variant = "white" }: FooterProps) {
           {/* Company Info */}
           <div>
             <div className={`text-2xl font-bold ${textColor} mb-2`}>AVEYO</div>
-            <p className={`${textSecondary} leading-relaxed`}>
+            <p className={`${textSecondary} leading-relaxed mb-4`}>
               Unsere Leistungen – Einfach. Klar. Für dich gemacht.
             </p>
+            <Link to="/" className="inline-block bg-white rounded-xl p-3 w-4/5">
+              <img src={assets.logo.main} alt="AVEYO" className="w-full h-auto" />
+            </Link>
           </div>
 
           {/* Navigation */}
@@ -93,6 +98,11 @@ export function Footer({ variant = "white" }: FooterProps) {
                   Vorsorgeberatung
                 </Link>
               </li>
+              <li>
+                <Link to="/finanzcheck" className={linkClass("/finanzcheck")}>
+                  Finanzgutachten
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -102,21 +112,21 @@ export function Footer({ variant = "white" }: FooterProps) {
             <ul className="space-y-3">
               <li className="flex items-center gap-2">
                 <Phone className={`w-4 h-4 ${textTertiary}`} />
-                <a
-                  href="tel:+4940650557200"
+                <ObfuscatedLink
+                  encodedHref="dGVsOis0OTQwNjUwNTU3MjAw"
                   className={`${textTertiary} ${hoverColor} transition-colors`}
                 >
                   040 65055720
-                </a>
+                </ObfuscatedLink>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className={`w-4 h-4 ${textTertiary}`} />
-                <a
-                  href="mailto:kontakt@aveyo.de"
+                <ObfuscatedLink
+                  encodedHref="bWFpbHRvOmtvbnRha3RAYXZleW8uZGU="
                   className={`${textTertiary} ${hoverColor} transition-colors`}
                 >
                   kontakt@aveyo.de
-                </a>
+                </ObfuscatedLink>
               </li>
             </ul>
           </div>

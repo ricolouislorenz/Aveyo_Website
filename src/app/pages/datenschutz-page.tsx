@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Header } from "@/app/components/header";
+import { ObfuscatedLink } from "@/app/components/obfuscated-link";
 import { Footer } from "@/app/components/footer";
 import { ShapeDivider } from "@/app/components/shape-divider";
 import { Shield, ChevronRight } from "lucide-react";
@@ -291,12 +292,12 @@ export function DatenschutzPage() {
                     <p>Telefon: 040 65055720</p>
                     <p>
                       E-Mail:{" "}
-                      <a
-                        href="mailto:datenschutz@aveyo.de"
+                      <ObfuscatedLink
+                        encodedHref="bWFpbHRvOmRhdGVuc2NodXR6QGF2ZXlvLmRl"
                         className="font-medium text-[#172545] underline underline-offset-2"
                       >
                         datenschutz@aveyo.de
-                      </a>
+                      </ObfuscatedLink>
                     </p>
                   </div>
                 </SubSection>

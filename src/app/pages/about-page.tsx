@@ -144,7 +144,7 @@ export function AboutPage() {
         </section>
 
         {/* Mission - Digital DNA */}
-        <section className="relative bg-white pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-white pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-16">
@@ -196,7 +196,7 @@ export function AboutPage() {
         </section>
 
         {/* Expertise Section */}
-        <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-[#172545] pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
@@ -242,7 +242,7 @@ export function AboutPage() {
         </section>
 
         {/* Promise Section */}
-        <section className="relative bg-white pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-white pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
@@ -281,7 +281,7 @@ export function AboutPage() {
         </section>
 
         {/* Founders Section */}
-        <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-[#172545] pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -446,7 +446,7 @@ export function AboutPage() {
         <Partners />
 
         {/* CTA Section */}
-        <section className="relative bg-[#172545] pt-32 pb-32">
+        <section className="relative bg-[#172545] pt-40 pb-32">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">

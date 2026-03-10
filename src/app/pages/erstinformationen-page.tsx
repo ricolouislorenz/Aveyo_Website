@@ -1,4 +1,5 @@
 import { Header } from "@/app/components/header";
+import { ObfuscatedLink } from "@/app/components/obfuscated-link";
 import { Footer } from "@/app/components/footer";
 import { ShapeDivider } from "@/app/components/shape-divider";
 import { FileText } from "lucide-react";
@@ -71,12 +72,12 @@ export function ErstinformationenPage() {
                       
                       <p className="text-[#586477]">
                         <strong className="text-[#172545]">Telefon:</strong><br />
-                        <a href="tel:+494065055720" className="hover:text-[#172545] transition-colors">040 65055720</a>
+                        <ObfuscatedLink encodedHref="dGVsOis0OTQwNjUwNTU3MjA=" className="hover:text-[#172545] transition-colors">040 65055720</ObfuscatedLink>
                       </p>
 
                       <p className="text-[#586477]">
                         <strong className="text-[#172545]">E-Mail:</strong><br />
-                        <a href="mailto:kontakt@aveyo.de" className="hover:text-[#172545] transition-colors">kontakt@aveyo.de</a>
+                        <ObfuscatedLink encodedHref="bWFpbHRvOmtvbnRha3RAYXZleW8uZGU=" className="hover:text-[#172545] transition-colors">kontakt@aveyo.de</ObfuscatedLink>
                       </p>
                       
                       <p className="text-[#586477]">
@@ -172,7 +173,7 @@ export function ErstinformationenPage() {
                       10178 Berlin
                     </p>
                     <p className="text-[#586477] mt-4">
-                      Telefon: <a href="tel:018060058550" className="hover:text-[#172545] transition-colors">0180 600 58 50</a><br />
+                      Telefon: <ObfuscatedLink encodedHref="dGVsOjAxODA2MDA1ODU1MA==" className="hover:text-[#172545] transition-colors">0180 600 58 50</ObfuscatedLink><br />
                       <span className="text-sm">(Festnetzpreis 0,20 €/Anruf; Mobilfunkpreise maximal 0,60 €/Anruf)</span>
                     </p>
                     <p className="text-[#586477] mt-4">
@@ -279,8 +280,8 @@ export function ErstinformationenPage() {
                         10006 Berlin
                       </p>
                       <p className="text-[#586477] mt-4">
-                        Tel.: <a href="tel:08003696000" className="hover:text-[#172545] transition-colors">0800 3696000</a> (kostenfrei)<br />
-                        Fax: <a href="tel:08003699000" className="hover:text-[#172545] transition-colors">0800 3699000</a> (kostenfrei)
+                        Tel.: <ObfuscatedLink encodedHref="dGVsOjA4MDAzNjk2MDAw" className="hover:text-[#172545] transition-colors">0800 3696000</ObfuscatedLink> (kostenfrei)<br />
+                        Fax: <ObfuscatedLink encodedHref="dGVsOjA4MDAzNjk5MDAw" className="hover:text-[#172545] transition-colors">0800 3699000</ObfuscatedLink> (kostenfrei)
                       </p>
                       <p className="text-[#586477] mt-2">
                         <a href="https://www.versicherungsombudsmann.de" target="_blank" rel="noopener noreferrer" className="text-[#172545] hover:underline">
@@ -296,8 +297,8 @@ export function ErstinformationenPage() {
                         10052 Berlin
                       </p>
                       <p className="text-[#586477] mt-4">
-                        Tel.: <a href="tel:08002550444" className="hover:text-[#172545] transition-colors">0800 2550444</a> (kostenfrei)<br />
-                        Fax: <a href="tel:03020458931" className="hover:text-[#172545] transition-colors">030 20458931</a>
+                        Tel.: <ObfuscatedLink encodedHref="dGVsOjA4MDAyNTUwNDQ0" className="hover:text-[#172545] transition-colors">0800 2550444</ObfuscatedLink> (kostenfrei)<br />
+                        Fax: <ObfuscatedLink encodedHref="dGVsOjAzMDIwNDU4OTMx" className="hover:text-[#172545] transition-colors">030 20458931</ObfuscatedLink>
                       </p>
                       <p className="text-[#586477] mt-2">
                         <a href="https://www.pkv-ombudsmann.de" target="_blank" rel="noopener noreferrer" className="text-[#172545] hover:underline">

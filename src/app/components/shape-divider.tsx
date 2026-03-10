@@ -12,7 +12,7 @@ export function ShapeDivider({
   inverted = false,
 }: ShapeDividerProps) {
   const notchDepth = 60;
-  const notchWidth = 450; // Desktop/Tablet width
+  const notchWidth = 400; // Desktop/Tablet width
   const radius = 40;
   const bottomRadius = 20;
 
@@ -22,7 +22,7 @@ export function ShapeDivider({
       case "left":
         return 350;
       case "right":
-        return 850;
+        return 820;
       case "center":
       default:
         return 600;

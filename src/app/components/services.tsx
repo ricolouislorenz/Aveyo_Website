@@ -6,32 +6,32 @@ export function Services() {
     {
       icon: Home,
       title: "Immobilienverkauf",
-      description: "Professionelle Vermarktung Ihrer Immobilie mit modernsten Methoden und großer Reichweite.",
+      description: "Professionelle Vermarktung deiner Immobilie mit modernsten Methoden und großer Reichweite.",
     },
     {
       icon: Key,
       title: "Immobilienkauf",
-      description: "Finden Sie Ihr Traumhaus oder die perfekte Anlageimmobilie mit unserer Unterstützung.",
+      description: "Finden dein Traumhaus oder die perfekte Anlageimmobilie mit unserer Unterstützung.",
     },
     {
       icon: TrendingUp,
       title: "Immobilienbewertung",
-      description: "Kostenlose und fundierte Bewertung Ihrer Immobilie durch unsere Experten.",
+      description: "Kostenlose und fundierte Bewertung deiner Immobilie durch unsere Experten.",
     },
     {
       icon: Shield,
       title: "Versicherungsberatung",
-      description: "Umfassende Beratung zu allen Versicherungsarten - maßgeschneidert auf Ihre Bedürfnisse.",
+      description: "Umfassende Beratung zu allen Versicherungsarten - maßgeschneidert auf deine Bedürfnisse.",
     },
     {
       icon: Users,
       title: "Bestandsanalyse",
-      description: "Optimierung Ihres Versicherungsportfolios für bestmöglichen Schutz.",
+      description: "Optimierung deines Versicherungsportfolios für bestmöglichen Schutz.",
     },
     {
       icon: Award,
       title: "Premium Service",
-      description: "Persönliche Betreuung und höchste Qualitätsstandards für Ihre Zufriedenheit.",
+      description: "Persönliche Betreuung und höchste Qualitätsstandards für deine Zufriedenheit.",
     },
   ];
 

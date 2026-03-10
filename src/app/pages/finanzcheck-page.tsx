@@ -92,20 +92,13 @@ export function FinanzcheckPage() {
                 Verschenke kein Geld. Finde heraus, wo du optimieren kannst – bei
                 Versicherungen, Investments und Absicherung.
               </p>
-              <Link
-                to="/termin"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#172545] rounded-xl hover:bg-gray-100 transition-all hover:shadow-xl text-lg font-semibold"
-              >
-                Jetzt kostenlos starten
-                <ArrowRight className="w-5 h-5" />
-              </Link>
             </div>
           </div>
           <ShapeDivider position="bottom" color="#ffffff" alignment="center" />
         </section>
 
         {/* What is Finanzcheck Section */}
-        <section className="relative bg-white pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-white pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               {/* Centered Title */}
@@ -147,11 +140,11 @@ export function FinanzcheckPage() {
               </div>
             </div>
           </div>
-          <ShapeDivider position="bottom" color="#172545" alignment="right" />
+          <ShapeDivider position="bottom" color="#172545" alignment="left" />
         </section>
 
         {/* Benefits Section */}
-        <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-[#172545] pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
@@ -186,11 +179,11 @@ export function FinanzcheckPage() {
               </div>
             </div>
           </div>
-          <ShapeDivider position="bottom" color="#ffffff" alignment="left" />
+          <ShapeDivider position="bottom" color="#ffffff" alignment="right" />
         </section>
 
         {/* Process Section */}
-        <section className="relative bg-white pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-white pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
@@ -226,11 +219,11 @@ export function FinanzcheckPage() {
               </div>
             </div>
           </div>
-          <ShapeDivider position="bottom" color="#172545" alignment="center" />
+          <ShapeDivider position="bottom" color="#172545" alignment="left" />
         </section>
 
         {/* What we analyze Section */}
-        <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-[#172545] pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
@@ -350,7 +343,7 @@ export function FinanzcheckPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="relative bg-white pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-white pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="bg-gradient-to-br from-[#172545] to-[#2a3f6f] rounded-3xl p-8 md:p-12 text-center">

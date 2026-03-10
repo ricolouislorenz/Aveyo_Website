@@ -3,6 +3,7 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { Mail, Phone, MapPin, Clock, ChevronDown } from "lucide-react";
 import { ShapeDivider } from "@/app/components/shape-divider";
+import { ObfuscatedLink } from "@/app/components/obfuscated-link";
 
 const CONTACT_ENDPOINT =
   "https://hoaidflzabvrsubatjbw.supabase.co/functions/v1/make-server-78b4cf15/contact/send";
@@ -273,12 +274,12 @@ export function Contact() {
                   </div>
                   <div>
                     <div className="text-white mb-1">Telefon</div>
-                    <a
-                      href="tel:+494065055720"
+                    <ObfuscatedLink
+                      encodedHref="dGVsOis0OTQwNjUwNTU3MjA="
                       className="text-lg text-white/90 hover:text-white hover:underline"
                     >
                       +49 40 650 557 20
-                    </a>
+                    </ObfuscatedLink>
                   </div>
                 </div>
 
@@ -288,12 +289,12 @@ export function Contact() {
                   </div>
                   <div>
                     <div className="text-white mb-1">E-Mail</div>
-                    <a
-                      href="mailto:kontakt@aveyo.de"
+                    <ObfuscatedLink
+                      encodedHref="bWFpbHRvOmtvbnRha3RAYXZleW8uZGU="
                       className="text-lg text-white/90 hover:text-white hover:underline"
                     >
                       kontakt@aveyo.de
-                    </a>
+                    </ObfuscatedLink>
                   </div>
                 </div>
 

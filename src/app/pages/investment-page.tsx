@@ -56,7 +56,7 @@ export function InvestmentPage() {
         </section>
 
         {/* Investment Philosophie */}
-        <section className="relative bg-white pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-white pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-16">
@@ -116,11 +116,11 @@ export function InvestmentPage() {
               </div>
             </div>
           </div>
-          <ShapeDivider position="bottom" color="#172545" alignment="right" />
+          <ShapeDivider position="bottom" color="#172545" alignment="left" />
         </section>
 
         {/* ETFs Section */}
-        <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-[#172545] pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-16">
@@ -198,11 +198,11 @@ export function InvestmentPage() {
               </div>
             </div>
           </div>
-          <ShapeDivider position="bottom" color="#ffffff" alignment="left" />
+          <ShapeDivider position="bottom" color="#ffffff" alignment="right" />
         </section>
 
         {/* Vanguard Partnership */}
-        <section className="relative bg-white pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-white pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-16">
@@ -265,11 +265,11 @@ export function InvestmentPage() {
               </div>
             </div>
           </div>
-          <ShapeDivider position="bottom" color="#172545" alignment="right" />
+          <ShapeDivider position="bottom" color="#172545" alignment="left" />
         </section>
 
         {/* Gesamtportfolio */}
-        <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-[#172545] pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-16">
@@ -338,11 +338,11 @@ export function InvestmentPage() {
               </div>
             </div>
           </div>
-          <ShapeDivider position="bottom" color="#ffffff" alignment="center" />
+          <ShapeDivider position="bottom" color="#ffffff" alignment="right" />
         </section>
 
         {/* CTA Section */}
-        <section className="relative bg-white py-32">
+        <section className="relative bg-white pt-40 pb-32">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-4xl md:text-5xl mb-6 text-[#172545] font-bold">

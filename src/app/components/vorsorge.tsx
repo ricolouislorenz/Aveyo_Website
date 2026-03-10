@@ -488,9 +488,16 @@ export function Vorsorge() {
           className="hidden lg:block relative mb-20"
           style={{ minHeight: `${desktopScrollHeightVh}svh` }}
         >
-          <div ref={desktopStickyRef} className="sticky" style={{ top: `${DESKTOP_STICKY_TOP}px` }}>
+          <div
+            ref={desktopStickyRef}
+            className="sticky flex items-center"
+            style={{
+              top: `${DESKTOP_STICKY_TOP}px`,
+              height: `calc(100svh - ${DESKTOP_STICKY_TOP}px)`,
+            }}
+          >
             <div
-              className="flex flex-col lg:flex-row items-start gap-12 max-w-6xl mx-auto"
+              className="flex flex-col lg:flex-row items-start gap-12 max-w-6xl mx-auto w-full"
               style={{
                 height: `min(620px, calc(100svh - ${DESKTOP_STICKY_TOP + 32}px))`,
               }}
@@ -499,6 +506,7 @@ export function Vorsorge() {
                 {currentServices.map((service, index) => (
                   <div
                     key={index}
+                    aria-hidden={index !== currentStep}
                     className="absolute top-1/2 -translate-y-1/2 left-0 w-full transition-all duration-700 ease-out"
                     style={{
                       opacity: getOpacity(index),
@@ -519,13 +527,13 @@ export function Vorsorge() {
               </div>
 
               <div className="lg:w-1/2 h-full flex items-center justify-end">
-                <div className="relative w-[450px] h-[450px]">
+                <div className="relative w-full aspect-square max-w-[500px] max-h-full">
                   {currentServices.map((service, index) => (
                     <img
                       key={index}
                       src={service.image}
                       alt={service.title}
-                      className="absolute top-0 left-0 w-[450px] h-[450px] rounded-3xl shadow-2xl object-cover transition-opacity duration-700"
+                      className="absolute inset-0 w-full h-full rounded-3xl shadow-2xl object-cover transition-opacity duration-700"
                       style={{
                         opacity: index === currentStep ? 1 : 0,
                         pointerEvents: index === currentStep ? "auto" : "none",

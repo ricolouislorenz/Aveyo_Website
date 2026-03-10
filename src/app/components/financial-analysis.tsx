@@ -60,12 +60,41 @@ export function FinancialAnalysis() {
   const hintOpacity = useTransform(scrollYProgress, [0, 0.10, 0.14], [1, 1, 0]);
 
   return (
-    <section
-      id="finanzanalyse"
-      ref={sectionRef}
-      className="relative bg-white"
-      style={{ height: SECTION_HEIGHT }}
-    >
+    <>
+      {/* ── Mobile: static layout (no scroll animation) ── */}
+      <section className="md:hidden relative bg-white pt-20 pb-32 px-4">
+        <div className="max-w-xl mx-auto flex flex-col items-center gap-8 text-center">
+          <img
+            src={assets.financialAnalysis.logo}
+            alt="AVEYO"
+            className="w-full max-w-[260px] h-auto"
+          />
+          <h2 className="text-3xl font-bold text-[#172545]">
+            Dein kostenloses Finanzgutachten
+          </h2>
+          <img
+            src={assets.financialAnalysis.document}
+            alt="Dein persönliches Finanzgutachten"
+            className="w-full rounded-2xl shadow-2xl object-contain"
+          />
+          <Link
+            to="/finanzcheck"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-colors duration-300 hover:shadow-xl text-base font-semibold"
+          >
+            Mehr erfahren
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
+        <ShapeDivider position="bottom" color="#172545" alignment="right" />
+      </section>
+
+      {/* ── Desktop: scroll-driven animation (≥ md) ── */}
+      <section
+        id="finanzanalyse"
+        ref={sectionRef}
+        className="relative hidden md:block bg-white"
+        style={{ height: SECTION_HEIGHT }}
+      >
       {/* Sticky Bühne */}
       <div className="sticky top-0 h-screen" style={{ height: "100svh" }}>
         <div className="relative w-full h-full overflow-hidden">
@@ -128,11 +157,11 @@ export function FinancialAnalysis() {
                     </div>
 
                     {/* Bild */}
-                    <div className="flex items-center justify-center min-h-0">
+                    <div className="flex items-center justify-center min-h-0 overflow-hidden">
                       <motion.img
                         src={assets.financialAnalysis.document}
                         alt="Dein persönliches Finanzgutachten"
-                        className="w-full max-w-[96vw] sm:max-w-[84vw] md:max-w-[900px] lg:max-w-[980px] max-h-[46vh] sm:max-h-[48vh] md:max-h-[52vh] object-contain rounded-2xl shadow-2xl"
+                        className="w-full max-w-[96vw] sm:max-w-[84vw] md:max-w-[900px] lg:max-w-[980px] h-full object-contain rounded-2xl shadow-2xl"
                         style={{
                           scale: documentScale,
                         }}
@@ -166,11 +195,11 @@ export function FinancialAnalysis() {
               className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
               style={{ opacity: hintOpacity }}
             >
-              <span className="text-gray-400 text-xs sm:text-sm">
+              <span className="text-gray-600 text-xs sm:text-sm">
                 Scrolle weiter
               </span>
               <svg
-                className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400"
+                className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -186,6 +215,7 @@ export function FinancialAnalysis() {
       </div>
 
       <ShapeDivider position="bottom" color="#172545" alignment="right" />
-    </section>
+      </section>
+    </>
   );
 }

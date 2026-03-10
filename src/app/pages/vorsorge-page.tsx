@@ -244,7 +244,7 @@ export function VorsorgePage() {
         </section>
 
         {/* Intro Section */}
-        <section className="relative bg-white pt-32 pb-0">
+        <section className="relative bg-white pt-40 pb-0">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-4xl md:text-5xl mb-6 text-[#172545] font-bold">
@@ -280,14 +280,11 @@ export function VorsorgePage() {
                   {/* Privatpersonen - Positioned at left */}
                   <button
                     onClick={() => setActiveTab("private")}
-                    className="absolute pointer-events-auto w-[42%] sm:w-auto"
-                    style={{
-                      left: "23%",
-                      transform: "translateX(-50%)",
-                    }}
+                    className="absolute pointer-events-auto w-[42%] sm:w-auto left-[30%] sm:left-[23%]"
+                    style={{ transform: "translateX(-50%)" }}
                   >
                     <h3
-                      className={`text-xs sm:text-xl md:text-3xl lg:text-4xl font-bold text-center leading-tight sm:whitespace-nowrap ${
+                      className={`text-sm sm:text-xl md:text-3xl lg:text-4xl font-bold text-center leading-tight sm:whitespace-nowrap ${
                         activeTab === "private" ? "text-white" : "text-[#172545]"
                       }`}
                     >
@@ -298,14 +295,11 @@ export function VorsorgePage() {
                   {/* Unternehmer - Positioned at right */}
                   <button
                     onClick={() => setActiveTab("business")}
-                    className="absolute pointer-events-auto w-[42%] sm:w-auto"
-                    style={{
-                      left: "77%",
-                      transform: "translateX(-50%)",
-                    }}
+                    className="absolute pointer-events-auto w-[42%] sm:w-auto left-[70%] sm:left-[77%]"
+                    style={{ transform: "translateX(-50%)" }}
                   >
                     <h3
-                      className={`text-xs sm:text-xl md:text-3xl lg:text-4xl font-bold text-center leading-tight sm:whitespace-nowrap ${
+                      className={`text-sm sm:text-xl md:text-3xl lg:text-4xl font-bold text-center leading-tight sm:whitespace-nowrap ${
                         activeTab === "business" ? "text-white" : "text-[#172545]"
                       }`}
                     >
@@ -319,7 +313,7 @@ export function VorsorgePage() {
         </section>
 
         {/* Insurance Grid Section */}
-        <section className="relative bg-[#172545] pt-32 pb-32">
+        <section className="relative bg-[#172545] pt-40 pb-32">
           <div className="container mx-auto px-4">
             {activeTab === "private" ? (
               <div className="max-w-6xl mx-auto">
@@ -492,7 +486,7 @@ export function VorsorgePage() {
               </div>
             )}
           </div>
-          <ShapeDivider position="bottom" color="#ffffff" alignment="center" />
+          <ShapeDivider position="bottom" color="#ffffff" alignment="left" />
         </section>
       </main>
       <Footer />

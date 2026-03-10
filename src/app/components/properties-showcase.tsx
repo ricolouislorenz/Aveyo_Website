@@ -114,7 +114,38 @@ export function PropertiesShowcase() {
 
   return (
     <div ref={containerRef} className="relative max-w-7xl mx-auto">
-      <div className="relative overflow-hidden">
+      {/* ── Mobile: single card ── */}
+      <div className="md:hidden">
+        <div className="px-2">
+          <PropertyCard property={properties[currentIndex]} />
+        </div>
+        {properties.length > 1 && (
+          <div className="flex justify-center items-center gap-6 mt-6">
+            <button
+              onClick={goToPrevious}
+              disabled={isTransitioning}
+              className="w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all duration-300 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Vorherige Immobilie"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <span className="text-white/70 text-sm">
+              {currentIndex + 1} / {properties.length}
+            </span>
+            <button
+              onClick={goToNext}
+              disabled={isTransitioning}
+              className="w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all duration-300 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Nächste Immobilie"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* ── Desktop: carousel ── */}
+      <div className="hidden md:block relative overflow-hidden">
         <div
           ref={sliderRef}
           className="flex gap-4 px-4 transition-transform duration-700 ease-in-out"
@@ -134,16 +165,16 @@ export function PropertiesShowcase() {
         </div>
 
         {/* Left gradient fade */}
-        <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-[#172545] to-transparent pointer-events-none z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#172545] to-transparent pointer-events-none z-10" />
 
         {/* Right gradient fade */}
-        <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-[#172545] to-transparent pointer-events-none z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#172545] to-transparent pointer-events-none z-10" />
       </div>
 
       <button
         onClick={goToPrevious}
         disabled={isTransitioning}
-        className="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all duration-300 border border-white/20 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-full items-center justify-center transition-all duration-300 border border-white/20 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
         aria-label="Vorherige Immobilie"
       >
         <ChevronLeft className="w-6 h-6" />
@@ -152,7 +183,7 @@ export function PropertiesShowcase() {
       <button
         onClick={goToNext}
         disabled={isTransitioning}
-        className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all duration-300 border border-white/20 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-full items-center justify-center transition-all duration-300 border border-white/20 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
         aria-label="Nächste Immobilie"
       >
         <ChevronRight className="w-6 h-6" />

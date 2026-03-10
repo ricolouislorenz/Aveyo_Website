@@ -1,4 +1,5 @@
 import { Header } from "@/app/components/header";
+import { ObfuscatedLink } from "@/app/components/obfuscated-link";
 import { Footer } from "@/app/components/footer";
 import { ShapeDivider } from "@/app/components/shape-divider";
 import { Globe } from "lucide-react";
@@ -265,18 +266,18 @@ export function EUTransparenzPage() {
                       Haben Sie Fragen zur Berücksichtigung von Nachhaltigkeitsaspekten in Ihrer Finanzberatung? Wir beraten Sie gerne!
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <a
-                        href="mailto:info@aveyo.de"
+                      <ObfuscatedLink
+                        encodedHref="bWFpbHRvOmluZm9AYXZleW8uZGU="
                         className="inline-flex items-center justify-center px-6 py-3 bg-white text-[#172545] rounded-lg font-semibold hover:bg-white/90 transition-colors"
                       >
                         E-Mail senden
-                      </a>
-                      <a
-                        href="tel:+4989123456789"
+                      </ObfuscatedLink>
+                      <ObfuscatedLink
+                        encodedHref="dGVsOis0OTg5MTIzNDU2Nzg5"
                         className="inline-flex items-center justify-center px-6 py-3 bg-white/10 text-white rounded-lg font-semibold hover:bg-white/20 transition-colors border-2 border-white"
                       >
                         +49 89 123 456 789
-                      </a>
+                      </ObfuscatedLink>
                     </div>
                   </div>
                 </div>

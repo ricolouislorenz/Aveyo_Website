@@ -1,4 +1,6 @@
 import { Header } from "@/app/components/header";
+import { ShapeDivider } from "@/app/components/shape-divider";
+import { ObfuscatedLink } from "@/app/components/obfuscated-link";
 import { Footer } from "@/app/components/footer";
 import { Mail, Phone, MapPin, Clock, ArrowRight } from "lucide-react";
 import { Link, useLocation } from "react-router";
@@ -125,6 +127,7 @@ export function KontaktPage() {
               </p>
             </div>
           </div>
+          <ShapeDivider position="bottom" color="#ffffff" alignment="left" />
         </section>
 
         {/* Contact Section */}
@@ -299,9 +302,9 @@ export function KontaktPage() {
                       </div>
                       <div>
                         <div className="text-[#172545] font-semibold mb-1">Telefon</div>
-                        <a href="tel:+494065055720" className="text-lg text-[#586477] hover:text-[#172545] hover:underline">
+                        <ObfuscatedLink encodedHref="dGVsOis0OTQwNjUwNTU3MjA=" className="text-lg text-[#586477] hover:text-[#172545] hover:underline">
                           +49 40 650 557 20
-                        </a>
+                        </ObfuscatedLink>
                       </div>
                     </div>
 
@@ -311,9 +314,9 @@ export function KontaktPage() {
                       </div>
                       <div>
                         <div className="text-[#172545] font-semibold mb-1">E-Mail</div>
-                        <a href="mailto:kontakt@aveyo.de" className="text-lg text-[#586477] hover:text-[#172545] hover:underline">
+                        <ObfuscatedLink encodedHref="bWFpbHRvOmtvbnRha3RAYXZleW8uZGU=" className="text-lg text-[#586477] hover:text-[#172545] hover:underline">
                           kontakt@aveyo.de
-                        </a>
+                        </ObfuscatedLink>
                       </div>
                     </div>
 

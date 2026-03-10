@@ -39,7 +39,7 @@ export function ImmobilienPage() {
         <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight">
                 Dein Fundament für stabilen Vermögensaufbau
               </h1>
               <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
@@ -53,7 +53,7 @@ export function ImmobilienPage() {
         </section>
 
         {/* Immobilien als Kapitalanlage */}
-        <section className="relative bg-white pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-white pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-16">
@@ -120,7 +120,7 @@ export function ImmobilienPage() {
         </section>
 
         {/* Immobilien-Strategie */}
-        <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-[#172545] pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-16">
@@ -205,7 +205,7 @@ export function ImmobilienPage() {
         </section>
 
         {/* Off-Market Immobilien */}
-        <section className="relative bg-white pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-white pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-16">
@@ -285,7 +285,7 @@ export function ImmobilienPage() {
         </section>
 
         {/* Aktuelle Angebote */}
-        <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-[#172545] pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl mb-6 text-white font-bold">
@@ -302,7 +302,7 @@ export function ImmobilienPage() {
         </section>
 
         {/* Die Immobilie im Finanzplan */}
-        <section className="relative bg-white pt-32 pb-32 overflow-hidden">
+        <section className="relative bg-white pt-40 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-16">
@@ -360,11 +360,11 @@ export function ImmobilienPage() {
               </div>
             </div>
           </div>
-          <ShapeDivider position="bottom" color="#172545" alignment="center" />
+          <ShapeDivider position="bottom" color="#172545" alignment="left" />
         </section>
 
         {/* CTA Section */}
-        <section className="relative bg-[#172545] py-32">
+        <section className="relative bg-[#172545] pt-40 pb-32">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-4xl md:text-5xl mb-6 text-white font-bold">
