@@ -288,7 +288,7 @@ export function VorsorgePage() {
                         activeTab === "private" ? "text-white" : "text-[#172545]"
                       }`}
                     >
-                      Privatpersonen
+                      Privatperson
                     </h3>
                   </button>
 
