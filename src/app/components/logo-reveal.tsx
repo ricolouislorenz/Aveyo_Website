@@ -1,53 +1,37 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { assets } from "@/config/assets";
 import { ShapeDivider } from "@/app/components/shape-divider";
 
 export function LogoReveal() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [imageProgress, setImageProgress] = useState(0);
-  const [isImageFullyVisible, setIsImageFullyVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
 
-      const rect = sectionRef.current.getBoundingClientRect();
-      const sectionTop = rect.top;
-      const sectionHeight = rect.height;
-      const windowHeight = window.innerHeight;
+  // Logo fades out in first half of scroll
+  const logoOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
 
-      // Calculate when section enters viewport
-      if (sectionTop <= windowHeight && sectionTop >= -sectionHeight) {
-        // Calculate progress (0 to 1) for the image reveal
-        const progress = Math.max(0, Math.min(1, (windowHeight - sectionTop) / windowHeight));
-        setImageProgress(progress);
+  // Image reveals upward from the bottom
+  const imageClipInset = useTransform(scrollYProgress, [0.2, 0.75], [100, 0]);
+  const clipPath = useTransform(
+    imageClipInset,
+    (v) => `inset(${v}% 0 0 0)`,
+  );
 
-        // Mark as fully visible when progress reaches 100%
-        if (progress >= 0.95) {
-          setIsImageFullyVisible(true);
-        } else {
-          setIsImageFullyVisible(false);
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial check
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Text overlay on image fades in
+  const overlayOpacity = useTransform(scrollYProgress, [0.5, 0.85], [0, 1]);
 
   return (
     <section
       ref={sectionRef}
       className="relative bg-white overflow-hidden"
-      style={{
-        minHeight: "200vh",
-        position: isImageFullyVisible ? "relative" : "sticky",
-        top: isImageFullyVisible ? "auto" : 0,
-      }}
+      style={{ minHeight: "200vh" }}
     >
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
         <div
           className="absolute inset-0"
           style={{
@@ -62,24 +46,28 @@ export function LogoReveal() {
         />
       </div>
 
-      <div className="min-h-screen flex items-center justify-center relative">
-        {/* Logo - Fades out as image appears */}
-        <div
-          className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500"
-          style={{ opacity: 1 - imageProgress }}
+      {/* Sticky stage */}
+      <div className="sticky top-0 min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Logo — fades out */}
+        <motion.div
+          className="absolute inset-0 flex flex-col items-center justify-center"
+          style={{ opacity: logoOpacity }}
         >
-          <img src={assets.logo.reveal} alt="AVEYO" className="h-auto w-[90%] max-w-none mb-12 px-4" style={{ maxHeight: '80vh' }} />
+          <img
+            src={assets.logo.reveal}
+            alt="AVEYO"
+            className="h-auto w-[90%] max-w-none mb-12 px-4"
+            style={{ maxHeight: "80vh" }}
+          />
           <p className="text-3xl md:text-5xl lg:text-6xl text-gray-600 text-center max-w-5xl px-4">
             Eine Plattform für Investment, Immobilien und Vorsorge
           </p>
-        </div>
+        </motion.div>
 
-        {/* Image - Reveals from bottom */}
-        <div
-          className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
-          style={{
-            clipPath: `inset(${100 - imageProgress * 100}% 0 0 0)`,
-          }}
+        {/* Image — reveals from bottom */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ clipPath }}
         >
           <img
             src="https://images.unsplash.com/photo-1635111031688-9b13c0125d12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjByZWFsJTIwZXN0YXRlJTIwYWVyaWFsJTIwdmlld3xlbnwxfHx8fDE3Njk3MTM1MTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
@@ -87,12 +75,12 @@ export function LogoReveal() {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#172545]/80 via-[#172545]/40 to-transparent" />
-        </div>
+        </motion.div>
 
-        {/* Text overlay on image */}
-        <div
-          className="absolute inset-0 flex items-end justify-center pb-20 transition-opacity duration-500"
-          style={{ opacity: imageProgress }}
+        {/* Text overlay on image — fades in */}
+        <motion.div
+          className="absolute inset-0 flex items-end justify-center pb-20"
+          style={{ opacity: overlayOpacity }}
         >
           <div className="text-center px-4">
             <h2 className="text-4xl md:text-6xl text-white mb-4">
@@ -102,10 +90,10 @@ export function LogoReveal() {
               Entdecke exklusive Angebote und maßgeschneiderte Lösungen
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Shape Divider to next section */}
+      {/* Shape Divider */}
       <div className="absolute bottom-0 left-0 w-full">
         <ShapeDivider position="bottom" color="#172545" alignment="center" />
       </div>

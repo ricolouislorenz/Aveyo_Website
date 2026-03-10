@@ -19,8 +19,25 @@
     />
 
     <meta name="robots" content="index, follow" />
-    <script type="module" crossorigin src="/assets/index-BDc5MYTy.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-D3HqSpfJ.css">
+
+    <!-- Preconnect to Supabase: establishes TCP+TLS before the reviews fetch,
+         saving ~300 ms on the critical path. -->
+    <link rel="preconnect" href="https://hoaidflzabvrsubatjbw.supabase.co" crossorigin />
+    <link rel="dns-prefetch" href="https://hoaidflzabvrsubatjbw.supabase.co" />
+
+    <!-- Preload LCP hero image so the browser fetches it during HTML parse,
+         before React has loaded. imagesrcset/imagesizes mirror the <img> tag. -->
+    <link
+      rel="preload"
+      as="image"
+      href="/images/home/hero/hero_960.webp"
+      imagesrcset="/images/home/hero/hero_480.webp 480w, /images/home/hero/hero_768.webp 768w, /images/home/hero/hero_960.webp 960w"
+      imagesizes="(max-width: 1023px) 100vw, 50vw"
+      fetchpriority="high"
+    />
+    <script type="module" crossorigin src="/assets/index-DsRCsvZt.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/icons-CpJZSuN9.js">
+    <link rel="preload" as="style" href="/assets/index-DQCt4HKX.css" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/index-DQCt4HKX.css"></noscript>
   </head>
 
   <body>
