@@ -66,108 +66,120 @@ export function Header() {
             : "bg-white/85 backdrop-blur-md"
         }`}
       >
-        <div className="px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-[auto_1fr_auto] items-center h-16 xl:h-20">
             {/* Logo */}
             <div className="flex items-center">
               <Link to="/" onClick={handleLogoClick}>
-                <img src={assets.logo.main} alt="AVEYO" className="h-12 lg:h-16" />
+                <img src={assets.logo.main} alt="AVEYO" className="h-9 md:h-10 xl:h-14 w-auto object-contain" />
               </Link>
             </div>
 
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center gap-8">
+            {/* Navigation — centered in middle column */}
+            <nav className="hidden lg:flex items-center justify-center gap-10 xl:gap-7 px-4">
               <Link
                 to="/investment"
-                className="text-gray-700 hover:text-[#172545] transition-colors text-lg font-semibold"
+                className="text-gray-700 hover:text-[#172545] transition-colors text-lg xl:text-xl font-semibold whitespace-nowrap"
               >
                 Investment
               </Link>
               <Link
                 to="/immobilien"
-                className="text-gray-700 hover:text-[#172545] transition-colors text-lg font-semibold"
+                className="text-gray-700 hover:text-[#172545] transition-colors text-lg xl:text-xl font-semibold whitespace-nowrap"
               >
                 Immobilien
               </Link>
               <Link
                 to="/vorsorge"
-                className="text-gray-700 hover:text-[#172545] transition-colors text-lg font-semibold"
+                className="text-gray-700 hover:text-[#172545] transition-colors text-lg xl:text-xl font-semibold whitespace-nowrap"
               >
                 Vorsorge
               </Link>
               <Link
                 to="/ueber-uns"
-                className="text-gray-700 hover:text-[#172545] transition-colors text-lg font-semibold"
+                className="text-gray-700 hover:text-[#172545] transition-colors text-lg xl:text-xl font-semibold whitespace-nowrap"
               >
                 Über Uns
               </Link>
             </nav>
 
-            {/* CTA Buttons */}
-            <div className="hidden lg:flex items-center gap-4">
-              <Link
-                to="/kontakt"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#172545] border-2 border-[#172545] rounded-xl hover:bg-[#172545] hover:text-white transition-all hover:shadow-lg font-semibold"
-              >
-                Jetzt Kontakt aufnehmen
-              </Link>
-              <Link
-                to="/termin"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all hover:shadow-lg"
-              >
-                Kostenloses Finanzgutachten
-              </Link>
-            </div>
+            {/* Right side */}
+            <div className="flex items-center justify-end gap-3">
+              {/* CTA Buttons — only at xl+ */}
+              <div className="hidden xl:flex items-center gap-3">
+                <Link
+                  to="/kontakt"
+                  className="inline-flex items-center px-4 py-2 bg-white text-[#172545] border-2 border-[#172545] rounded-xl hover:bg-[#172545] hover:text-white transition-all font-semibold text-sm whitespace-nowrap"
+                >
+                  Jetzt Kontakt aufnehmen
+                </Link>
+                <Link
+                  to="/termin"
+                  className="inline-flex items-center px-4 py-2 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all font-semibold text-sm whitespace-nowrap"
+                >
+                  Kostenloses Finanzgutachten
+                </Link>
+              </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="lg:hidden text-gray-700"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+              {/* Mobile/Tablet Menu Button */}
+              <button
+                className="lg:hidden text-gray-700 p-1"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile/Tablet Menu */}
           {isMenuOpen && (
-            <div className="md:hidden absolute top-full left-0 right-0 bg-[#172545]/95 backdrop-blur-lg border-t border-white/10">
-              <nav className="container mx-auto px-4 py-6 flex flex-col gap-4">
+            <div className="lg:hidden absolute top-full left-0 right-0 bg-[#172545]/95 backdrop-blur-lg border-t border-white/10 rounded-b-2xl">
+              <nav className="px-4 py-6 flex flex-col gap-2">
                 <Link
                   to="/investment"
-                  className="text-white hover:text-white/80 transition-colors py-2 text-lg font-semibold"
+                  className="text-white hover:text-white/80 transition-colors py-3 px-2 text-lg font-semibold border-b border-white/10"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Investment
                 </Link>
                 <Link
                   to="/immobilien"
-                  className="text-white hover:text-white/80 transition-colors py-2 text-lg font-semibold"
+                  className="text-white hover:text-white/80 transition-colors py-3 px-2 text-lg font-semibold border-b border-white/10"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Immobilien
                 </Link>
                 <Link
                   to="/vorsorge"
-                  className="text-white hover:text-white/80 transition-colors py-2 text-lg font-semibold"
+                  className="text-white hover:text-white/80 transition-colors py-3 px-2 text-lg font-semibold border-b border-white/10"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Vorsorge
                 </Link>
                 <Link
                   to="/ueber-uns"
-                  className="text-white hover:text-white/80 transition-colors py-2 text-lg font-semibold"
+                  className="text-white hover:text-white/80 transition-colors py-3 px-2 text-lg font-semibold border-b border-white/10"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Über Uns
                 </Link>
-                <Link
-                  to="/termin"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-[#172545] rounded-xl hover:bg-gray-100 transition-all mt-4"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Kostenloses Finanzgutachten
-                </Link>
+                <div className="flex flex-col gap-3 mt-4">
+                  <Link
+                    to="/kontakt"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent text-white border-2 border-white rounded-xl hover:bg-white hover:text-[#172545] transition-all font-semibold"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Jetzt Kontakt aufnehmen
+                  </Link>
+                  <Link
+                    to="/termin"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-[#172545] rounded-xl hover:bg-gray-100 transition-all font-semibold"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Kostenloses Finanzgutachten
+                  </Link>
+                </div>
               </nav>
             </div>
           )}
