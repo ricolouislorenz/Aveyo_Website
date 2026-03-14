@@ -13,8 +13,8 @@ import {
 import { Link } from "react-router";
 import { Helmet } from "react-helmet-async";
 
-const ETF_IMAGE_768 = "/images/etf_768.webp";
-const ETF_IMAGE_960 = "/images/etf_960.webp";
+const ETF_IMAGE_768 = "/images/pages/investment/etf_768.webp";
+const ETF_IMAGE_960 = "/images/pages/investment/etf_960.webp";
 
 export function InvestmentPage() {
   return (

@@ -217,7 +217,7 @@ export function ImmobilienPage() {
               <div className="flex flex-col lg:flex-row items-center gap-12 mb-16">
                 <div className="lg:w-1/2 flex justify-start">
                   <ImageWithFallback
-                    src="/images/offmarket.png"
+                    src="/images/pages/immobilien/offmarket.png"
                     alt="Off-Market Immobilien"
                     className="w-full max-w-[450px] aspect-square rounded-3xl shadow-2xl object-cover"
                   />

@@ -9,7 +9,7 @@ const heroMain = "/images/hero.png";
 
 // Financial Analysis
 const financialAnalysisLogo = "/logo-reveal.png";
-const financialAnalysisDocument = "/images/Finanzgutachten.png";
+const financialAnalysisDocument = "/images/home/financial-analysis/Finanzgutachten.png";
 
 // Startseite
 const investmentMain = "/images/startseite_investment.png";
@@ -21,49 +21,49 @@ const vorsorgeOverviewBusiness = "/images/vorsorge/overview/business-overview.jp
 
 // Vorsorge Privat
 const vorsorgePrivatePrivathaftpflicht =
-  "/images/vorsorge/private/privathaftpflicht.webp";
+  "/images/pages/vorsorge/private/privathaftpflicht.webp";
 const vorsorgePrivateBerufsunfaehigkeit =
-  "/images/vorsorge/private/berufsunfaehigkeit.webp";
+  "/images/pages/vorsorge/private/berufsunfaehigkeit.webp";
 const vorsorgePrivateRentenversicherung =
-  "/images/vorsorge/private/rentenversicherung.webp";
+  "/images/pages/vorsorge/private/rentenversicherung.webp";
 const vorsorgePrivatePflegezusatzversicherung =
-  "/images/vorsorge/private/pflegezusatzversicherung.webp";
+  "/images/pages/vorsorge/private/pflegezusatzversicherung.webp";
 const vorsorgePrivateKrankenzusatzversicherung =
-  "/images/vorsorge/private/krankenzusatzversicherung.webp";
+  "/images/pages/vorsorge/private/krankenzusatzversicherung.webp";
 const vorsorgePrivateZahnzusatzversicherung =
-  "/images/vorsorge/private/zahnzusatzversicherung.webp";
+  "/images/pages/vorsorge/private/zahnzusatzversicherung.webp";
 const vorsorgePrivateAuslandsreiseversicherung =
-  "/images/vorsorge/private/auslandsreiseversicherung.webp";
+  "/images/pages/vorsorge/private/auslandsreiseversicherung.webp";
 const vorsorgePrivatePrivateKrankenversicherung =
-  "/images/vorsorge/private/private-krankenversicherung.webp";
+  "/images/pages/vorsorge/private/private-krankenversicherung.webp";
 const vorsorgePrivateHausratversicherung =
-  "/images/vorsorge/private/hausratversicherung.webp";
+  "/images/pages/vorsorge/private/hausratversicherung.webp";
 const vorsorgePrivateWohngebaeudeversicherung =
-  "/images/vorsorge/private/wohngebaeudeversicherung.webp";
+  "/images/pages/vorsorge/private/wohngebaeudeversicherung.webp";
 const vorsorgePrivateKfzVersicherung =
-  "/images/vorsorge/private/kfz-versicherung.webp";
+  "/images/pages/vorsorge/private/kfz-versicherung.webp";
 const vorsorgePrivateTierversicherung =
-  "/images/vorsorge/private/tierversicherung.webp";
+  "/images/pages/vorsorge/private/tierversicherung.webp";
 const vorsorgePrivateUnfallversicherung =
-  "/images/vorsorge/private/unfallversicherung.webp";
+  "/images/pages/vorsorge/private/unfallversicherung.webp";
 const vorsorgePrivateRechtsschutzversicherung =
-  "/images/vorsorge/private/rechtsschutzversicherung.webp";
+  "/images/pages/vorsorge/private/rechtsschutzversicherung.webp";
 
 // Vorsorge Business
 const vorsorgeBusinessBetriebshaftpflicht =
-  "/images/vorsorge/business/betriebshaftpflicht.webp";
+  "/images/pages/vorsorge/business/betriebshaftpflicht.webp";
 const vorsorgeBusinessInhaltsversicherung =
-  "/images/vorsorge/business/inhaltsversicherung.webp";
+  "/images/pages/vorsorge/business/inhaltsversicherung.webp";
 const vorsorgeBusinessBetriebsunterbrechungsversicherung =
-  "/images/vorsorge/business/betriebsunterbrechungsversicherung.webp";
+  "/images/pages/vorsorge/business/betriebsunterbrechungsversicherung.webp";
 const vorsorgeBusinessCyberversicherung =
-  "/images/vorsorge/business/cyberversicherung.webp";
+  "/images/pages/vorsorge/business/cyberversicherung.webp";
 const vorsorgeBusinessFirmenRechtsschutz =
-  "/images/vorsorge/business/firmen-rechtsschutz.webp";
+  "/images/pages/vorsorge/business/firmen-rechtsschutz.webp";
 const vorsorgeBusinessGeschaeftsfuehrerVorsorgeDo =
-  "/images/vorsorge/business/geschaeftsfuehrer-vorsorge-do.webp";
+  "/images/pages/vorsorge/business/geschaeftsfuehrer-vorsorge-do.webp";
 const vorsorgeBusinessMitarbeiterabsicherung =
-  "/images/vorsorge/business/mitarbeiterabsicherung.webp";
+  "/images/pages/vorsorge/business/mitarbeiterabsicherung.webp";
 
 // Team
 const teamProfile1 = "/images/Adrian.png";

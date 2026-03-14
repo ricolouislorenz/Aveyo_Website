@@ -37,9 +37,9 @@ export function Footer({ variant = "white" }: FooterProps) {
             <p className={`${textSecondary} leading-relaxed mb-4`}>
               Unsere Leistungen – Einfach. Klar. Für dich gemacht.
             </p>
-            <Link to="/" className="inline-block bg-white rounded-xl p-3 w-4/5">
+            <div className="inline-block bg-white rounded-xl p-3 w-4/5">
               <img src={assets.logo.main} alt="AVEYO" className="w-full h-auto" />
-            </Link>
+            </div>
           </div>
 
           {/* Navigation */}

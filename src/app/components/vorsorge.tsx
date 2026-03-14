@@ -379,14 +379,10 @@ export function Vorsorge() {
         {/* ---------------- Mobile (modern snap carousel) ---------------- */}
         <div className="lg:hidden mb-12">
           <div className="relative">
-            {/* Fade edges */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-[#172545] to-transparent z-10" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-[#172545] to-transparent z-10" />
-
             <div
               ref={mobileTrackRef}
               className="
-                flex gap-4 px-4
+                flex items-stretch gap-3 px-4
                 overflow-x-auto
                 snap-x snap-mandatory
                 scroll-smooth
@@ -404,8 +400,8 @@ export function Vorsorge() {
                   }}
                   className="snap-start shrink-0 w-[88%] max-w-[420px]"
                 >
-                  <div className="bg-white/5 backdrop-blur-sm rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-                    <div className="relative w-full aspect-[16/10] overflow-hidden">
+                  <div className="bg-white rounded-2xl overflow-hidden shadow-lg flex flex-col h-full">
+                    <div className="w-full h-44 shrink-0 overflow-hidden">
                       <img
                         src={service.image}
                         alt={service.title}
@@ -415,20 +411,19 @@ export function Vorsorge() {
                         decoding="async"
                         className="w-full h-full object-cover object-top"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#172545]/35" />
                     </div>
 
-                    <div className="p-5">
-                      <div className="flex items-center justify-between gap-3 mb-3">
-                        <h3 className="text-lg font-semibold text-white leading-snug [overflow-wrap:anywhere]">
+                    <div className="p-4 flex flex-col flex-1">
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <h3 className="text-base font-semibold text-[#172545] leading-snug">
                           {service.title}
                         </h3>
-                        <span className="text-xs text-white/70 bg-white/10 border border-white/10 rounded-full px-2.5 py-1">
+                        <span className="text-xs text-[#586477] shrink-0 mt-0.5">
                           {index + 1}/{totalSteps}
                         </span>
                       </div>
 
-                      <p className="text-white/80 text-sm leading-relaxed [overflow-wrap:anywhere]">
+                      <p className="text-[#586477] text-sm leading-relaxed">
                         {service.description}
                       </p>
                     </div>
