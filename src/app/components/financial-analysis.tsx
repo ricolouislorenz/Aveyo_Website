@@ -5,7 +5,6 @@ import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 
-const HEADER_OFFSET = 120;
 const BOTTOM_GUTTER = 24;
 
 // Länger = mehr "Verweilen" beim Scrollen
@@ -52,6 +51,13 @@ export function FinancialAnalysis() {
     [0.92, 1.02, 1.02]
   );
 
+  // Bild separat von unten einfahren
+  const imageY = useTransform(
+    scrollYProgress,
+    [0.26, 0.52, 1],
+    [160, 0, 0]
+  );
+
   // Text/Button
   const textOpacity = useTransform(scrollYProgress, [0.42, 0.58], [0, 1]);
   const textY = useTransform(scrollYProgress, [0.42, 0.58], [16, 0]);
@@ -60,49 +66,20 @@ export function FinancialAnalysis() {
   const hintOpacity = useTransform(scrollYProgress, [0, 0.10, 0.14], [1, 1, 0]);
 
   return (
-    <>
-      {/* ── Mobile: static layout (no scroll animation) ── */}
-      <section className="md:hidden relative bg-white pt-20 pb-32 px-4">
-        <div className="max-w-xl mx-auto flex flex-col items-center gap-8 text-center">
-          <img
-            src={assets.financialAnalysis.logo}
-            alt="AVEYO"
-            className="w-full max-w-[260px] h-auto"
-          />
-          <h2 className="text-3xl font-bold text-[#172545]">
-            Dein kostenloses Finanzgutachten
-          </h2>
-          <img
-            src={assets.financialAnalysis.document}
-            alt="Dein persönliches Finanzgutachten"
-            className="w-full rounded-2xl shadow-2xl object-contain"
-          />
-          <Link
-            to="/finanzcheck"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-colors duration-300 hover:shadow-xl text-base font-semibold"
-          >
-            Mehr erfahren
-            <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
-        <ShapeDivider position="bottom" color="#172545" alignment="right" />
-      </section>
-
-      {/* ── Desktop: scroll-driven animation (≥ md) ── */}
-      <section
-        id="finanzanalyse"
-        ref={sectionRef}
-        className="relative hidden md:block bg-white"
-        style={{ height: SECTION_HEIGHT }}
-      >
+    <section
+      id="finanzanalyse"
+      ref={sectionRef}
+      className="relative bg-white"
+      style={{ height: SECTION_HEIGHT }}
+    >
       {/* Sticky Bühne */}
-      <div className="sticky top-0 h-screen" style={{ height: "100svh" }}>
+      <div className="sticky top-0" style={{ height: "100svh" }}>
         <div className="relative w-full h-full overflow-hidden">
           {/* Sichtbarer Bereich unter dem Header */}
           <div
             className="absolute inset-x-0"
             style={{
-              top: `${HEADER_OFFSET}px`,
+              top: "clamp(72px, 10vh, 120px)",
               bottom: `${BOTTOM_GUTTER}px`,
             }}
           >
@@ -138,15 +115,15 @@ export function FinancialAnalysis() {
                     className="w-full h-full grid"
                     style={{
                       gridTemplateRows: "auto 1fr auto",
-                      rowGap: "clamp(28px, 4vh, 52px)",
-                      paddingTop: "clamp(12px, 2vh, 20px)",
-                      paddingBottom: "clamp(14px, 2vh, 24px)",
+                      rowGap: "clamp(20px, 4vh, 72px)",
+                      paddingTop: "clamp(8px, 2vh, 20px)",
+                      paddingBottom: "clamp(10px, 2vh, 24px)",
                     }}
                   >
                     {/* Überschrift */}
                     <div className="flex items-start justify-center">
                       <motion.h2
-                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#172545] text-center"
+                        className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#172545] text-center"
                         style={{
                           opacity: textOpacity,
                           y: textY,
@@ -157,13 +134,15 @@ export function FinancialAnalysis() {
                     </div>
 
                     {/* Bild */}
-                    <div className="flex items-center justify-center min-h-0 overflow-hidden">
+                    <div className="flex items-center justify-center min-h-0 p-3">
                       <motion.img
                         src={assets.financialAnalysis.document}
                         alt="Dein persönliches Finanzgutachten"
-                        className="w-full max-w-[96vw] sm:max-w-[84vw] md:max-w-[900px] lg:max-w-[980px] h-full object-contain rounded-2xl shadow-2xl"
+                        className="w-full max-w-[99vw] sm:max-w-[94vw] md:max-w-[1060px] lg:max-w-[1220px] h-full object-contain rounded-2xl"
                         style={{
                           scale: documentScale,
+                          y: imageY,
+                          boxShadow: "0 0 0 2px rgba(255,255,255,0.9), 0 0 0 4px #172545",
                         }}
                       />
                     </div>
@@ -178,10 +157,10 @@ export function FinancialAnalysis() {
                       >
                         <Link
                           to="/finanzcheck"
-                          className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-colors duration-300 hover:shadow-xl text-base sm:text-lg font-semibold"
+                          className="inline-flex items-center gap-2 px-6 sm:px-10 py-3 sm:py-4 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-colors duration-300 hover:shadow-xl text-sm sm:text-lg font-semibold"
                         >
                           Mehr erfahren
-                          <ArrowRight className="w-5 h-5" />
+                          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                         </Link>
                       </motion.div>
                     </div>
@@ -215,7 +194,6 @@ export function FinancialAnalysis() {
       </div>
 
       <ShapeDivider position="bottom" color="#172545" alignment="right" />
-      </section>
-    </>
+    </section>
   );
 }

@@ -121,6 +121,22 @@ export function Header() {
                 </Link>
               </div>
 
+              {/* CTA Buttons — zwischen sm und lg (wenn Nav-Links ausgeblendet) */}
+              <div className="hidden sm:flex lg:hidden items-center gap-2">
+                <Link
+                  to="/kontakt"
+                  className="inline-flex items-center px-3 py-2 bg-white text-[#172545] border-2 border-[#172545] rounded-xl hover:bg-[#172545] hover:text-white transition-all font-semibold text-sm whitespace-nowrap"
+                >
+                  Kontakt
+                </Link>
+                <Link
+                  to="/termin"
+                  className="inline-flex items-center px-3 py-2 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all font-semibold text-sm whitespace-nowrap"
+                >
+                  Finanzgutachten
+                </Link>
+              </div>
+
               {/* Mobile/Tablet Menu Button */}
               <button
                 className="lg:hidden text-gray-700 p-1"

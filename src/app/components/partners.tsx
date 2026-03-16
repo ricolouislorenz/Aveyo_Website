@@ -39,16 +39,16 @@ export function Partners() {
     <section id="partner" className="pt-40 pb-32 bg-white relative">
       <div className="container mx-auto px-4">
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl mb-4 text-[#172545]">
+          <h2 className="text-5xl md:text-6xl mb-4 text-[#172545]">
             Unsere Partner
           </h2>
-          <p className="text-xl text-[#586477] max-w-2xl mx-auto">
+          <p className="text-2xl text-[#586477] max-w-2xl mx-auto">
             Gemeinsam stark – mit unseren Partnern bieten wir Ihnen umfassende Expertise
           </p>
         </div>
 
         {/* Symmetrisch bei jeder Anzahl (1–10+) */}
-        <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-10 max-w-6xl mx-auto">
           {partners.map((partner) => {
             const isHovered = hoveredPartner === partner.id;
 
@@ -58,10 +58,9 @@ export function Partners() {
                 className="
                   space-y-6
                   w-full
-                  sm:basis-[calc(50%-16px)]
-                  lg:basis-[calc(33.333%-21.333px)]
-                  xl:basis-[calc(25%-24px)]
-                  max-w-[520px]
+                  sm:basis-[calc(50%-20px)]
+                  lg:basis-[calc(33.333%-27px)]
+                  max-w-[640px]
                 "
               >
                 <a
@@ -72,7 +71,7 @@ export function Partners() {
                   onMouseEnter={() => setHoveredPartner(partner.id)}
                   onMouseLeave={() => setHoveredPartner(null)}
                 >
-                  <div className="relative bg-white rounded-2xl overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-2xl aspect-[2/1] border border-[#172545]/10">
+                  <div className="relative bg-white rounded-2xl overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-2xl aspect-[16/9] border border-[#172545]/10">
                     {/* Logo / Text */}
                     <div
                       className={`absolute inset-0 bg-white transition-opacity duration-500 flex items-center justify-center ${
@@ -126,7 +125,7 @@ export function Partners() {
                   rel="noopener noreferrer"
                   className="block"
                 >
-                  <h3 className="text-xl md:text-2xl font-semibold text-[#172545] text-center hover:text-[#586477] transition-colors">
+                  <h3 className="text-2xl md:text-3xl font-semibold text-[#172545] text-center hover:text-[#586477] transition-colors">
                     {partner.name}
                   </h3>
                 </a>
