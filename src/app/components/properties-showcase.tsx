@@ -201,9 +201,9 @@ function PropertyCard({ property }: { property: Property }) {
 
   return (
     <>
-      <div className="bg-white rounded-2xl overflow-hidden border border-[#586477]/20 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-[720px]">
+      <div className="bg-white rounded-2xl overflow-hidden border border-[#586477]/20 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-[640px] md:h-[720px]">
         {/* Image */}
-        <div className="relative h-64 overflow-hidden flex-shrink-0">
+        <div className="relative h-64 md:h-64 overflow-hidden flex-shrink-0">
           <img
             src={property.imageUrl || defaultPropertyImage}
             alt={property.title}
@@ -215,7 +215,7 @@ function PropertyCard({ property }: { property: Property }) {
         </div>
 
         {/* Content */}
-        <div className="p-6 pb-8 flex flex-col flex-grow">
+        <div className="p-4 pb-3 md:p-6 md:pb-8 flex flex-col flex-grow">
           {/* Type */}
           <div className="h-5 mb-2">
             <span className="text-sm text-[#586477] font-medium line-clamp-1">
@@ -268,12 +268,12 @@ function PropertyCard({ property }: { property: Property }) {
           </div>
 
           {/* Description */}
-          <p className="text-[#586477] text-sm mb-4 line-clamp-3 h-[60px] overflow-hidden">
+          <p className="text-[#586477] text-sm mb-3 md:mb-4 line-clamp-2 md:line-clamp-3 h-[40px] md:h-[60px] overflow-hidden">
             {property.description}
           </p>
 
           {/* Features - always same height */}
-          <div className="mb-6 h-[64px] overflow-hidden">
+          <div className="mb-3 md:mb-6 h-[48px] md:h-[64px] overflow-hidden">
             {features.length > 0 ? (
               <div className="flex flex-wrap gap-2 content-start">
                 {visibleFeatures.map((feature, idx) => (
@@ -301,7 +301,7 @@ function PropertyCard({ property }: { property: Property }) {
           </div>
 
           {/* CTA Button always bottom aligned */}
-          <div className="mt-auto pt-2">
+          <div className="mt-auto">
             <a
               href="/kontakt"
               className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 text-sm font-semibold"

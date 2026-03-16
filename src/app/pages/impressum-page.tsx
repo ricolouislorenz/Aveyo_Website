@@ -1,3 +1,4 @@
+import { SEO } from "@/app/components/seo";
 import { Header } from "@/app/components/header";
 import { ObfuscatedLink } from "@/app/components/obfuscated-link";
 import { Footer } from "@/app/components/footer";
@@ -7,6 +8,12 @@ import { Building2, Mail, Phone, Scale, FileText, Shield } from "lucide-react";
 export function ImpressumPage() {
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Impressum"
+        description="Impressum der AVEYO GmbH – Angaben gemäß § 5 TMG."
+        path="/impressum"
+        noindex
+      />
       <Header />
       
       <main>

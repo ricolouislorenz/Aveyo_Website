@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/app/components/seo";
 
 export function FinanzcheckPage() {
   const benefits = [
@@ -64,19 +64,11 @@ export function FinanzcheckPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>Kostenloses Finanzgutachten | AVEYO</title>
-        <meta
-          name="description"
-          content="Dein kostenloses Finanzgutachten: Wir prüfen Versicherungen, Investments und Absicherung, finden Optimierungspotenziale und geben konkrete Handlungsempfehlungen."
-        />
-        {/* Optional für Social Sharing */}
-        <meta property="og:title" content="Kostenloses Finanzgutachten | AVEYO" />
-        <meta
-          property="og:description"
-          content="Wir analysieren deine finanzielle Situation ganzheitlich und zeigen dir konkrete Optimierungen bei Versicherungen, Investments und Absicherung."
-        />
-      </Helmet>
+      <SEO
+        title="Kostenloses Finanzgutachten"
+        description="Dein kostenloses Finanzgutachten: Wir prüfen Versicherungen, Investments und Absicherung, finden Optimierungspotenziale und geben konkrete Handlungsempfehlungen."
+        path="/finanzcheck"
+      />
 
       <Header />
 

@@ -1,3 +1,4 @@
+import { SEO } from "@/app/components/seo";
 import { Header } from "@/app/components/header";
 import { Footer } from "@/app/components/footer";
 import { ShapeDivider } from "@/app/components/shape-divider";
@@ -10,6 +11,11 @@ export function TerminPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Kostenloses Erstgespräch vereinbaren"
+        description="Buche jetzt dein kostenloses Erstgespräch mit AVEYO. Wir analysieren deine finanzielle Situation und zeigen dir konkrete Optimierungsmöglichkeiten – unverbindlich."
+        path="/termin"
+      />
       <Header />
       
       <main>

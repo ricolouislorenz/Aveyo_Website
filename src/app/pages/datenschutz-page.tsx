@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SEO } from "@/app/components/seo";
 import { Header } from "@/app/components/header";
 import { ObfuscatedLink } from "@/app/components/obfuscated-link";
 import { Footer } from "@/app/components/footer";
@@ -61,6 +62,12 @@ function BulletList({ items }: { items: ReactNode[] }) {
 export function DatenschutzPage() {
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Datenschutzerklärung"
+        description="Datenschutzerklärung der AVEYO GmbH – Informationen zur Verarbeitung deiner personenbezogenen Daten gemäß DSGVO."
+        path="/datenschutz"
+        noindex
+      />
       <Header />
 
       <main>

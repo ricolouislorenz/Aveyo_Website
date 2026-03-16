@@ -1,3 +1,4 @@
+import { SEO } from "@/app/components/seo";
 import { Header } from "@/app/components/header";
 import { ObfuscatedLink } from "@/app/components/obfuscated-link";
 import { Footer } from "@/app/components/footer";
@@ -7,6 +8,12 @@ import { FileText } from "lucide-react";
 export function ErstinformationenPage() {
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Erstinformationen"
+        description="Erstinformationen der AVEYO GmbH gemäß § 15 VersVermV."
+        path="/erstinformationen"
+        noindex
+      />
       <Header />
       
       <main>

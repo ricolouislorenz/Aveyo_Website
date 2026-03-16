@@ -1,3 +1,4 @@
+import { SEO } from "@/app/components/seo";
 import { Header } from "@/app/components/header";
 import { ShapeDivider } from "@/app/components/shape-divider";
 import { ObfuscatedLink } from "@/app/components/obfuscated-link";
@@ -113,6 +114,11 @@ export function KontaktPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Kontakt"
+        description="Nimm Kontakt mit AVEYO auf – per E-Mail, Telefon oder Kontaktformular. Wir melden uns schnell und unkompliziert bei dir."
+        path="/kontakt"
+      />
       <Header />
       <main>
         {/* Hero Section */}

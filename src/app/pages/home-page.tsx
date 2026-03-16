@@ -1,3 +1,4 @@
+import { SEO } from "@/app/components/seo";
 import { Header } from "@/app/components/header";
 import { Hero } from "@/app/components/hero";
 import { FinancialAnalysis } from "@/app/components/financial-analysis";
@@ -11,6 +12,11 @@ import { Footer } from "@/app/components/footer";
 export function HomePage() {
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Digitale Finanzberatung | Investment, Immobilien & Vorsorge"
+        description="AVEYO – deine digitale Finanzberatung für Investment, Immobilien und Vorsorge. Transparent, effizient und persönlich. Jetzt kostenloses Finanzgutachten sichern."
+        path="/"
+      />
       <Header />
       <main>
         <Hero />

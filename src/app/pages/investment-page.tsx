@@ -11,7 +11,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Link } from "react-router";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/app/components/seo";
 
 const ETF_IMAGE_768 = "/images/pages/investment/etf_768.webp";
 const ETF_IMAGE_960 = "/images/pages/investment/etf_960.webp";
@@ -19,19 +19,11 @@ const ETF_IMAGE_960 = "/images/pages/investment/etf_960.webp";
 export function InvestmentPage() {
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>Investment & Vermögensaufbau | AVEYO</title>
-        <meta
-          name="description"
-          content="ETF-Investments und Vermögensaufbau mit evidenzbasierten Strategien: global diversifiziert, kosteneffizient und transparent – passend zu deinen Zielen."
-        />
-        {/* Optional, aber hilfreich für Social Sharing */}
-        <meta property="og:title" content="Investment & Vermögensaufbau | AVEYO" />
-        <meta
-          property="og:description"
-          content="ETF-Investments und Vermögensaufbau mit evidenzbasierten Strategien: global diversifiziert, kosteneffizient und transparent."
-        />
-      </Helmet>
+      <SEO
+        title="Investment & Vermögensaufbau"
+        description="ETF-Investments und Vermögensaufbau mit evidenzbasierten Strategien: global diversifiziert, kosteneffizient und transparent – passend zu deinen Zielen."
+        path="/investment"
+      />
 
       <Header />
 

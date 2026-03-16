@@ -1,3 +1,4 @@
+import { SEO } from "@/app/components/seo";
 import { Header } from "@/app/components/header";
 import { ObfuscatedLink } from "@/app/components/obfuscated-link";
 import { Footer } from "@/app/components/footer";
@@ -7,6 +8,12 @@ import { Globe } from "lucide-react";
 export function EUTransparenzPage() {
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="EU-Transparenz"
+        description="EU-Transparenzinformationen der AVEYO GmbH gemäß IDD-Richtlinie."
+        path="/eu-transparenz"
+        noindex
+      />
       <Header />
       
       <main>

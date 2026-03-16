@@ -13,24 +13,16 @@ import {
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { PropertiesShowcase } from "@/app/components/properties-showcase";
 import { Link } from "react-router";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/app/components/seo";
 
 export function ImmobilienPage() {
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>Immobilien als Kapitalanlage | AVEYO</title>
-        <meta
-          name="description"
-          content="Immobilien als Kapitalanlage: Off-Market-Zugang, Standort- & Objektprüfung, transparente Renditeberechnung und passende Finanzierung – strategisch und datenbasiert."
-        />
-        {/* Optional für Social Sharing */}
-        <meta property="og:title" content="Immobilien als Kapitalanlage | AVEYO" />
-        <meta
-          property="og:description"
-          content="Off-Market-Immobilien, datenbasierte Strategie und transparente Renditeberechnung – wir finden passende Kapitalanlage-Objekte für dein Portfolio."
-        />
-      </Helmet>
+      <SEO
+        title="Immobilien als Kapitalanlage"
+        description="Immobilien als Kapitalanlage: Off-Market-Zugang, Standort- & Objektprüfung, transparente Renditeberechnung und passende Finanzierung – strategisch und datenbasiert."
+        path="/immobilien"
+      />
 
       <Header />
 
