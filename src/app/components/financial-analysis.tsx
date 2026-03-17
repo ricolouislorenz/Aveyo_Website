@@ -96,11 +96,15 @@ export function FinancialAnalysis() {
                     scale: logoScale,
                   }}
                 >
-                  <img
+                  <picture>
+                    <source srcSet="/logo-reveal.webp" type="image/webp" />
+                    <img
                     src={assets.financialAnalysis.logo}
                     alt="AVEYO"
+                    width="1132" height="447"
                     className="max-w-[84%] sm:max-w-[72%] md:max-w-[620px] h-auto"
                   />
+                  </picture>
                 </motion.div>
 
                 {/* Dokument-Ebene */}
@@ -138,7 +142,7 @@ export function FinancialAnalysis() {
                       <motion.img
                         src={assets.financialAnalysis.document.lg}
                         srcSet={`${assets.financialAnalysis.document.sm} 480w, ${assets.financialAnalysis.document.md} 768w, ${assets.financialAnalysis.document.lg} 960w`}
-                        sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 960px"
+                        sizes="(max-width: 480px) 95vw, (max-width: 768px) 90vw, (max-width: 1280px) 80vw, 960px"
                         alt="Dein persönliches Finanzgutachten"
                         className="w-full max-w-[99vw] sm:max-w-[94vw] md:max-w-[1060px] lg:max-w-[1220px] h-full object-contain rounded-2xl"
                         style={{

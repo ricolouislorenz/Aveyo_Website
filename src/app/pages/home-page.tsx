@@ -1,13 +1,28 @@
+import { Suspense, lazy } from "react";
 import { SEO } from "@/app/components/seo";
 import { Header } from "@/app/components/header";
 import { Hero } from "@/app/components/hero";
-import { FinancialAnalysis } from "@/app/components/financial-analysis";
-import { Investment } from "@/app/components/investment";
-import { Properties } from "@/app/components/properties";
-import { Vorsorge } from "@/app/components/vorsorge";
-import { About } from "@/app/components/about";
-import { Reviews } from "@/app/components/reviews";
 import { Footer } from "@/app/components/footer";
+
+// Sektionen unter dem Fold werden lazy geladen
+const FinancialAnalysis = lazy(() =>
+  import("@/app/components/financial-analysis").then((m) => ({ default: m.FinancialAnalysis }))
+);
+const Investment = lazy(() =>
+  import("@/app/components/investment").then((m) => ({ default: m.Investment }))
+);
+const Properties = lazy(() =>
+  import("@/app/components/properties").then((m) => ({ default: m.Properties }))
+);
+const Vorsorge = lazy(() =>
+  import("@/app/components/vorsorge").then((m) => ({ default: m.Vorsorge }))
+);
+const About = lazy(() =>
+  import("@/app/components/about").then((m) => ({ default: m.About }))
+);
+const Reviews = lazy(() =>
+  import("@/app/components/reviews").then((m) => ({ default: m.Reviews }))
+);
 
 export function HomePage() {
   return (
@@ -19,13 +34,17 @@ export function HomePage() {
       />
       <Header />
       <main>
+        {/* Hero ist above-the-fold – sofort laden */}
         <Hero />
-        <FinancialAnalysis />
-        <Investment />
-        <Properties />
-        <Vorsorge />
-        <About />
-        <Reviews />
+        {/* Alle weiteren Sektionen lazy */}
+        <Suspense fallback={null}>
+          <FinancialAnalysis />
+          <Investment />
+          <Properties />
+          <Vorsorge />
+          <About />
+          <Reviews />
+        </Suspense>
       </main>
       <Footer />
     </div>

@@ -71,7 +71,10 @@ export function Header() {
             {/* Logo */}
             <div className="flex items-center">
               <Link to="/" onClick={handleLogoClick}>
-                <img src={assets.logo.main} alt="AVEYO" className="h-9 md:h-10 xl:h-14 w-auto object-contain" />
+                <picture>
+                  <source srcSet="/logo.webp" type="image/webp" />
+                  <img src={assets.logo.main} alt="AVEYO" width="339" height="106" className="h-9 md:h-10 xl:h-14 w-auto object-contain" />
+                </picture>
               </Link>
             </div>
 

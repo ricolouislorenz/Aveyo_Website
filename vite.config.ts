@@ -37,11 +37,34 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        // Merge all lucide-react icon chunks into one bundle so they load in
-        // a single request instead of many tiny sequential fetches.
         manualChunks(id) {
+          // Animations – schwer, wird separat gecacht
+          if (id.includes('motion') || id.includes('framer-motion')) {
+            return 'motion';
+          }
+          // Radix UI Primitives – viele kleine Pakete → ein Chunk
+          if (id.includes('@radix-ui')) {
+            return 'radix';
+          }
+          // Icons
           if (id.includes('lucide-react')) {
             return 'icons';
+          }
+          // React Kern + Router → stabiler Cache-Chunk
+          if (
+            id.includes('node_modules/react/') ||
+            id.includes('node_modules/react-dom/') ||
+            id.includes('react-router')
+          ) {
+            return 'react-vendor';
+          }
+          // Formulare – nur auf Kontakt/Termin benötigt
+          if (id.includes('react-hook-form')) {
+            return 'forms';
+          }
+          // Helmet – nur für SEO-Tags
+          if (id.includes('react-helmet-async') || id.includes('helmet')) {
+            return 'helmet';
           }
         },
       },
