@@ -35,6 +35,12 @@ export default defineConfig({
     },
   },
   build: {
+    // motion/react nur laden wenn die Komponente tatsächlich gerendert wird
+    modulePreload: {
+      resolveDependencies(url, deps) {
+        return deps.filter((dep) => !dep.includes("motion"));
+      },
+    },
     rollupOptions: {
       output: {
         manualChunks(id) {
