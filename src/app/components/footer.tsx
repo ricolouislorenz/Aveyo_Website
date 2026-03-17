@@ -44,7 +44,7 @@ export function Footer({ variant = "white" }: FooterProps) {
 
           {/* Navigation */}
           <div>
-            <h4 className={`text-lg mb-4 ${textColor}`}>Navigation</h4>
+            <h3 className={`text-lg mb-4 ${textColor}`}>Navigation</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/" className={linkClass("/")}>
@@ -81,7 +81,7 @@ export function Footer({ variant = "white" }: FooterProps) {
 
           {/* Services */}
           <div>
-            <h4 className={`text-lg mb-4 ${textColor}`}>Services</h4>
+            <h3 className={`text-lg mb-4 ${textColor}`}>Services</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/investment" className={linkClass("/investment")}>
@@ -108,7 +108,7 @@ export function Footer({ variant = "white" }: FooterProps) {
 
           {/* Contact */}
           <div>
-            <h4 className={`text-lg mb-4 ${textColor}`}>Kontakt</h4>
+            <h3 className={`text-lg mb-4 ${textColor}`}>Kontakt</h3>
             <ul className="space-y-3">
               <li className="flex items-center gap-2">
                 <Phone className={`w-4 h-4 ${textTertiary}`} />
