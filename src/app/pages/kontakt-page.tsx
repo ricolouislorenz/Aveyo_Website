@@ -133,7 +133,7 @@ export function KontaktPage() {
               </p>
             </div>
           </div>
-          <ShapeDivider position="bottom" color="#ffffff" alignment="left" />
+          <ShapeDivider position="bottom" color="#ffffff" alignment="center" />
         </section>
 
         {/* Contact Section */}

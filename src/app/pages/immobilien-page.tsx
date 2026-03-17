@@ -126,7 +126,7 @@ export function ImmobilienPage() {
                 </p>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-10 border border-white/20">
+              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-10 border border-white/20 mb-16">
                 <div className="space-y-8">
                   <div className="flex gap-4">
                     <div className="flex-shrink-0 w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-white text-xl font-bold">
@@ -290,7 +290,9 @@ export function ImmobilienPage() {
               </p>
             </div>
 
-            <PropertiesShowcase />
+            <div className="mb-16">
+              <PropertiesShowcase />
+            </div>
           </div>
           <ShapeDivider position="bottom" color="#ffffff" alignment="right" />
         </section>
@@ -310,7 +312,7 @@ export function ImmobilienPage() {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-3 gap-8 mb-16">
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-8 border border-[#172545]/10 hover:shadow-xl transition-all duration-300">
                   <div className="w-12 h-12 bg-[#172545] rounded-xl flex items-center justify-center mb-4">
                     <Target className="w-6 h-6 text-white" />

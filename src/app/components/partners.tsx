@@ -52,7 +52,7 @@ export function Partners() {
         </div>
 
         {/* Symmetrisch bei jeder Anzahl (1–10+) */}
-        <div className="flex flex-wrap justify-center gap-10 max-w-6xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-10 max-w-6xl mx-auto mb-16">
           {partners.map((partner) => {
             const isHovered = hoveredPartner === partner.id;
 

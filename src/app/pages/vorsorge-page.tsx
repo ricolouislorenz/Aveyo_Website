@@ -364,28 +364,6 @@ export function VorsorgePage() {
                   ))}
                 </div>
 
-                {/* Check-Up CTA */}
-                <div className="mt-16 bg-[#0d1a30] rounded-3xl p-8 md:p-12 border border-[#586477]/30 text-center">
-                  <h3 className="text-2xl md:text-3xl text-white font-bold mb-4">
-                    Dein individueller Check-Up
-                  </h3>
-                  <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
-                    Brauchst du wirklich alles? Wahrscheinlich nicht. Welche
-                    Versicherungen für dich sinnvoll sind, hängt von deiner
-                    Lebensphase und deinen Zielen ab.
-                  </p>
-                  <p className="text-white/80 text-lg leading-relaxed mb-8">
-                    Lass uns gemeinsam prüfen, wo du gut aufgestellt bist und wo
-                    Lücken bestehen.
-                  </p>
-                  <Link
-                    to="/termin"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#172545] rounded-xl hover:bg-white/90 transition-all duration-300 hover:shadow-lg text-lg font-semibold"
-                  >
-                    Termin vereinbaren
-                    <ArrowRight className="w-5 h-5" />
-                  </Link>
-                </div>
               </div>
             ) : (
               <div className="max-w-6xl mx-auto">
@@ -449,36 +427,60 @@ export function VorsorgePage() {
                   ))}
                 </div>
 
-                {/* Check-Up CTA */}
-                <div className="mt-16 bg-[#0d1a30] rounded-3xl p-8 md:p-12 border border-[#586477]/30 text-center">
-                  <h3 className="text-2xl md:text-3xl text-white font-bold mb-4">
+              </div>
+            )}
+          </div>
+          <ShapeDivider position="bottom" color="#ffffff" alignment="left" />
+        </section>
+
+        {/* CTA Section */}
+        <section className="relative bg-white pt-40 pb-32">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              {activeTab === "private" ? (
+                <>
+                  <h2 className="text-4xl md:text-5xl mb-6 text-[#172545] font-bold">
+                    Dein individueller Check-Up
+                  </h2>
+                  <p className="text-xl text-[#586477] mb-4 leading-relaxed max-w-2xl mx-auto">
+                    Brauchst du wirklich alles? Wahrscheinlich nicht. Welche
+                    Versicherungen für dich sinnvoll sind, hängt von deiner
+                    Lebensphase und deinen Zielen ab.
+                  </p>
+                  <p className="text-xl text-[#586477] mb-10 leading-relaxed">
+                    Lass uns gemeinsam prüfen, wo du gut aufgestellt bist und
+                    wo Lücken bestehen.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h2 className="text-4xl md:text-5xl mb-6 text-[#172545] font-bold">
                     Dein strategischer Sicherheits-Check
-                  </h3>
-                  <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
+                  </h2>
+                  <p className="text-xl text-[#586477] mb-4 leading-relaxed max-w-2xl mx-auto">
                     Jedes Business ist einzigartig. Standardlösungen greifen
                     hier zu kurz. Lass uns gemeinsam eine Risikoanalyse
                     durchführen und ein Sicherheitsnetz spannen, das perfekt zu
                     deinem Geschäftsmodell, deiner Branche und deiner
                     Wachstumsphase passt.
                   </p>
-                  <p className="text-white/80 text-lg leading-relaxed mb-8">
+                  <p className="text-xl text-[#586477] mb-10 leading-relaxed">
                     Sichere dein Lebenswerk ab – strategisch und effizient.
                   </p>
-                  <Link
-                    to="/termin"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#172545] rounded-xl hover:bg-white/90 transition-all duration-300 hover:shadow-lg text-lg font-semibold"
-                  >
-                    Termin vereinbaren
-                    <ArrowRight className="w-5 h-5" />
-                  </Link>
-                </div>
-              </div>
-            )}
+                </>
+              )}
+              <Link
+                to="/termin"
+                className="inline-flex items-center gap-2 px-10 py-5 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 hover:shadow-xl text-lg font-semibold"
+              >
+                Termin vereinbaren
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
           </div>
-          <ShapeDivider position="bottom" color="#ffffff" alignment="left" />
         </section>
       </main>
-      <Footer />
+      <Footer variant="blue" />
     </div>
   );
 }

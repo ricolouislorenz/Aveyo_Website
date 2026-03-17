@@ -136,7 +136,7 @@ export function TerminPage() {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid md:grid-cols-2 gap-8 mb-16">
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
                   <h3 className="text-2xl font-semibold text-white mb-4">Kennenlernen</h3>
                   <p className="text-white/80 leading-relaxed">

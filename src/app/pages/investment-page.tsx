@@ -63,7 +63,7 @@ export function InvestmentPage() {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-3 gap-8 mb-16">
                 <div className="bg-gradient-to-br from-[#172545] to-[#2a3f6f] rounded-3xl p-8 text-white">
                   <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-6">
                     <Target className="w-8 h-8 text-white" />

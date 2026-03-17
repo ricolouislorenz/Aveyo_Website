@@ -204,7 +204,7 @@ export function AboutPage() {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid md:grid-cols-2 gap-8 mb-16">
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
                   <div className="text-center">
                     <h3 className="text-xl font-semibold text-white mb-2">
@@ -246,7 +246,7 @@ export function AboutPage() {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-3 gap-8 mb-16">
                 {promises.map((promise, index) => (
                   <div
                     key={index}
@@ -286,7 +286,7 @@ export function AboutPage() {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8 items-stretch">
+              <div className="grid md:grid-cols-2 gap-8 items-stretch mb-16">
                 {founders.map((founder, index) => {
                   const activeTab =
                     index === 0 ? activeTabAdrian : activeTabTimo;
