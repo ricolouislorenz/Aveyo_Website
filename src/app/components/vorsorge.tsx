@@ -5,10 +5,12 @@ import { assets } from "@/config/assets";
 
 const DESKTOP_STICKY_TOP = 120;
 
+type ResponsiveImage = { sm: string; lg: string };
+
 type Service = {
   title: string;
   description: string;
-  image: string;
+  image: ResponsiveImage;
 };
 
 export function Vorsorge() {
@@ -403,7 +405,9 @@ export function Vorsorge() {
                   <div className="bg-white rounded-2xl overflow-hidden shadow-lg flex flex-col h-full">
                     <div className="w-full h-44 shrink-0 overflow-hidden">
                       <img
-                        src={service.image}
+                        src={service.image.sm}
+                        srcSet={`${service.image.sm} 320w, ${service.image.lg} 640w`}
+                        sizes="(min-width: 640px) 640px, 320px"
                         alt={service.title}
                         width="640"
                         height="400"
@@ -526,7 +530,9 @@ export function Vorsorge() {
                   {currentServices.map((service, index) => (
                     <img
                       key={index}
-                      src={service.image}
+                      src={service.image.lg}
+                      srcSet={`${service.image.sm} 320w, ${service.image.lg} 640w`}
+                      sizes="640px"
                       alt={service.title}
                       className="absolute inset-0 w-full h-full rounded-3xl shadow-2xl object-cover transition-opacity duration-700"
                       style={{

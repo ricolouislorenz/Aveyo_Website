@@ -136,7 +136,9 @@ export function FinancialAnalysis() {
                     {/* Bild */}
                     <div className="flex items-center justify-center min-h-0 p-3">
                       <motion.img
-                        src={assets.financialAnalysis.document}
+                        src={assets.financialAnalysis.document.lg}
+                        srcSet={`${assets.financialAnalysis.document.sm} 480w, ${assets.financialAnalysis.document.md} 768w, ${assets.financialAnalysis.document.lg} 960w`}
+                        sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 960px"
                         alt="Dein persönliches Finanzgutachten"
                         className="w-full max-w-[99vw] sm:max-w-[94vw] md:max-w-[1060px] lg:max-w-[1220px] h-full object-contain rounded-2xl"
                         style={{

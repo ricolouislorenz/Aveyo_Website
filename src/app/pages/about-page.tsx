@@ -10,8 +10,7 @@ import { SEO } from "@/app/components/seo";
 const ABOUT_HERO_IMAGE_768 = "/images/pages/about/about-hero_768.webp";
 const ABOUT_HERO_IMAGE_960 = "/images/pages/about/about-hero_960.webp";
 
-const ADRIAN_IMAGE = "/images/team/adrian_320.webp";
-const TIMO_IMAGE = "/images/team/timo_320.webp";
+import { assets } from "@/config/assets";
 
 export function AboutPage() {
   const [activeTabAdrian, setActiveTabAdrian] = useState<"about" | "drives">(
@@ -46,7 +45,7 @@ export function AboutPage() {
       role: "Geschäftsführer",
       expertise: "Experte für Investment und Versicherungen",
       recipientKey: "adrian",
-      image: ADRIAN_IMAGE,
+      image: assets.team.adrian,
       aboutMe:
         "Nach über 10 Jahren in der traditionellen Finanzbranche habe ich erkannt, dass die alte Welt nicht mehr zu den Bedürfnissen der digitalen Generation passt. Ich habe bei führenden Finanzinstituten gearbeitet, Hunderte von Kunden betreut und dabei eines gelernt: Die besten Strategien sind die, die man versteht. Mein Weg führte mich von der klassischen Bankenwelt über spezialisierte Versicherungsmakler bis hin zur Gründung von AVEYO – immer mit dem Ziel, Finanzberatung transparenter, digitaler und kundenorientierter zu machen.",
       whatDrivesMe: {
@@ -81,7 +80,7 @@ export function AboutPage() {
       role: "Geschäftsführer",
       expertise: "Experte für Immobilieninvestment und Versicherungen",
       recipientKey: "timo",
-      image: TIMO_IMAGE,
+      image: assets.team.timo,
       aboutMe:
         "Immobilien sind meine Leidenschaft seit meinem ersten Investment vor über 12 Jahren. Ich habe den Markt von allen Seiten kennengelernt: Als Investor, Berater und Projektentwickler. Von der ersten kleinen Eigentumswohnung bis zu komplexen gewerblichen Portfolios – ich habe gesehen, was funktioniert und was nicht. Meine Expertise liegt darin, aus Daten und Marktanalysen konkrete Investmentstrategien zu entwickeln, die wirklich Rendite bringen.",
       whatDrivesMe: {
@@ -305,7 +304,9 @@ export function AboutPage() {
                       <div className="relative z-10 flex flex-col h-full">
                         <div className="w-40 h-40 mx-auto mb-6 overflow-hidden rounded-full ring-4 ring-white/10 shadow-2xl bg-white/5">
                           <img
-                            src={founder.image}
+                            src={founder.image.sm}
+                            srcSet={`${founder.image.sm} 320w, ${founder.image.lg} 640w`}
+                            sizes="160px"
                             width="320"
                             height="320"
                             alt={founder.name}

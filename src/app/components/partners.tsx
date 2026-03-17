@@ -8,8 +8,10 @@ type Partner = {
   url: string;
   useTextLogo?: boolean;
   textLogoSubline?: string;
-  logoSrc: string; // immer 640
-  teamSrc: string; // immer 640
+  logoSrc: string; // 640
+  logoSrcSm: string; // 320
+  teamSrc: string; // 640
+  teamSrcSm: string; // 320
 };
 
 function makePartner(id: string, name: string, url: string, shortName?: string): Partner {
@@ -21,7 +23,9 @@ function makePartner(id: string, name: string, url: string, shortName?: string):
     url,
     useTextLogo: false,
     logoSrc: `${base}/logo_640.webp`,
+    logoSrcSm: `${base}/logo_320.webp`,
     teamSrc: `${base}/team_640.webp`,
+    teamSrcSm: `${base}/team_320.webp`,
   };
 }
 
@@ -91,7 +95,9 @@ export function Partners() {
                         </div>
                       ) : (
                         <img
-                          src={partner.logoSrc} // IMMER 640
+                          src={partner.logoSrc}
+                          srcSet={`${partner.logoSrcSm} 320w, ${partner.logoSrc} 640w`}
+                          sizes="(max-width: 640px) 320px, 640px"
                           alt={`${partner.name} Logo`}
                           className="w-full h-full object-contain p-8"
                           loading="lazy"
@@ -107,7 +113,9 @@ export function Partners() {
                       }`}
                     >
                       <img
-                        src={partner.teamSrc} // IMMER 640
+                        src={partner.teamSrc}
+                        srcSet={`${partner.teamSrcSm} 320w, ${partner.teamSrc} 640w`}
+                        sizes="(max-width: 640px) 320px, 640px"
                         alt={`${partner.name} Team`}
                         className="w-full h-full object-cover"
                         loading="lazy"

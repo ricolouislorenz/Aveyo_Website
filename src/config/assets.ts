@@ -4,76 +4,111 @@
 const logoMain = "/logo.png";
 const logoReveal = "/logo-reveal.png";
 
-// Hero
-const heroMain = "/images/hero.png";
-
 // Financial Analysis
 const financialAnalysisLogo = "/logo-reveal.png";
-const financialAnalysisDocument = "/images/home/financial-analysis/Finanzgutachten.png";
-
-// Startseite
-const investmentMain = "/images/startseite_investment.png";
-const propertiesMain = "/images/startseite_immobilien.png";
-
-// Vorsorge Overview
-const vorsorgeOverviewPrivate = "/images/vorsorge/overview/private-overview.jpg";
-const vorsorgeOverviewBusiness = "/images/vorsorge/overview/business-overview.jpg";
+const financialAnalysisDocument = {
+  sm: "/images/home/financial-analysis/finanzgutachten_480.webp",
+  md: "/images/home/financial-analysis/finanzgutachten_768.webp",
+  lg: "/images/home/financial-analysis/finanzgutachten_960.webp",
+};
 
 // Vorsorge Privat
-const vorsorgePrivatePrivathaftpflicht =
-  "/images/pages/vorsorge/private/privathaftpflicht.webp";
-const vorsorgePrivateBerufsunfaehigkeit =
-  "/images/pages/vorsorge/private/berufsunfaehigkeit.webp";
-const vorsorgePrivateRentenversicherung =
-  "/images/pages/vorsorge/private/rentenversicherung.webp";
-const vorsorgePrivatePflegezusatzversicherung =
-  "/images/pages/vorsorge/private/pflegezusatzversicherung.webp";
-const vorsorgePrivateKrankenzusatzversicherung =
-  "/images/pages/vorsorge/private/krankenzusatzversicherung.webp";
-const vorsorgePrivateZahnzusatzversicherung =
-  "/images/pages/vorsorge/private/zahnzusatzversicherung.webp";
-const vorsorgePrivateAuslandsreiseversicherung =
-  "/images/pages/vorsorge/private/auslandsreiseversicherung.webp";
-const vorsorgePrivatePrivateKrankenversicherung =
-  "/images/pages/vorsorge/private/private-krankenversicherung.webp";
-const vorsorgePrivateHausratversicherung =
-  "/images/pages/vorsorge/private/hausratversicherung.webp";
-const vorsorgePrivateWohngebaeudeversicherung =
-  "/images/pages/vorsorge/private/wohngebaeudeversicherung.webp";
-const vorsorgePrivateKfzVersicherung =
-  "/images/pages/vorsorge/private/kfz-versicherung.webp";
-const vorsorgePrivateTierversicherung =
-  "/images/pages/vorsorge/private/tierversicherung.webp";
-const vorsorgePrivateUnfallversicherung =
-  "/images/pages/vorsorge/private/unfallversicherung.webp";
-const vorsorgePrivateRechtsschutzversicherung =
-  "/images/pages/vorsorge/private/rechtsschutzversicherung.webp";
+const vorsorgePrivatePrivathaftpflicht = {
+  sm: "/images/pages/vorsorge/private/privathaftpflicht_320.webp",
+  lg: "/images/pages/vorsorge/private/privathaftpflicht_640.webp",
+};
+const vorsorgePrivateBerufsunfaehigkeit = {
+  sm: "/images/pages/vorsorge/private/berufsunfaehigkeit_320.webp",
+  lg: "/images/pages/vorsorge/private/berufsunfaehigkeit_640.webp",
+};
+const vorsorgePrivateRentenversicherung = {
+  sm: "/images/pages/vorsorge/private/rentenversicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/rentenversicherung_640.webp",
+};
+const vorsorgePrivatePflegezusatzversicherung = {
+  sm: "/images/pages/vorsorge/private/pflegezusatzversicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/pflegezusatzversicherung_640.webp",
+};
+const vorsorgePrivateKrankenzusatzversicherung = {
+  sm: "/images/pages/vorsorge/private/krankenzusatzversicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/krankenzusatzversicherung_640.webp",
+};
+const vorsorgePrivateZahnzusatzversicherung = {
+  sm: "/images/pages/vorsorge/private/zahnzusatzversicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/zahnzusatzversicherung_640.webp",
+};
+const vorsorgePrivateAuslandsreiseversicherung = {
+  sm: "/images/pages/vorsorge/private/auslandsreiseversicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/auslandsreiseversicherung_640.webp",
+};
+const vorsorgePrivatePrivateKrankenversicherung = {
+  sm: "/images/pages/vorsorge/private/private-krankenversicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/private-krankenversicherung_640.webp",
+};
+const vorsorgePrivateHausratversicherung = {
+  sm: "/images/pages/vorsorge/private/hausratversicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/hausratversicherung_640.webp",
+};
+const vorsorgePrivateWohngebaeudeversicherung = {
+  sm: "/images/pages/vorsorge/private/wohngebaeudeversicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/wohngebaeudeversicherung_640.webp",
+};
+const vorsorgePrivateKfzVersicherung = {
+  sm: "/images/pages/vorsorge/private/kfz-versicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/kfz-versicherung_640.webp",
+};
+const vorsorgePrivateTierversicherung = {
+  sm: "/images/pages/vorsorge/private/tierversicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/tierversicherung_640.webp",
+};
+const vorsorgePrivateUnfallversicherung = {
+  sm: "/images/pages/vorsorge/private/unfallversicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/unfallversicherung_640.webp",
+};
+const vorsorgePrivateRechtsschutzversicherung = {
+  sm: "/images/pages/vorsorge/private/rechtsschutzversicherung_320.webp",
+  lg: "/images/pages/vorsorge/private/rechtsschutzversicherung_640.webp",
+};
 
 // Vorsorge Business
-const vorsorgeBusinessBetriebshaftpflicht =
-  "/images/pages/vorsorge/business/betriebshaftpflicht.webp";
-const vorsorgeBusinessInhaltsversicherung =
-  "/images/pages/vorsorge/business/inhaltsversicherung.webp";
-const vorsorgeBusinessBetriebsunterbrechungsversicherung =
-  "/images/pages/vorsorge/business/betriebsunterbrechungsversicherung.webp";
-const vorsorgeBusinessCyberversicherung =
-  "/images/pages/vorsorge/business/cyberversicherung.webp";
-const vorsorgeBusinessFirmenRechtsschutz =
-  "/images/pages/vorsorge/business/firmen-rechtsschutz.webp";
-const vorsorgeBusinessGeschaeftsfuehrerVorsorgeDo =
-  "/images/pages/vorsorge/business/geschaeftsfuehrer-vorsorge-do.webp";
-const vorsorgeBusinessMitarbeiterabsicherung =
-  "/images/pages/vorsorge/business/mitarbeiterabsicherung.webp";
+const vorsorgeBusinessBetriebshaftpflicht = {
+  sm: "/images/pages/vorsorge/business/betriebshaftpflicht_320.webp",
+  lg: "/images/pages/vorsorge/business/betriebshaftpflicht_640.webp",
+};
+const vorsorgeBusinessInhaltsversicherung = {
+  sm: "/images/pages/vorsorge/business/inhaltsversicherung_320.webp",
+  lg: "/images/pages/vorsorge/business/inhaltsversicherung_640.webp",
+};
+const vorsorgeBusinessBetriebsunterbrechungsversicherung = {
+  sm: "/images/pages/vorsorge/business/betriebsunterbrechungsversicherung_320.webp",
+  lg: "/images/pages/vorsorge/business/betriebsunterbrechungsversicherung_640.webp",
+};
+const vorsorgeBusinessCyberversicherung = {
+  sm: "/images/pages/vorsorge/business/cyberversicherung_320.webp",
+  lg: "/images/pages/vorsorge/business/cyberversicherung_640.webp",
+};
+const vorsorgeBusinessFirmenRechtsschutz = {
+  sm: "/images/pages/vorsorge/business/firmen-rechtsschutz_320.webp",
+  lg: "/images/pages/vorsorge/business/firmen-rechtsschutz_640.webp",
+};
+const vorsorgeBusinessGeschaeftsfuehrerVorsorgeDo = {
+  sm: "/images/pages/vorsorge/business/geschaeftsfuehrer-vorsorge-do_320.webp",
+  lg: "/images/pages/vorsorge/business/geschaeftsfuehrer-vorsorge-do_640.webp",
+};
+const vorsorgeBusinessMitarbeiterabsicherung = {
+  sm: "/images/pages/vorsorge/business/mitarbeiterabsicherung_320.webp",
+  lg: "/images/pages/vorsorge/business/mitarbeiterabsicherung_640.webp",
+};
 
 // Team
-const teamProfile1 = "/images/Adrian.png";
-const teamProfile2 = "/images/Timo.png";
-
-// Partners
-const partnersSolveLogo = "/images/solve_logo.jpg";
-const partnersSolveTeam = "/images/solve_team.jpg";
-const partnersMartinLogo = "/images/martinmuehle-logo.png";
-const partnersMartinTeam = "/images/martinmuehle-team.png";
+const teamAdrian = {
+  sm: "/images/team/adrian_320.webp",
+  lg: "/images/team/adrian_640.webp",
+};
+const teamTimo = {
+  sm: "/images/team/timo_320.webp",
+  lg: "/images/team/timo_640.webp",
+};
 
 export const assets = {
   logo: {
@@ -81,28 +116,12 @@ export const assets = {
     reveal: logoReveal,
   },
 
-  hero: {
-    main: heroMain,
-  },
-
   financialAnalysis: {
     logo: financialAnalysisLogo,
     document: financialAnalysisDocument,
   },
 
-  investment: {
-    main: investmentMain,
-  },
-
-  properties: {
-    main: propertiesMain,
-  },
-
   vorsorge: {
-    overview: {
-      private: vorsorgeOverviewPrivate,
-      business: vorsorgeOverviewBusiness,
-    },
     private: {
       privathaftpflicht: vorsorgePrivatePrivathaftpflicht,
       berufsunfaehigkeit: vorsorgePrivateBerufsunfaehigkeit,
@@ -122,26 +141,17 @@ export const assets = {
     business: {
       betriebshaftpflicht: vorsorgeBusinessBetriebshaftpflicht,
       inhaltsversicherung: vorsorgeBusinessInhaltsversicherung,
-      betriebsunterbrechungsversicherung:
-        vorsorgeBusinessBetriebsunterbrechungsversicherung,
+      betriebsunterbrechungsversicherung: vorsorgeBusinessBetriebsunterbrechungsversicherung,
       cyberversicherung: vorsorgeBusinessCyberversicherung,
       firmenRechtsschutz: vorsorgeBusinessFirmenRechtsschutz,
-      geschaeftsfuehrerVorsorgeDo:
-        vorsorgeBusinessGeschaeftsfuehrerVorsorgeDo,
+      geschaeftsfuehrerVorsorgeDo: vorsorgeBusinessGeschaeftsfuehrerVorsorgeDo,
       mitarbeiterabsicherung: vorsorgeBusinessMitarbeiterabsicherung,
     },
   },
 
   team: {
-    profile1: teamProfile1,
-    profile2: teamProfile2,
-  },
-
-  partners: {
-    solveLogo: partnersSolveLogo,
-    solveTeam: partnersSolveTeam,
-    martinLogo: partnersMartinLogo,
-    martinTeam: partnersMartinTeam,
+    adrian: teamAdrian,
+    timo: teamTimo,
   },
 };
 

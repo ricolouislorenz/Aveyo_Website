@@ -1,15 +1,14 @@
 import { Mail } from "lucide-react";
 import { ShapeDivider } from "@/app/components/shape-divider";
 
-const ADRIAN_IMAGE = "/images/team/adrian_320.webp";
-const TIMO_IMAGE = "/images/team/timo_320.webp";
+import { assets } from "@/config/assets";
 
 export function About() {
   const team = [
     {
       name: "Adrian Nerhoff",
       role: "Geschäftsführer",
-      image: ADRIAN_IMAGE,
+      image: assets.team.adrian,
       description: "Experte für Investment und Versicherungen",
       statement:
         "Meine Leidenschaft ist es, Menschen dabei zu helfen, finanzielle Freiheit zu erreichen. Jeder verdient eine maßgeschneiderte Strategie für langfristigen Erfolg.",
@@ -18,7 +17,7 @@ export function About() {
     {
       name: "Timo Konrad",
       role: "Geschäftsführer",
-      image: TIMO_IMAGE,
+      image: assets.team.timo,
       description: "Experte für Immobilieninvestment und Versicherungen",
       statement:
         "Absicherung bedeutet Lebensqualität. Ich sorge dafür, dass du und dein Unternehmen optimal geschützt sind – transparent und verlässlich.",
@@ -65,7 +64,9 @@ export function About() {
                 <div className="relative mb-6">
                   <div className="w-36 h-36 rounded-2xl overflow-hidden shadow-2xl ring-2 ring-white/10 group-hover:ring-white/30 transition-all duration-500">
                     <img
-                      src={member.image}
+                      src={member.image.sm}
+                      srcSet={`${member.image.sm} 320w, ${member.image.lg} 640w`}
+                      sizes="144px"
                       width="320"
                       height="320"
                       alt={member.name}
