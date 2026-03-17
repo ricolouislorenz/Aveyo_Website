@@ -1,0 +1,38 @@
+# Cloudflare Pages – HTTP Response Headers
+
+# Statische Assets mit Hash im Dateinamen → 1 Jahr cachen
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Bilder → 1 Jahr cachen
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Logos & Favicons → 1 Woche (kein Hash im Dateinamen)
+/logo.png
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/logo.webp
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/logo-reveal.png
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/logo-reveal.webp
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/favicon.png
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+# HTML → nie cachen (damit neue Deployments sofort wirken)
+/*.html
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# Sitemap & robots → kurz cachen
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+/robots.txt
+  Cache-Control: public, max-age=86400
+
+# Sicherheitsheader für alle Seiten
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
