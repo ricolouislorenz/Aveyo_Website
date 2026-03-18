@@ -149,7 +149,7 @@ export function FinanzcheckPage() {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-3 gap-8 mb-16">
                 {benefits.map((benefit, index) => (
                   <div
                     key={index}
@@ -187,7 +187,7 @@ export function FinanzcheckPage() {
                 </p>
               </div>
 
-              <div className="space-y-8">
+              <div className="space-y-8 mb-16">
                 {steps.map((step, index) => (
                   <div
                     key={index}
@@ -224,7 +224,7 @@ export function FinanzcheckPage() {
                 </h2>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-6 mb-16">
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
                   <h3 className="text-xl font-semibold text-white mb-4">
                     Versicherungen

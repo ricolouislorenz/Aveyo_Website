@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   MapPin,
   Euro,
@@ -38,6 +39,7 @@ export function PropertiesShowcase() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
 
   const apiUrl = `https://${projectId}.supabase.co/functions/v1/make-server-78b4cf15`;
 
@@ -114,9 +116,22 @@ export function PropertiesShowcase() {
 
   return (
     <div ref={containerRef} className="relative max-w-7xl mx-auto">
-      {/* ── Mobile: single card ── */}
+      {/* ── Mobile + Tablet: single card with swipe ── */}
       <div className="md:hidden">
-        <div className="px-2">
+        <div
+          className="px-2 select-none"
+          onTouchStart={(e) => {
+            touchStartX.current = e.touches[0].clientX;
+          }}
+          onTouchEnd={(e) => {
+            if (touchStartX.current === null) return;
+            const delta = touchStartX.current - e.changedTouches[0].clientX;
+            if (Math.abs(delta) > 50) {
+              delta > 0 ? goToNext() : goToPrevious();
+            }
+            touchStartX.current = null;
+          }}
+        >
           <PropertyCard property={properties[currentIndex]} />
         </div>
         {properties.length > 1 && (
@@ -145,7 +160,20 @@ export function PropertiesShowcase() {
       </div>
 
       {/* ── Desktop: carousel ── */}
-      <div className="hidden md:block relative overflow-hidden">
+      <div
+        className="hidden md:block relative overflow-hidden"
+        onTouchStart={(e) => {
+          touchStartX.current = e.touches[0].clientX;
+        }}
+        onTouchEnd={(e) => {
+          if (touchStartX.current === null) return;
+          const delta = touchStartX.current - e.changedTouches[0].clientX;
+          if (Math.abs(delta) > 50) {
+            delta > 0 ? goToNext() : goToPrevious();
+          }
+          touchStartX.current = null;
+        }}
+      >
         <div
           ref={sliderRef}
           className="flex gap-4 px-4 transition-transform duration-700 ease-in-out"
@@ -313,8 +341,8 @@ function PropertyCard({ property }: { property: Property }) {
         </div>
       </div>
 
-      {/* Features Modal */}
-      {showFeaturesModal && (
+      {/* Features Modal — via portal so CSS transforms in ancestors don't affect fixed positioning */}
+      {showFeaturesModal && createPortal(
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
           onClick={() => setShowFeaturesModal(false)}
@@ -362,7 +390,8 @@ function PropertyCard({ property }: { property: Property }) {
               </a>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

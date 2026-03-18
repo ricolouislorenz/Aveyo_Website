@@ -96,13 +96,13 @@ export function FinancialAnalysis() {
                     scale: logoScale,
                   }}
                 >
-                  <picture>
+                  <picture className="block w-full text-center">
                     <source srcSet="/logo-reveal.webp" type="image/webp" />
                     <img
                     src={assets.financialAnalysis.logo}
                     alt="AVEYO"
                     width="1132" height="447"
-                    className="max-w-[84%] sm:max-w-[72%] md:max-w-[620px] h-auto"
+                    className="max-w-[84%] sm:max-w-[72%] md:max-w-[620px] h-auto mx-auto"
                   />
                   </picture>
                 </motion.div>
