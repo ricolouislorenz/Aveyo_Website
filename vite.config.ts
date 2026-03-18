@@ -52,10 +52,6 @@ export default defineConfig({
           if (id.includes('@radix-ui')) {
             return 'radix';
           }
-          // Icons
-          if (id.includes('lucide-react')) {
-            return 'icons';
-          }
           // React Kern + Router → stabiler Cache-Chunk
           if (
             id.includes('node_modules/react/') ||

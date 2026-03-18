@@ -3,7 +3,7 @@ import { ShapeDivider } from "@/app/components/shape-divider";
 import { assets } from "@/config/assets";
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { LazyMotion, domAnimation, m, useScroll, useTransform } from "motion/react";
 
 const BOTTOM_GUTTER = 24;
 
@@ -66,6 +66,7 @@ export function FinancialAnalysis() {
   const hintOpacity = useTransform(scrollYProgress, [0, 0.10, 0.14], [1, 1, 0]);
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <section
       id="finanzanalyse"
       ref={sectionRef}
@@ -89,7 +90,7 @@ export function FinancialAnalysis() {
                 style={{ height: "min(74svh, 760px)" }}
               >
                 {/* Logo-Ebene */}
-                <motion.div
+                <m.div
                   className="absolute inset-0 flex items-center justify-center"
                   style={{
                     opacity: logoOpacity,
@@ -105,10 +106,10 @@ export function FinancialAnalysis() {
                     className="max-w-[84%] sm:max-w-[72%] md:max-w-[620px] h-auto mx-auto"
                   />
                   </picture>
-                </motion.div>
+                </m.div>
 
                 {/* Dokument-Ebene */}
-                <motion.div
+                <m.div
                   className="absolute inset-0 flex items-center justify-center"
                   style={{
                     opacity: contentOpacity,
@@ -126,7 +127,7 @@ export function FinancialAnalysis() {
                   >
                     {/* Überschrift */}
                     <div className="flex items-start justify-center">
-                      <motion.h2
+                      <m.h2
                         className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#172545] text-center"
                         style={{
                           opacity: textOpacity,
@@ -134,12 +135,12 @@ export function FinancialAnalysis() {
                         }}
                       >
                         Dein kostenloses Finanzgutachten
-                      </motion.h2>
+                      </m.h2>
                     </div>
 
                     {/* Bild */}
                     <div className="flex items-center justify-center min-h-0 p-3">
-                      <motion.img
+                      <m.img
                         src={assets.financialAnalysis.document.lg}
                         srcSet={`${assets.financialAnalysis.document.sm} 480w, ${assets.financialAnalysis.document.md} 768w, ${assets.financialAnalysis.document.lg} 960w`}
                         sizes="(max-width: 480px) 95vw, (max-width: 768px) 90vw, (max-width: 1280px) 80vw, 960px"
@@ -155,7 +156,7 @@ export function FinancialAnalysis() {
 
                     {/* Button */}
                     <div className="flex items-end justify-center">
-                      <motion.div
+                      <m.div
                         style={{
                           opacity: textOpacity,
                           y: textY,
@@ -168,15 +169,15 @@ export function FinancialAnalysis() {
                           Mehr erfahren
                           <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                         </Link>
-                      </motion.div>
+                      </m.div>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               </div>
             </div>
 
             {/* Scroll-Hinweis */}
-            <motion.div
+            <m.div
               className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
               style={{ opacity: hintOpacity }}
             >
@@ -194,12 +195,13 @@ export function FinancialAnalysis() {
               >
                 <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </div>
 
       <ShapeDivider position="bottom" color="#172545" alignment="right" />
     </section>
+    </LazyMotion>
   );
 }
