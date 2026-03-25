@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
-import { LayoutDashboard, Building2, BarChart3, Star, LogOut, Settings } from "lucide-react";
+import { LayoutDashboard, Building2, BarChart3, Star, LogOut, Settings, Handshake } from "lucide-react";
 import { useAuth } from "../context/auth-context";
 
 interface AdminLayoutProps {
@@ -32,6 +32,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       to: "/admin/bewertungen",
       icon: Star,
       label: "Bewertungen",
+    },
+    {
+      to: "/admin/partner",
+      icon: Handshake,
+      label: "Partner",
     },
     {
       to: "/admin/analytics",

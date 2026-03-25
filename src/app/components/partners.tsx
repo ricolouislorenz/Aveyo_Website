@@ -1,43 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ShapeDivider } from "@/app/components/shape-divider";
+import { projectId, publicAnonKey } from "/utils/supabase/info";
 
 type Partner = {
   id: string;
   name: string;
-  shortName?: string;
   url: string;
-  useTextLogo?: boolean;
-  textLogoSubline?: string;
-  logoSrc: string; // 640
-  logoSrcSm: string; // 320
-  teamSrc: string; // 640
-  teamSrcSm: string; // 320
+  logoUrl: string;
+  teamPhotoUrl: string;
 };
 
-function makePartner(id: string, name: string, url: string, shortName?: string): Partner {
-  const base = `/images/partners/${id}`;
-  return {
-    id,
-    name,
-    shortName,
-    url,
-    useTextLogo: false,
-    logoSrc: `${base}/logo_640.webp`,
-    logoSrcSm: `${base}/logo_320.webp`,
-    teamSrc: `${base}/team_640.webp`,
-    teamSrcSm: `${base}/team_320.webp`,
-  };
-}
-
-const partners: Partner[] = [
-  makePartner("solve", "SOLVE Rechtsanwälte & Steuerberatung", "https://www.solve-law.de/", "SOLVE"),
-  makePartner("martin", "Finanzierungsberatung Martin Mühle", "https://www.martinmuehle.de/", "Martin Mühle"),
-  makePartner("taxfix", "Ganz einfach Ø 1.172€ Steuern zurückholen", "https://taxfix.de/finanzberater-adrian-nerhoff/", "Taxfix"),
-  // weitere Partner einfach hier ergänzen:
-];
+const apiUrl = `https://${projectId}.supabase.co/functions/v1/make-server-78b4cf15/partners`;
 
 export function Partners() {
+  const [partners, setPartners] = useState<Partner[]>([]);
   const [hoveredPartner, setHoveredPartner] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch(apiUrl, { headers: { Authorization: `Bearer ${publicAnonKey}` } })
+      .then((r) => r.json())
+      .then((result) => {
+        if (result.success) setPartners(result.data);
+      })
+      .catch(() => {});
+  }, []);
+
+  if (partners.length === 0) return null;
 
   return (
     <section id="partner" className="pt-40 pb-32 bg-white relative">
@@ -51,7 +39,6 @@ export function Partners() {
           </p>
         </div>
 
-        {/* Symmetrisch bei jeder Anzahl (1–10+) */}
         <div className="flex flex-wrap justify-center gap-10 max-w-6xl mx-auto mb-16">
           {partners.map((partner) => {
             const isHovered = hoveredPartner === partner.id;
@@ -68,7 +55,7 @@ export function Partners() {
                 "
               >
                 <a
-                  href={partner.url}
+                  href={partner.url || undefined}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block"
@@ -76,33 +63,22 @@ export function Partners() {
                   onMouseLeave={() => setHoveredPartner(null)}
                 >
                   <div className="relative bg-white rounded-2xl overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-2xl aspect-[16/9] border border-[#172545]/10">
-                    {/* Logo / Text */}
+                    {/* Logo */}
                     <div
                       className={`absolute inset-0 bg-white transition-opacity duration-500 flex items-center justify-center ${
                         isHovered ? "opacity-0" : "opacity-100"
                       }`}
                     >
-                      {partner.useTextLogo ? (
-                        <div className="text-center p-8">
-                          <h3 className="text-5xl md:text-6xl font-bold text-[#172545] tracking-wider">
-                            {partner.shortName ?? partner.name}
-                          </h3>
-                          {partner.textLogoSubline && (
-                            <div className="text-sm text-[#586477] mt-2 font-medium">
-                              {partner.textLogoSubline}
-                            </div>
-                          )}
-                        </div>
-                      ) : (
+                      {partner.logoUrl ? (
                         <img
-                          src={partner.logoSrc}
-                          srcSet={`${partner.logoSrcSm} 320w, ${partner.logoSrc} 640w`}
-                          sizes="(max-width: 640px) 320px, 640px"
+                          src={partner.logoUrl}
                           alt={`${partner.name} Logo`}
                           className="w-full h-full object-contain p-8"
                           loading="lazy"
                           decoding="async"
                         />
+                      ) : (
+                        <span className="text-4xl font-bold text-[#172545]">{partner.name}</span>
                       )}
                     </div>
 
@@ -112,23 +88,25 @@ export function Partners() {
                         isHovered ? "opacity-100" : "opacity-0"
                       }`}
                     >
-                      <img
-                        src={partner.teamSrc}
-                        srcSet={`${partner.teamSrcSm} 320w, ${partner.teamSrc} 640w`}
-                        sizes="(max-width: 640px) 320px, 640px"
-                        alt={`${partner.name} Team`}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#172545]/60 to-transparent" />
+                      {partner.teamPhotoUrl && (
+                        <>
+                          <img
+                            src={partner.teamPhotoUrl}
+                            alt={`${partner.name} Team`}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#172545]/60 to-transparent" />
+                        </>
+                      )}
                     </div>
                   </div>
                 </a>
 
                 {/* Name below image */}
                 <a
-                  href={partner.url}
+                  href={partner.url || undefined}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block"

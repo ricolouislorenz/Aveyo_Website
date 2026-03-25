@@ -22,6 +22,11 @@ const AdminSettingsPage = lazy(() =>
     default: m.AdminSettingsPage,
   })),
 );
+const AdminPartnerPage = lazy(() =>
+  import("./admin-partner").then((m) => ({
+    default: m.AdminPartnerPage,
+  })),
+);
 
 function AdminLoader() {
   return (
@@ -40,6 +45,7 @@ export function AdminRoutes() {
         <Route path="immobilien" element={<AdminImmobilienPage />} />
         <Route path="bewertungen" element={<AdminReviewsPage />} />
         <Route path="analytics" element={<AdminAnalyticsPage />} />
+        <Route path="partner" element={<AdminPartnerPage />} />
         <Route path="settings" element={<AdminSettingsPage />} />
       </Routes>
     </Suspense>

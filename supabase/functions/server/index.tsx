@@ -240,12 +240,32 @@ app.post("/admin/login", async (c) => {
         });
       }
 
-      return c.json({ success: true, message: "Login successful" });
+      // Neue Session erzeugen – invalidiert alle anderen aktiven Sessions
+      const sessionToken = crypto.randomUUID();
+      await kv.set("admin_session", { token: sessionToken, createdAt: new Date().toISOString() });
+
+      return c.json({ success: true, message: "Login successful", sessionToken });
     }
 
     return c.json({ success: false, error: "Invalid credentials" }, 401);
   } catch (error) {
     return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
+app.get("/admin/session/validate", async (c) => {
+  try {
+    const token = c.req.header("X-Session-Token");
+    if (!token) return c.json({ valid: false }, 401);
+
+    const session = await kv.get("admin_session");
+    if (!session || session.token !== token) {
+      return c.json({ valid: false }, 401);
+    }
+
+    return c.json({ valid: true });
+  } catch (error) {
+    return c.json({ valid: false, error: String(error) }, 500);
   }
 });
 
@@ -397,6 +417,23 @@ app.delete("/reviews/:id", async (c) => {
 
 // ==================== ANALYTICS ROUTES ====================
 
+async function purgeOldAnalyticsEvents(daysToKeep = 90): Promise<number> {
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - daysToKeep);
+
+  const events = await kv.getByPrefix("analytics_");
+  const toDelete = events
+    .filter((e) => new Date(e.timestamp || e.createdAt) < cutoff)
+    .map((e) => `analytics_${e.id}`);
+
+  if (toDelete.length > 0) {
+    await kv.mdel(toDelete);
+    console.log(`[auto-cleanup] ${toDelete.length} Analytics-Einträge gelöscht (älter als ${daysToKeep} Tage)`);
+  }
+
+  return toDelete.length;
+}
+
 app.post("/analytics/track", async (c) => {
   try {
     const body = await c.req.json();
@@ -442,6 +479,13 @@ app.post("/analytics/track", async (c) => {
     };
 
     await kv.set(`analytics_${id}`, event);
+
+    // Automatische Bereinigung: bei ~5 % aller Track-Requests im Hintergrund
+    if (Math.random() < 0.05) {
+      purgeOldAnalyticsEvents(90).catch((err) =>
+        console.error("[auto-cleanup] Fehler:", err)
+      );
+    }
 
     return c.json({ success: true });
   } catch (error) {
@@ -557,6 +601,58 @@ app.get("/analytics/stats", async (c) => {
       .sort((a, b) => b.count - a.count)
       .slice(0, 10);
 
+    // Betriebssysteme
+    const operatingSystems: Record<string, number> = {};
+    pageViews.forEach((e) => {
+      if (e.os) operatingSystems[e.os] = (operatingSystems[e.os] || 0) + 1;
+    });
+
+    // Neue vs. Wiederkehrende Besucher
+    const sessionStarts = filteredEvents.filter((e) => e.type === "session_start");
+    const newVisitors = sessionStarts.filter((e) => !e.isReturning).length;
+    const returningVisitors = sessionStarts.filter((e) => e.isReturning).length;
+
+    // Stündliche Verteilung (0–23 Uhr)
+    const hourlyViews: Record<string, number> = {};
+    pageViews.forEach((e) => {
+      const hour = String(new Date(e.timestamp || e.createdAt).getHours());
+      hourlyViews[hour] = (hourlyViews[hour] || 0) + 1;
+    });
+
+    // Wochentag-Verteilung (0=Sonntag … 6=Samstag)
+    const weekdayViews: Record<string, number> = {};
+    pageViews.forEach((e) => {
+      const day = String(new Date(e.timestamp || e.createdAt).getDay());
+      weekdayViews[day] = (weekdayViews[day] || 0) + 1;
+    });
+
+    // Referrer-Quellen
+    const referrerMap: Record<string, number> = {};
+    pageViews.forEach((e) => {
+      if (e.referrer) {
+        try {
+          const domain = new URL(e.referrer).hostname.replace(/^www\./, "");
+          referrerMap[domain] = (referrerMap[domain] || 0) + 1;
+        } catch {
+          referrerMap["Direkt"] = (referrerMap["Direkt"] || 0) + 1;
+        }
+      } else {
+        referrerMap["Direkt"] = (referrerMap["Direkt"] || 0) + 1;
+      }
+    });
+    const topReferrers = Object.entries(referrerMap)
+      .map(([source, count]) => ({ source, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+
+    // Konversions-Events
+    const conversions = {
+      phoneCalls: customEvents.filter((e) => e.action === "Phone Call").length,
+      emailClicks: customEvents.filter((e) => e.action === "Email").length,
+      formSubmits: customEvents.filter((e) => e.action === "Submit").length,
+      propertyViews: customEvents.filter((e) => e.category === "Property").length,
+    };
+
     const stats = {
       range,
       totalPageViews: pageViews.length,
@@ -567,12 +663,18 @@ app.get("/analytics/stats", async (c) => {
         : "0",
       devices,
       browsers,
+      operatingSystems,
+      newVsReturning: { new: newVisitors, returning: returningVisitors },
       topPages,
       eventsByCategory,
       dailyViews,
+      hourlyViews,
+      weekdayViews,
       totalEvents: customEvents.length,
       topCountries: topCountries || [],
       topCities: topCities || [],
+      topReferrers,
+      conversions,
     };
 
     return c.json({ success: true, data: stats });
@@ -584,21 +686,103 @@ app.get("/analytics/stats", async (c) => {
 app.delete("/analytics/cleanup", async (c) => {
   try {
     const daysToKeep = parseInt(c.req.query("days") || "90");
-    const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - daysToKeep);
+    const deleted = await purgeOldAnalyticsEvents(daysToKeep);
+    return c.json({ success: true, deleted });
+  } catch (error) {
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
 
-    const events = await kv.getByPrefix("analytics_");
-    const toDelete = events.filter((e) => {
-      const eventDate = new Date(e.timestamp || e.createdAt);
-      return eventDate < cutoffDate;
-    });
+// ==================== PARTNER ROUTES ====================
 
-    const deleteIds = toDelete.map((e) => `analytics_${e.id}`);
-    if (deleteIds.length > 0) {
-      await kv.mdel(deleteIds);
+app.get("/partners", async (c) => {
+  try {
+    const partners = await kv.getByPrefix("partner_");
+
+    const sortedPartners = partners.sort((a, b) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
+    return c.json({ success: true, data: sortedPartners });
+  } catch (error) {
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
+app.get("/partners/:id", async (c) => {
+  try {
+    const id = c.req.param("id");
+    const partner = await kv.get(`partner_${id}`);
+
+    if (!partner) {
+      return c.json({ success: false, error: "Partner not found" }, 404);
     }
 
-    return c.json({ success: true, deleted: deleteIds.length });
+    return c.json({ success: true, data: partner });
+  } catch (error) {
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
+app.post("/partners", async (c) => {
+  try {
+    const body = await c.req.json();
+    const id = crypto.randomUUID();
+
+    const partner = {
+      id,
+      name: body.name,
+      url: body.url || "",
+      logoUrl: body.logoUrl || "",
+      teamPhotoUrl: body.teamPhotoUrl || "",
+      createdAt: new Date().toISOString(),
+    };
+
+    await kv.set(`partner_${id}`, partner);
+
+    return c.json({ success: true, data: partner }, 201);
+  } catch (error) {
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
+app.put("/partners/:id", async (c) => {
+  try {
+    const id = c.req.param("id");
+    const body = await c.req.json();
+
+    const existing = await kv.get(`partner_${id}`);
+    if (!existing) {
+      return c.json({ success: false, error: "Partner not found" }, 404);
+    }
+
+    const updated = {
+      ...existing,
+      ...body,
+      id,
+      createdAt: existing.createdAt,
+    };
+
+    await kv.set(`partner_${id}`, updated);
+
+    return c.json({ success: true, data: updated });
+  } catch (error) {
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
+app.delete("/partners/:id", async (c) => {
+  try {
+    const id = c.req.param("id");
+
+    const existing = await kv.get(`partner_${id}`);
+    if (!existing) {
+      return c.json({ success: false, error: "Partner not found" }, 404);
+    }
+
+    await kv.del(`partner_${id}`);
+
+    return c.json({ success: true, message: "Partner deleted" });
   } catch (error) {
     return c.json({ success: false, error: String(error) }, 500);
   }
