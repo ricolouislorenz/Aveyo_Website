@@ -539,6 +539,7 @@ export function AdminPartnerPage() {
             </p>
           </div>
         ) : (
+          <>
           {isSavingOrder && (
             <p className="text-sm text-[#586477] animate-pulse">Reihenfolge wird gespeichert…</p>
           )}
@@ -618,6 +619,7 @@ export function AdminPartnerPage() {
               </div>
             ))}
           </div>
+          </>
         )}
       </div>
     </AdminLayout>
