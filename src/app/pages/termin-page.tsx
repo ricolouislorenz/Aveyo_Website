@@ -23,9 +23,6 @@ export function TerminPage() {
         <section className="relative bg-[#172545] pt-32 pb-32 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-white/10 rounded-full mb-6">
-                <Calendar className="w-10 h-10 text-white" />
-              </div>
               <h1 className="text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight">
                 Termin vereinbaren
               </h1>

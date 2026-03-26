@@ -8,6 +8,7 @@ type Partner = {
   url: string;
   logoUrl: string;
   teamPhotoUrl: string;
+  order: number;
 };
 
 const apiUrl = `https://${projectId}.supabase.co/functions/v1/make-server-78b4cf15/partners`;
@@ -20,7 +21,10 @@ export function Partners() {
     fetch(apiUrl, { headers: { Authorization: `Bearer ${publicAnonKey}` } })
       .then((r) => r.json())
       .then((result) => {
-        if (result.success) setPartners(result.data);
+        if (result.success) {
+          const sorted = [...result.data].sort((a: Partner, b: Partner) => (a.order ?? 0) - (b.order ?? 0));
+          setPartners(sorted);
+        }
       })
       .catch(() => {});
   }, []);

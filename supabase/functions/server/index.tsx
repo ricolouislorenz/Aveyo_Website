@@ -729,12 +729,15 @@ app.post("/partners", async (c) => {
     const body = await c.req.json();
     const id = crypto.randomUUID();
 
+    // Reihenfolge: nach hinten anhängen
+    const existing = await kv.getByPrefix("partner_");
     const partner = {
       id,
       name: body.name,
       url: body.url || "",
       logoUrl: body.logoUrl || "",
       teamPhotoUrl: body.teamPhotoUrl || "",
+      order: existing.length,
       createdAt: new Date().toISOString(),
     };
 
@@ -766,6 +769,21 @@ app.put("/partners/:id", async (c) => {
     await kv.set(`partner_${id}`, updated);
 
     return c.json({ success: true, data: updated });
+  } catch (error) {
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
+app.put("/partners/reorder", async (c) => {
+  try {
+    const body = await c.req.json() as { id: string; order: number }[];
+    await Promise.all(
+      body.map(async ({ id, order }) => {
+        const partner = await kv.get(`partner_${id}`);
+        if (partner) await kv.set(`partner_${id}`, { ...partner, order });
+      })
+    );
+    return c.json({ success: true });
   } catch (error) {
     return c.json({ success: false, error: String(error) }, 500);
   }

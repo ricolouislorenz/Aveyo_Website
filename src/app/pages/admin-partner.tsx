@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AdminLayout } from "@/app/components/admin-layout";
-import { Handshake, Plus, Edit2, Trash2, Save, X, ImageIcon, User, Download } from "lucide-react";
+import { Handshake, Plus, Edit2, Trash2, Save, X, ImageIcon, User, Download, GripVertical } from "lucide-react";
 import { projectId, publicAnonKey } from "/utils/supabase/info";
 import { useAuth } from "../context/auth-context";
 import { useNavigate } from "react-router";
@@ -18,6 +18,7 @@ interface Partner {
   url: string;
   logoUrl: string;
   teamPhotoUrl: string;
+  order: number;
   createdAt: string;
 }
 
@@ -55,6 +56,9 @@ export function AdminPartnerPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [isSavingOrder, setIsSavingOrder] = useState(false);
+  const dragId = useRef<string | null>(null);
+  const dragOverId = useRef<string | null>(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState<Partial<Partner>>({
@@ -83,11 +87,47 @@ export function AdminPartnerPage() {
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const result = await response.json();
-      if (result.success) setPartners(result.data);
+      if (result.success) {
+        const sorted = (result.data as Partner[]).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+        setPartners(sorted);
+      }
     } catch (error) {
       console.error("Fehler beim Laden der Partner:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDragStart = (id: string) => { dragId.current = id; };
+  const handleDragOver = (e: React.DragEvent, id: string) => {
+    e.preventDefault();
+    dragOverId.current = id;
+  };
+  const handleDrop = async () => {
+    if (!dragId.current || !dragOverId.current || dragId.current === dragOverId.current) return;
+    const from = partners.findIndex((p) => p.id === dragId.current);
+    const to   = partners.findIndex((p) => p.id === dragOverId.current);
+    if (from === -1 || to === -1) return;
+
+    const reordered = [...partners];
+    const [moved] = reordered.splice(from, 1);
+    reordered.splice(to, 0, moved);
+    const withOrder = reordered.map((p, i) => ({ ...p, order: i }));
+    setPartners(withOrder);
+    dragId.current = null;
+    dragOverId.current = null;
+
+    setIsSavingOrder(true);
+    try {
+      await fetch(`${apiUrl}/partners/reorder`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${publicAnonKey}` },
+        body: JSON.stringify(withOrder.map((p) => ({ id: p.id, order: p.order }))),
+      });
+    } catch {
+      showError("Reihenfolge konnte nicht gespeichert werden.");
+    } finally {
+      setIsSavingOrder(false);
     }
   };
 
@@ -499,21 +539,36 @@ export function AdminPartnerPage() {
             </p>
           </div>
         ) : (
+          {isSavingOrder && (
+            <p className="text-sm text-[#586477] animate-pulse">Reihenfolge wird gespeichert…</p>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {partners.map((partner) => (
-              <div key={partner.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                {/* Team Photo */}
-                {partner.teamPhotoUrl ? (
-                  <img
-                    src={partner.teamPhotoUrl}
-                    alt={`${partner.name} Team`}
-                    className="w-full h-40 object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-40 bg-gray-100 flex items-center justify-center">
-                    <User className="w-10 h-10 text-gray-300" />
+              <div
+                key={partner.id}
+                draggable
+                onDragStart={() => handleDragStart(partner.id)}
+                onDragOver={(e) => handleDragOver(e, partner.id)}
+                onDrop={handleDrop}
+                className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden cursor-grab active:cursor-grabbing active:shadow-lg active:scale-[1.02] transition-all duration-150"
+              >
+                {/* Team Photo + Drag-Handle */}
+                <div className="relative">
+                  {partner.teamPhotoUrl ? (
+                    <img
+                      src={partner.teamPhotoUrl}
+                      alt={`${partner.name} Team`}
+                      className="w-full h-40 object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-40 bg-gray-100 flex items-center justify-center">
+                      <User className="w-10 h-10 text-gray-300" />
+                    </div>
+                  )}
+                  <div className="absolute top-2 right-2 bg-black/30 backdrop-blur-sm rounded-lg p-1.5 text-white pointer-events-none">
+                    <GripVertical className="w-4 h-4" />
                   </div>
-                )}
+                </div>
 
                 <div className="p-5">
                   <div className="flex items-center gap-3 mb-1">
