@@ -1,5 +1,6 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, ReactNode } from "react";
 import { Routes, Route, Navigate } from "react-router";
+import { useAuth } from "../context/auth-context";
 
 const AdminDashboard = lazy(() =>
   import("./admin-dashboard").then((m) => ({ default: m.AdminDashboard })),
@@ -36,17 +37,23 @@ function AdminLoader() {
   );
 }
 
+function ProtectedRoute({ children }: { children: ReactNode }) {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) return <Navigate to="/" replace />;
+  return <>{children}</>;
+}
+
 export function AdminRoutes() {
   return (
     <Suspense fallback={<AdminLoader />}>
       <Routes>
         <Route path="/" element={<Navigate to="dashboard" replace />} />
-        <Route path="dashboard" element={<AdminDashboard />} />
-        <Route path="immobilien" element={<AdminImmobilienPage />} />
-        <Route path="bewertungen" element={<AdminReviewsPage />} />
-        <Route path="analytics" element={<AdminAnalyticsPage />} />
-        <Route path="partner" element={<AdminPartnerPage />} />
-        <Route path="settings" element={<AdminSettingsPage />} />
+        <Route path="dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route path="immobilien" element={<ProtectedRoute><AdminImmobilienPage /></ProtectedRoute>} />
+        <Route path="bewertungen" element={<ProtectedRoute><AdminReviewsPage /></ProtectedRoute>} />
+        <Route path="analytics" element={<ProtectedRoute><AdminAnalyticsPage /></ProtectedRoute>} />
+        <Route path="partner" element={<ProtectedRoute><AdminPartnerPage /></ProtectedRoute>} />
+        <Route path="settings" element={<ProtectedRoute><AdminSettingsPage /></ProtectedRoute>} />
       </Routes>
     </Suspense>
   );

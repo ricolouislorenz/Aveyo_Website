@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { AdminLayout } from "@/app/components/admin-layout";
 import { Handshake, Plus, Edit2, Trash2, Save, X, ImageIcon, User, Download, GripVertical } from "lucide-react";
 import { projectId, publicAnonKey } from "/utils/supabase/info";
-import { useAuth } from "../context/auth-context";
-import { useNavigate } from "react-router";
 import {
   validateImage,
   generateDescriptiveFilename,
@@ -68,17 +66,11 @@ export function AdminPartnerPage() {
     teamPhotoUrl: "",
   });
 
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
   const apiUrl = `https://${projectId}.supabase.co/functions/v1/make-server-78b4cf15`;
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/");
-    } else {
-      fetchPartners();
-    }
-  }, [isAuthenticated, navigate]);
+    fetchPartners();
+  }, []);
 
   const fetchPartners = async () => {
     try {

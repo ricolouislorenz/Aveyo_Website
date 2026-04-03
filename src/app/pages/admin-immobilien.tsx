@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { AdminLayout } from "@/app/components/admin-layout";
 import { Building2, Plus, Edit2, Trash2, Save, X, AlertCircle, CheckCircle, Home, MapPin, Euro, Maximize, BedDouble, Upload, ImageIcon } from "lucide-react";
 import { projectId, publicAnonKey } from "/utils/supabase/info";
-import { useAuth } from "../context/auth-context";
-import { useNavigate } from "react-router";
 import {
   validateImage,
   generateDescriptiveFilename,
@@ -51,18 +49,11 @@ export function AdminImmobilienPage() {
     status: "available",
   });
 
-  const { isAuthenticated, logout } = useAuth();
-  const navigate = useNavigate();
   const apiUrl = `https://${projectId}.supabase.co/functions/v1/make-server-78b4cf15`;
 
   useEffect(() => {
-    // Redirect if not authenticated
-    if (!isAuthenticated) {
-      navigate("/");
-    } else {
-      fetchProperties();
-    }
-  }, [isAuthenticated, navigate]);
+    fetchProperties();
+  }, []);
 
   const fetchProperties = async () => {
     try {
