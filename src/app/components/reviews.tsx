@@ -150,12 +150,13 @@ export function Reviews() {
                     >
                       <div
                         style={{
-                          transition: animated ? `opacity ${TRANSITION_MS}ms ease-in-out, transform ${TRANSITION_MS}ms ease-in-out, background-color ${TRANSITION_MS}ms ease-in-out` : "none",
+                          transition: animated ? `opacity ${TRANSITION_MS}ms ease-in-out, transform ${TRANSITION_MS}ms ease-in-out, background-color ${TRANSITION_MS}ms ease-in-out, border-color ${TRANSITION_MS}ms ease-in-out, box-shadow ${TRANSITION_MS}ms ease-in-out` : "none",
+                          boxShadow: isActive ? "0 0 40px rgba(255,255,255,0.12), 0 8px 32px rgba(0,0,0,0.3)" : "none",
                         }}
                         className={`rounded-2xl p-8 border backdrop-blur-md ${
                           isActive
-                            ? "bg-white/90 border-white opacity-100 scale-100"
-                            : "bg-white/10 border-white/20 opacity-40 scale-90"
+                            ? "bg-white/15 border-white/50 opacity-100 scale-100"
+                            : "bg-white/5 border-white/10 opacity-40 scale-90"
                         }`}
                       >
                         <div className="flex items-start gap-4 mb-4">
@@ -166,29 +167,29 @@ export function Reviews() {
                               className="w-12 h-12 rounded-full object-cover flex-shrink-0"
                             />
                           ) : (
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${isActive ? "bg-[#172545]" : "bg-white"}`}>
-                              <span className={`font-semibold ${isActive ? "text-white" : "text-[#172545]"}`}>
+                            <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 bg-white/20">
+                              <span className="font-semibold text-white">
                                 {getInitials(review.author)}
                               </span>
                             </div>
                           )}
                           <div className="flex-1">
-                            <h3 className={`font-semibold text-lg ${isActive ? "text-[#172545]" : "text-white"}`}>
+                            <h3 className="font-semibold text-lg text-white">
                               {review.author}
                             </h3>
                             <div className="flex items-center gap-2 mt-1">
                               <div className="flex gap-0.5">
                                 {[...Array(5)].map((_, i) => (
-                                  <Star key={i} className={`w-4 h-4 ${i < review.rating ? (isActive ? "fill-yellow-500 text-yellow-500" : "fill-yellow-400 text-yellow-400") : isActive ? "fill-[#172545]/20 text-[#172545]/20" : "fill-white/30 text-white/30"}`} />
+                                  <Star key={i} className={`w-4 h-4 ${i < review.rating ? "fill-yellow-400 text-yellow-400" : "fill-white/25 text-white/25"}`} />
                                 ))}
                               </div>
-                              <span className={`text-sm ${isActive ? "text-[#172545]/60" : "text-white/60"}`}>
+                              <span className="text-sm text-white/60">
                                 {new Date(review.date).toLocaleDateString("de-DE")}
                               </span>
                             </div>
                           </div>
                         </div>
-                        <p className={`leading-relaxed ${isActive ? "text-[#172545]/90" : "text-white/90"}`}>
+                        <p className="leading-relaxed text-white/85">
                           {review.text}
                         </p>
                       </div>
