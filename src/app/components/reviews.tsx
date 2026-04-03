@@ -130,8 +130,8 @@ export function Reviews() {
           </div>
         ) : (
           <div className="relative max-w-7xl mx-auto overflow-hidden">
-            <div className="absolute left-0 top-0 bottom-0 w-64 bg-gradient-to-r from-[#172545] via-[#172545]/80 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-[#172545] via-[#172545]/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#172545] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#172545] to-transparent z-10 pointer-events-none" />
 
             <div className="flex justify-center">
               <div
@@ -156,7 +156,7 @@ export function Reviews() {
                         className={`rounded-2xl p-8 border backdrop-blur-md ${
                           isActive
                             ? "bg-white/15 border-white/50 opacity-100 scale-100"
-                            : "bg-white/5 border-white/10 opacity-40 scale-90"
+                            : "bg-white/8 border-white/15 opacity-55 scale-90"
                         }`}
                       >
                         <div className="flex items-start gap-4 mb-4">
