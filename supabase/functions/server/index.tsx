@@ -98,7 +98,7 @@ app.use(
   "/*",
   cors({
     origin: "*",
-    allowHeaders: ["Content-Type", "Authorization"],
+    allowHeaders: ["Content-Type", "Authorization", "X-Session-Token"],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     exposeHeaders: ["Content-Length"],
     maxAge: 600,
@@ -340,13 +340,48 @@ app.post("/admin/change-password", async (c) => {
 
 // ==================== REVIEWS MANAGEMENT ROUTES ====================
 
+app.delete("/reviews/cleanup-legacy", async (c) => {
+  try {
+    await kv.del("review_settings");
+    return c.json({ success: true, message: "Legacy key deleted" });
+  } catch (error) {
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
+app.get("/reviews/settings", async (c) => {
+  try {
+    const settings = await kv.get("settings_reviews");
+    return c.json({ success: true, data: { overallScore: settings?.overallScore ?? 5.0 } });
+  } catch (error) {
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
+app.put("/reviews/settings", async (c) => {
+  try {
+    const body = await c.req.json();
+    const overallScore = parseFloat(body.overallScore);
+    if (isNaN(overallScore) || overallScore < 0 || overallScore > 5) {
+      return c.json({ success: false, error: "Ungültiger Wert (0–5)" }, 400);
+    }
+    const rounded = Math.round(overallScore * 10) / 10;
+    await kv.set("settings_reviews", { overallScore: rounded });
+    return c.json({ success: true, data: { overallScore: rounded } });
+  } catch (error) {
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
 app.get("/reviews", async (c) => {
   try {
     const reviews = await kv.getByPrefix("review_");
 
-    const sortedReviews = reviews.sort((a, b) =>
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
+    const sortedReviews = reviews
+      .filter((r) => typeof r.id === "string")
+      .sort((a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
 
     return c.json({ success: true, data: sortedReviews });
   } catch (error) {

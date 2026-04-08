@@ -83,7 +83,7 @@ export function Hero() {
                 sizes="(max-width: 1023px) 100vw, 50vw"
                 alt="AVEYO Makler"
                 loading="eager"
-                fetchPriority="high"
+                fetchpriority="high"
                 decoding="async"
                 className="w-full h-auto"
               />

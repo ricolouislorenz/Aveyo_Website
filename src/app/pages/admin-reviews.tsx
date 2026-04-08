@@ -19,7 +19,10 @@ export function AdminReviewsPage() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  
+  const [overallScore, setOverallScore] = useState<string>("5.0");
+  const [scoreSaving, setScoreSaving] = useState(false);
+  const [scoreSaved, setScoreSaved] = useState(false);
+
   // Form state
   const [formData, setFormData] = useState({
     author: "",
@@ -34,7 +37,47 @@ export function AdminReviewsPage() {
 
   useEffect(() => {
     fetchReviews();
+    fetchSettings();
   }, []);
+
+  const fetchSettings = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/reviews/settings`, {
+        headers: { Authorization: `Bearer ${publicAnonKey}` },
+      });
+      if (!response.ok) return;
+      const result = await response.json();
+      if (result.success) {
+        setOverallScore(result.data.overallScore.toFixed(1));
+      }
+    } catch (error) {
+      console.error("Error fetching review settings:", error);
+    }
+  };
+
+  const handleSaveScore = async () => {
+    setScoreSaving(true);
+    try {
+      const response = await fetch(`${apiUrl}/reviews/settings`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${publicAnonKey}`,
+        },
+        body: JSON.stringify({ overallScore: parseFloat(overallScore) }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setOverallScore(result.data.overallScore.toFixed(1));
+        setScoreSaved(true);
+        setTimeout(() => setScoreSaved(false), 2000);
+      }
+    } catch (error) {
+      console.error("Error saving score:", error);
+    } finally {
+      setScoreSaving(false);
+    }
+  };
 
   const fetchReviews = async () => {
     try {
@@ -213,6 +256,46 @@ export function AdminReviewsPage() {
             <p className="text-[#172545] text-3xl font-bold">
               {reviews.length - activeCount}
             </p>
+          </div>
+        </div>
+
+        {/* Overall Score Setting */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+          <h2 className="text-lg font-semibold text-[#172545] mb-1">Gesamtscore (Homepage)</h2>
+          <p className="text-sm text-[#586477] mb-4">
+            Dieser Wert wird auf der Homepage als Gesamtbewertung angezeigt (z.B. "4.8 von 5.0").
+          </p>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                  key={star}
+                  className={`w-6 h-6 ${
+                    star <= Math.round(parseFloat(overallScore))
+                      ? "fill-yellow-400 text-yellow-400"
+                      : "text-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+            <input
+              type="number"
+              min="0"
+              max="5"
+              step="0.1"
+              value={overallScore}
+              onChange={(e) => setOverallScore(e.target.value)}
+              className="w-24 px-3 py-2 border border-[#586477]/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#172545] text-[#172545] font-semibold text-lg"
+            />
+            <span className="text-[#586477]">/ 5.0</span>
+            <button
+              onClick={handleSaveScore}
+              disabled={scoreSaving}
+              className="flex items-center gap-2 px-5 py-2 bg-[#172545] text-white rounded-xl hover:bg-[#0d1a30] transition-all duration-300 disabled:opacity-60"
+            >
+              <Save className="w-4 h-4" />
+              {scoreSaved ? "Gespeichert!" : scoreSaving ? "Speichert..." : "Speichern"}
+            </button>
           </div>
         </div>
 

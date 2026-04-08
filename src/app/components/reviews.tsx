@@ -21,6 +21,7 @@ const TRANSITION_MS = 700;
 export function Reviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
+  const [overallScore, setOverallScore] = useState<string>("5.0");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animated, setAnimated] = useState(false);
   const rafRef = useRef<number | null>(null);
@@ -28,15 +29,25 @@ export function Reviews() {
   const apiUrl = `https://${projectId}.supabase.co/functions/v1/make-server-78b4cf15`;
 
   useEffect(() => {
-    const fetchReviews = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`${apiUrl}/reviews`, {
-          headers: { Authorization: `Bearer ${publicAnonKey}` },
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const result = await response.json();
-        if (result.success) {
-          setReviews(result.data.filter((r: Review) => r.isActive));
+        const [reviewsRes, settingsRes] = await Promise.all([
+          fetch(`${apiUrl}/reviews`, { headers: { Authorization: `Bearer ${publicAnonKey}` } }),
+          fetch(`${apiUrl}/reviews/settings`, { headers: { Authorization: `Bearer ${publicAnonKey}` } }),
+        ]);
+
+        if (reviewsRes.ok) {
+          const result = await reviewsRes.json();
+          if (result.success) {
+            setReviews(result.data.filter((r: Review) => r.isActive));
+          }
+        }
+
+        if (settingsRes.ok) {
+          const result = await settingsRes.json();
+          if (result.success) {
+            setOverallScore(result.data.overallScore.toFixed(1));
+          }
         }
       } catch (error) {
         console.error("Error fetching reviews:", error);
@@ -45,7 +56,7 @@ export function Reviews() {
         setLoading(false);
       }
     };
-    fetchReviews();
+    fetchData();
   }, []);
 
   // [copy1][copy2][copy3] — wir starten und bleiben in copy2
@@ -88,9 +99,6 @@ export function Reviews() {
   // Welche Review ist gerade aktiv — Modulo funktioniert über alle Kopien
   const activeReviewIndex = n > 0 ? currentIndex % n : -1;
 
-  const averageRating = n > 0
-    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / n).toFixed(1)
-    : "5.0";
 
   const getInitials = (name: string) =>
     name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
@@ -107,14 +115,14 @@ export function Reviews() {
               ))}
               <div
                 className="absolute top-0 left-0 bottom-0 flex gap-1 overflow-hidden"
-                style={{ width: `${(parseFloat(averageRating) / 5) * 100}%` }}
+                style={{ width: `${(parseFloat(overallScore) / 5) * 100}%` }}
               >
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400 flex-shrink-0" />
                 ))}
               </div>
             </div>
-            <span className="text-white text-lg ml-2">{averageRating} von 5.0</span>
+            <span className="text-white text-lg ml-2">{overallScore} von 5.0</span>
           </div>
           <p className="text-white/90 text-lg">Basierend auf Google Rezensionen</p>
         </div>
