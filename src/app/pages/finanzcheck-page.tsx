@@ -10,7 +10,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { Link } from "react-router";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import { ImageWithFallback } from "@/app/components/ImageWithFallback";
 import { SEO } from "@/app/components/seo";
 
 export function FinanzcheckPage() {

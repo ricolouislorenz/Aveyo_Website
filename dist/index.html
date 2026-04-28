@@ -2,6 +2,7 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png" />
@@ -25,6 +26,9 @@
     <link rel="preconnect" href="https://hoaidflzabvrsubatjbw.supabase.co" crossorigin />
     <link rel="dns-prefetch" href="https://hoaidflzabvrsubatjbw.supabase.co" />
 
+    <!-- Logo sofort laden – ist im Header above-the-fold sichtbar -->
+    <link rel="preload" as="image" href="/logo.webp" type="image/webp" fetchpriority="high" />
+
     <!-- Preload LCP hero image so the browser fetches it during HTML parse,
          before React has loaded. imagesrcset/imagesizes mirror the <img> tag. -->
     <link
@@ -35,9 +39,10 @@
       imagesizes="(max-width: 1023px) 100vw, 50vw"
       fetchpriority="high"
     />
-    <script type="module" crossorigin src="/assets/index-DsRCsvZt.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/icons-CpJZSuN9.js">
-    <link rel="preload" as="style" href="/assets/index-DQCt4HKX.css" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/index-DQCt4HKX.css"></noscript>
+    <script type="module" crossorigin src="/assets/index-I6PA8OVT.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-KzUxifAC.js">
+    <link rel="modulepreload" crossorigin href="/assets/helmet-BaGuB_UE.js">
+    <link rel="preload" as="style" href="/assets/index-DIxNmfwS.css" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/index-DIxNmfwS.css"></noscript>
   </head>
 
   <body>

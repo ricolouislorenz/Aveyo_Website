@@ -279,7 +279,7 @@ aveyo-website/
 │   ├── styles/
 │   │   ├── theme.css           # Design Tokens
 │   │   └── fonts.css           # Font Imports
-│   ├── imports/                # Figma Assets
+│   ├── imports/                # Legacy asset imports
 │   └── main.tsx                # Entry Point
 ├── supabase/
 │   └── functions/

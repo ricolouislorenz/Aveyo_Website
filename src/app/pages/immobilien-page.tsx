@@ -10,7 +10,7 @@ import {
   Target,
   BarChart3,
 } from "lucide-react";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import { ImageWithFallback } from "@/app/components/ImageWithFallback";
 import { PropertiesShowcase } from "@/app/components/properties-showcase";
 import { Link } from "react-router";
 import { SEO } from "@/app/components/seo";
